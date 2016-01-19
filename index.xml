@@ -6,77 +6,19 @@
     <description>Recent content on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; Allegiant. All Rights Reserved.</copyright>
-    <lastBuildDate>Wed, 02 Apr 2014 00:00:00 +0000</lastBuildDate>
+    <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 19 Jan 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>about 1</title>
-      <link>http://felixmlians.github.io/post/about/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <title>First Post</title>
+      <link>http://felixmlians.github.io/post/firstPost/</link>
+      <pubDate>Tue, 19 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://felixmlians.github.io/post/about/</guid>
-      <description>&lt;p&gt;Contents here&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>first </title>
-      <link>http://felixmlians.github.io/post/first/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://felixmlians.github.io/post/first/</guid>
+      <guid>http://felixmlians.github.io/post/firstPost/</guid>
       <description>
 
-&lt;p&gt;Contents here&lt;/p&gt;
-
-&lt;h3 id=&#34;hello-hugo:e8fb9c67eba912c72729806db31eaa1b&#34;&gt;Hello Hugo&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;aaa&lt;/li&gt;
-&lt;li&gt;bbb&lt;/li&gt;
-&lt;li&gt;ccc&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>home1</title>
-      <link>http://felixmlians.github.io/post/home1/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://felixmlians.github.io/post/home1/</guid>
-      <description>&lt;p&gt;Contents here&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>home2</title>
-      <link>http://felixmlians.github.io/post/home2/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://felixmlians.github.io/post/home2/</guid>
-      <description>
-
-&lt;p&gt;Contents here&lt;/p&gt;
-
-&lt;h3 id=&#34;hello-hugo:89677db8060cfb46cb17fc68ac3af763&#34;&gt;Hello Hugo&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;aaa&lt;/li&gt;
-&lt;li&gt;bbb&lt;/li&gt;
-&lt;li&gt;ccc&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>link</title>
-      <link>http://felixmlians.github.io/post/link/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://felixmlians.github.io/post/link/</guid>
-      <description>&lt;p&gt;Contents here&lt;/p&gt;
+&lt;h3 id=&#34;first-post:548f10ad8155aea90249538386f07bbe&#34;&gt;First Post&lt;/h3&gt;
 </description>
     </item>
     
