@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://felixmlians.github.io/</loc>
+    <loc>/aseUrl=http:/felixmlians.github.io/</loc>
     <lastmod>2016-01-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://felixmlians.github.io/post/firstPost/</loc>
+    <loc>/aseUrl=http:/felixmlians.github.io/2016/01/19/first-post/</loc>
     <lastmod>2016-01-19T00:00:00+00:00</lastmod>
   </url>
   
