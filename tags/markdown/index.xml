@@ -18,7 +18,7 @@
       <guid>http://felixmlians.github.io/2014/06/19/markdown--%E8%AF%AD%E6%B3%951/</guid>
       <description>
 
-&lt;h4 id=&#34;markdown-介绍:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Markdown 介绍&lt;/h4&gt;
+&lt;h4 id=&#34;markdown-介绍:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;Markdown 介绍&lt;/h4&gt;
 
 &lt;p&gt;Markdown 的目标是实现「易读易写」。可读性，无论如何，都是最重要的。&lt;/p&gt;
 
@@ -28,14 +28,14 @@
 
 &lt;p&gt;总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
 
-&lt;h4 id=&#34;markdown-官方文档:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Markdown 官方文档&lt;/h4&gt;
+&lt;h4 id=&#34;markdown-官方文档:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;Markdown 官方文档&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://daringfireball.net/projects/markdown/syntax&#34;&gt;创始人John Gruber的 Markdown 语法说明&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://wowubuntu.com/markdown/#list&#34;&gt;Markdown 中文版语法说明&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;工具:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;工具&lt;/h4&gt;
+&lt;h4 id=&#34;工具:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;工具&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Mou for Mac (free)&lt;/li&gt;
@@ -45,19 +45,19 @@
 &lt;li&gt;简书&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;markdown-语法:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Markdown 语法&lt;/h4&gt;
+&lt;h4 id=&#34;markdown-语法:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;Markdown 语法&lt;/h4&gt;
 
-&lt;h5 id=&#34;标题:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;标题&lt;/h5&gt;
+&lt;h5 id=&#34;标题:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;标题&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;标题是每篇文章都需要也是最常用的格式，在 Markdown 中，如果一段文字被定义为标题，只要在这段文字前加 # 号即可。以此类推，总共六级标题，建议在 # 后面加一个空格，这是最标准的 Markdown 语法。&lt;/p&gt;
 
-&lt;h5 id=&#34;粗体与斜体:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;粗体与斜体&lt;/h5&gt;
+&lt;h5 id=&#34;粗体与斜体:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;粗体与斜体&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;Markdown 的粗体和斜体：用两个 * 包含一段文本就是粗体的语法，用一个 * 包含一段文本就是斜体的语法。&lt;/p&gt;
 
-&lt;p&gt;例如：** 我是粗体君 **     &lt;em&gt;我是斜体君&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;例如：&lt;strong&gt;我是粗体君&lt;/strong&gt;     &lt;em&gt;我是斜体君&lt;/em&gt;&lt;/p&gt;
 
-&lt;h5 id=&#34;列表:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;列表&lt;/h5&gt;
+&lt;h5 id=&#34;列表:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;列表&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;&lt;strong&gt;无序列表&lt;/strong&gt;&lt;/p&gt;
 
@@ -73,14 +73,14 @@
 &lt;li&gt;Ordered list item 3&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h5 id=&#34;引用:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;引用&lt;/h5&gt;
+&lt;h5 id=&#34;引用:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;引用&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;如果你需要引用一小段别处的句子，就可以采用引用格式，只需要在文本前加入 &amp;gt; 这种尖括号（大于号）即可：
 &amp;gt; 我是引用本体君&lt;/p&gt;
 
 &lt;p&gt;要注意符号和文本间的空格&lt;/p&gt;
 
-&lt;h5 id=&#34;图片与链接:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;图片与链接&lt;/h5&gt;
+&lt;h5 id=&#34;图片与链接:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;图片与链接&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;插入链接与插入图片的语法差不多，区别在于最前方的！ 号&lt;/p&gt;
 
@@ -88,21 +88,21 @@
 
 &lt;p&gt;链接为： &lt;code&gt;[ ]( )&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;** 插入链接 **&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;插入链接&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.baidu.com&#34;&gt;度娘&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;** 插入图片 **&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;插入图片&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://25.io/mou/Mou_128.png&#34; alt=&#34;Mou icon&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;** 邮箱和纯链接 **&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;邮箱和纯链接&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;An email &lt;code&gt;&amp;lt;example@example.com&amp;gt;&lt;/code&gt;link:&lt;a href=&#34;mailto:example@example.com&#34;&gt;example@example.com&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Simple inline link &lt;code&gt;&amp;lt;http://chenluois.com&amp;gt;&lt;/code&gt; :&lt;a href=&#34;mailto:example@example.com&#34;&gt;example@example.com&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&#34;表格:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;表格&lt;/h5&gt;
+&lt;h5 id=&#34;表格:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;表格&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;table&gt;
 &lt;thead&gt;
@@ -134,7 +134,7 @@
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h5 id=&#34;代码框:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;代码框&lt;/h5&gt;
+&lt;h5 id=&#34;代码框:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;代码框&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;只需要用两个 ` 把中间的代码包裹起来,使用 tab 键即缩进。&lt;/p&gt;
 
@@ -146,7 +146,7 @@
 @end ` 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h5 id=&#34;分割线:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;分割线&lt;/h5&gt;
+&lt;h5 id=&#34;分割线:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;分割线&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;分割线的语法只需要3个 * 号，例如：&lt;/p&gt;
 
@@ -156,11 +156,11 @@
 
 &lt;p&gt;&lt;code&gt;我在分割线下&lt;/code&gt;&lt;/p&gt;
 
-&lt;h5 id=&#34;快捷键:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;快捷键&lt;/h5&gt;
+&lt;h5 id=&#34;快捷键:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;快捷键&lt;/strong&gt;&lt;/h5&gt;
 
 &lt;p&gt;Mou 的 Help 文档非常具体，不熟悉的可以前去查看&lt;/p&gt;
 
-&lt;h6 id=&#34;view:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;View&lt;/h6&gt;
+&lt;h6 id=&#34;view:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;View&lt;/strong&gt;&lt;/h6&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Toggle live preview: Shift + Cmd + I&lt;/li&gt;
@@ -174,7 +174,7 @@
 &lt;li&gt;Toggle fullscreen: Control + Cmd + F&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h6 id=&#34;actions:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Actions&lt;/h6&gt;
+&lt;h6 id=&#34;actions:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Actions&lt;/strong&gt;&lt;/h6&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Copy HTML: Option + Cmd + C&lt;/li&gt;
@@ -215,7 +215,7 @@
 &lt;li&gt;Hard Linebreak: Control + Return&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h6 id=&#34;edit:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Edit&lt;/h6&gt;
+&lt;h6 id=&#34;edit:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/h6&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Auto complete current word: Esc&lt;/li&gt;
@@ -223,21 +223,21 @@
 &lt;li&gt;Close find bar: Esc&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h6 id=&#34;post:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Post&lt;/h6&gt;
+&lt;h6 id=&#34;post:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Post&lt;/strong&gt;&lt;/h6&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Post on Scriptogr.am: Control + Shift + S&lt;/li&gt;
 &lt;li&gt;Post on Tumblr: Control + Shift + T&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h6 id=&#34;export:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;Export&lt;/h6&gt;
+&lt;h6 id=&#34;export:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Export&lt;/strong&gt;&lt;/h6&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Export HTML: Option + Cmd + E&lt;/li&gt;
 &lt;li&gt;Export PDF:  Option + Cmd + P&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;相关工具:9fcb8d9f15bc46e1d833e6d96cdb7c53&#34;&gt;相关工具&lt;/h4&gt;
+&lt;h4 id=&#34;相关工具:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;相关工具&lt;/h4&gt;
 
 &lt;p&gt;用来上传图片获取 URL 地址&lt;/p&gt;
 
