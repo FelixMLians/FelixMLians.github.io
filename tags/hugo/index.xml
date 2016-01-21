@@ -18,7 +18,7 @@
       <guid>http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</guid>
       <description>
 
-&lt;h3 id=&#34;安装:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;安装&lt;/h3&gt;
+&lt;h4 id=&#34;安装:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;安装&lt;/h4&gt;
 
 &lt;p&gt;如果说速度快是Hugo的第一大优点，那么安装简单应该就是Hugo的第二大优点。对于Mac用户，没有brew的话先安装brew，在命令行里敲：&lt;/p&gt;
 
@@ -32,7 +32,7 @@
 
 &lt;p&gt;你也可以直接下载对应系统的binary文件，解压就行了:&lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;下载地址&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;建站:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;建站&lt;/h3&gt;
+&lt;h4 id=&#34;建站:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;建站&lt;/h4&gt;
 
 &lt;p&gt;首先建立自己的网站，mysite是网站的路径&lt;/p&gt;
 
@@ -98,7 +98,7 @@ contents here
 
 &lt;p&gt;注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。&lt;/p&gt;
 
-&lt;h3 id=&#34;评论功能:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;评论功能&lt;/h3&gt;
+&lt;h4 id=&#34;评论功能:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;评论功能&lt;/h4&gt;
 
 &lt;p&gt;Hugo默认支持Disqus的评论，需要在模版中添加以下代码：&lt;/p&gt;
 
@@ -111,7 +111,7 @@ contents here
 &lt;pre&gt;&lt;code&gt;disqusShortname = &amp;quot;yourdisqusShortname&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;插入图片:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;插入图片&lt;/h3&gt;
+&lt;h4 id=&#34;插入图片:21aa21f42fb3f7865f2e57f90ec4c388&#34;&gt;插入图片&lt;/h4&gt;
 
 &lt;p&gt;图片文件放在static/media文件中，插入图片：&lt;/p&gt;
 

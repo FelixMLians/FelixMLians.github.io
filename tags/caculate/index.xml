@@ -11,14 +11,14 @@
     <atom:link href="http://felixmlians.github.io/tags/caculate/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Markdown--语法（1）</title>
-      <link>http://felixmlians.github.io/2014/06/20/markdown--%E8%AF%AD%E6%B3%951/</link>
+      <title>统计 iOS 开发代码</title>
+      <link>http://felixmlians.github.io/2014/06/20/%E7%BB%9F%E8%AE%A1-ios-%E5%BC%80%E5%8F%91%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Fri, 20 Jun 2014 18:45:12 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/06/20/markdown--%E8%AF%AD%E6%B3%951/</guid>
+      <guid>http://felixmlians.github.io/2014/06/20/%E7%BB%9F%E8%AE%A1-ios-%E5%BC%80%E5%8F%91%E4%BB%A3%E7%A0%81/</guid>
       <description>
 
-&lt;h3 id=&#34;统计-ios-开发代码:0e41b43ee351a933d450e153abcf7501&#34;&gt;统计 iOS 开发代码&lt;/h3&gt;
+&lt;h4 id=&#34;统计-ios-开发代码:0e41b43ee351a933d450e153abcf7501&#34;&gt;统计 iOS 开发代码&lt;/h4&gt;
 
 &lt;p&gt;如果要统计ios开发代码，包括头文件的，终端命令进入项目目录下，命令如下：&lt;/p&gt;
 
