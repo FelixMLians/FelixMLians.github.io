@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Other</title>
+  <title>Hugo</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -61,45 +61,22 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/20/markdown--%E8%AF%AD%E6%B3%951/">Markdown--语法（1）</a></h4>
+      <h4><a href="http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/">Hugo 静态网站快速生成</a></h4>
       <p>
       
         
-          <a href="http://felixmlians.github.io//categories/other/">other</a>
+          <a href="http://felixmlians.github.io//categories/tool/">tool</a>
         
        
       </p>
-      <p>统计 iOS 开发代码 如果要统计ios开发代码，包括头文件的，终端命令进入项目目录下，命令如下： find . -name &quot;*.m&quot; -or -name &quot;*.h&quot; -or -name &quot;*.xib&quot; -or -name &quot;*.c&quot; |xargs wc -l 列出每个文件的行数 find . -name &quot;*.m&quot; -or -name &quot;*.h&quot; -or -name &quot;*.xib&quot; -or -name &quot;*.c&quot; |xargs grep -v &quot;^$&quot;|wc -l 列出代码行数总和 grep -v &ldquo;^$&ldquo;是去掉空行; 注释也统计在代码量之内，毕竟也一个字一个字码出来的; lipo -info xxxx.a 查看支持哪些构架</p>
+      <p>安装 如果说速度快是Hugo的第一大优点，那么安装简单应该就是Hugo的第二大优点。对于Mac用户，没有brew的话先安装brew，在命令行里敲： $ ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot; 然后再敲一行安装Hugo: $ brew new Hugo 你也可以直接下载对应系统的binary文件，解压就行了:下载地址 建站 首先建立自己的网站，mysite是网站的路径 $ hugo new site mysite 然后进入该路径 $ cd mysite 在该目录下你可以看到以下几个目录和config.toml文件 ▸ archetypes/ ▸ content/ ▸ layouts/ ▸ static/ config.toml config.toml是网站的配置文件，包括baseurl, title, copyright等等网站参数。 这几个文件夹的作用分别是： archetypes：包括内容类型，在创建新内容时自动生成内容的配置 content：包括网站内容，全部使用markdown格式（/post） layouts：包括了网站的模版，决定内容如何呈现 static：包括了css, js, fonts, media等，决定网站的外观 Hugo提供了一些完整的主题可以使用，下载这些主题： $ git clone --recursive https://github.com/spf13/hugoThemes themes 此时现成的主题存放在themes/文件夹中。 现在我们先熟悉一下Hugo，创建新页面： $ hugo new about.md 进入content/文件夹可以看到，此时多了一个markdown格式的文件about.md，打开文件可以看到时间和文件名等信息已经自动加到文件开头，包括创建时间，页面名，是否为草稿等。 --- +++ date = &quot;2015-02-01T18:19:54+08:00&quot; draft = true title = &quot;about&quot; +++ contents here 我在页面中加入了主题，然后运行Hugo: $ hugo server -t hyde --buildDrafts -t参数的意思是使用hyde主题渲染我们的页面，注意到about.md目前是作为草稿，即draft参数设置为true，运行Hugo时要加上&ndash;buildDrafts参数才会生成被标记为草稿的页面。 在浏览器输入localhost:1313，就可以看到我们刚刚创建的页面。 注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。 评论功能 Hugo默认支持Disqus的评论，需要在模版中添加以下代码： {{ template &quot;_internal/disqus.html&quot; .</p>
       <p>
-      20 Jun 2014
+      21 Jun 2014
       
         
-          <a href="http://felixmlians.github.io//tags/caculate/">#caculate</a>
+          <a href="http://felixmlians.github.io//tags/tool/">#tool</a>
         
-          <a href="http://felixmlians.github.io//tags/other/">#other</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/18/hello-hugo/">Hello Hugo</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/other/">Other</a>
-        
-       
-      </p>
-      <p>Hello Hugo</p>
-      <p>
-      18 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/other/">#Other</a>
+          <a href="http://felixmlians.github.io//tags/hugo/">#Hugo</a>
         
        
       </p>
