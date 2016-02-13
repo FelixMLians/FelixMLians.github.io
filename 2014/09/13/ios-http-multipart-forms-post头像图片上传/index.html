@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>iOS HTTP Multipart Forms POST(头像图片上传)</title>
+  <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://felixmlians.github.io//images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://felixmlians.github.io/"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">Felix&#39;s  Space</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Never send to know for whom the bells tolls; it tolls for thee.</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/FelixMLians"><img src="http://felixmlians.github.io//images/github2-dreamstale35.png"></a>
+        
+        
+          <a href="https://www.facebook.com/felixmorgan109"><img src="http://felixmlians.github.io//images/facebook-dreamstale25.png"></a>
+        
+        
+          <a href="https://twitter.com/FelixMLians"><img src="http://felixmlians.github.io//images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://felixmlians.github.io//index.xml"><img src="http://felixmlians.github.io//images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://felixmlians.github.io//images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>iOS HTTP Multipart Forms POST(头像图片上传)</h4>
+          <p>
+          
+            
+              <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+            
+           
+          </p>
+          <p><p>由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。</p>
+
+<p>上传图片的http post请求的格式是这样的：</p>
+
+<pre><code>Content-type: multipart/form-data, boundary=---------------------------14737809831466499882746641449
+
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;boo.jpg&quot;
+Content-Type: image/jpeg
+
+... contents of boo,jpg ...
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&quot;info&quot;
+
+Hello Boris!
+---------------------------14737809831466499882746641449
+</code></pre>
+
+<p>第一行是指定了<code>http post</code>请求的编码方式为<code>multipart/form-data</code>（上传文件必须用这个）。
+<code>boundary= xxx</code> 说明了<code>xxx</code>为分界线。比如 <code>---------------------------14737809831466499882746641449</code> 就是一个分界线的意思</p>
+
+<pre><code>Content-Disposition: form-data; name=&quot;info&quot;
+
+Hello Boris!
+</code></pre>
+
+<p>这句话声明了请求中的一个字段的名称，如<code>info</code>  以及字段的值，如<code>Hello Boris!</code>
+这里类似<code>form</code>表单中的<code>&lt;input name=&quot;info&quot; type=&quot;text&quot; value=&quot;Hello Boris!&quot;/&gt;</code>
+中间的空行是必须的。</p>
+
+<p>不同的字段之间用分界线分开，分界线需要单独一行，如 <code>---------------------------14737809831466499882746641449</code></p>
+
+<p>分界线的下一行，是下一个字段</p>
+
+<pre><code>content-disposition: form-data; name=&quot;pic&quot;; filename=&quot;boo.png&quot;
+Content-Type: image/png
+
+... contents of boo.png ...
+</code></pre>
+
+<p>这里声明了变量<code>pic</code>，也就是我们要传的文件，上传文件的时候需要在后边指定<code>file name：filename=&quot;boo.png&quot;</code>
+并且需要在下一行指定文件的格式：<code>Content-Type: image/png</code></p>
+
+<p><code>... contents of boo.png ...</code>  这里是<code>boo.png</code>的二进制内容，如</p>
+
+<p><code>&lt;89504e47 0d0a1a0a 0000000d 49484452 000000b4 000000b4 08020000 00b2af91 65000020 00494441 5478012c dd79b724 6b7616f6 8c888c88 8c9c8733 55ddb1d5 6a0db486 06218401 ......</code></p>
+
+<p>在http post请求的结尾，需要有一个分界线，但是是前后都有&ndash;的：</p>
+
+<p><code>---------------------------14737809831466499882746641449</code></p>
+
+<p>以上的这些格式，是http的规范，每个空行，空格都是必须的。</p>
+
+<p>下边是iOS的实现代码：</p>
+
+<pre><code>// 建立请求对象
+NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+[request setURL:[NSURL URLWithString:kRequestBaseApi]];
+
+// 请求方式
+[request setHTTPMethod:@&quot;POST&quot;];
+[request setTimeoutInterval:kCLTimeoutInterval];
+
+// 接口参数
+NSString *string = [NSString stringWithFormat:@&quot;{\&quot;action\&quot;:\&quot;saveHeadImg\&quot;,\&quot;uid\&quot;:\&quot;%@\&quot;}&quot;, [ClientState shareInstance].currentUID];
+
+// 头标签，分隔线
+NSString *boundary = @&quot;---------------------------14737809831466499882746641449&quot;;
+NSString *contentType = [NSString stringWithFormat:@&quot;multipart/form-data; boundary=%@&quot;,boundary];
+[request addValue:contentType forHTTPHeaderField: @&quot;Content-Type&quot;];
+
+NSMutableData *body = [NSMutableData data];
+
+// 添加接口参数
+[body appendData:[[NSString stringWithFormat:@&quot;\r\n--%@\r\n&quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[@&quot;Content-Disposition: form-data; name=\&quot;req\&quot;\r\n\r\n&quot; dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[[NSString stringWithFormat:@&quot;%@\r\n&quot;,string] dataUsingEncoding:NSUTF8StringEncoding]];
+
+// 添加图片data
+[body appendData:[[NSString stringWithFormat:@&quot;\r\n--%@\r\n&quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[[NSString stringWithFormat:@&quot;Content-Disposition: form-data; name=\&quot;files\&quot;; filename=\&quot;%@\&quot;\r\n&quot;, fileName]
+                  dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[@&quot;Content-Type: image/pjpeg\r\n\r\n&quot; dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[NSData dataWithData:imageData]];
+
+// 添加尾部分隔线
+[body appendData:[[NSString stringWithFormat:@&quot;\r\n--%@--\r\n&quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[request setHTTPBody:body];
+</code></pre>
+</p>
+          <p>13 Sep 2014
+            
+              
+                <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+              
+                <a href="http://felixmlians.github.io//tags/http/">#http</a>
+              
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'felixmlians';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://felixmlians.github.io//js/materialize.min.js"></script>
+  <script src="http://felixmlians.github.io//js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-70690405-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

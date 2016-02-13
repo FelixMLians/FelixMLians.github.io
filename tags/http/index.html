@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Tags</title>
+  <title>Http</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -53,48 +52,74 @@
   </div>
 
 
-
 <div class="container">
   <div class="section">
 
-    <div class="collection">
+
+<div class="row">
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">iOS HTTP Multipart Forms POST(头像图片上传)</a></h4>
+      <p>
       
-        <a href="http://felixmlians.github.io//tags/block" class="collection-item"><i class="mdi-action-loyalty left"></i>block<div class="secondary-content">1</div></a>
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。</p>
+
+<p>上传图片的http post请求的格式是这样的：</p>
+
+<pre><code>Content-type: multipart/form-data, boundary=---------------------------14737809831466499882746641449
+
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;boo.jpg&quot;
+Content-Type: image/jpeg
+
+... contents of boo,jpg ...
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&quot;info&quot;
+
+Hello Boris!
+---------------------------14737809831466499882746641449
+</code></pre>
+</p>
+      <p>
+      13 Sep 2014
       
-        <a href="http://felixmlians.github.io//tags/caculate" class="collection-item"><i class="mdi-action-loyalty left"></i>caculate<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/database" class="collection-item"><i class="mdi-action-loyalty left"></i>database<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/error" class="collection-item"><i class="mdi-action-loyalty left"></i>error<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/fmdb" class="collection-item"><i class="mdi-action-loyalty left"></i>fmdb<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/http" class="collection-item"><i class="mdi-action-loyalty left"></i>http<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/hugo" class="collection-item"><i class="mdi-action-loyalty left"></i>hugo<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/ios" class="collection-item"><i class="mdi-action-loyalty left"></i>ios<div class="secondary-content">8</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/macro" class="collection-item"><i class="mdi-action-loyalty left"></i>macro<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/markdown" class="collection-item"><i class="mdi-action-loyalty left"></i>markdown<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/nsnotification" class="collection-item"><i class="mdi-action-loyalty left"></i>nsnotification<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/other" class="collection-item"><i class="mdi-action-loyalty left"></i>other<div class="secondary-content">2</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/runloop" class="collection-item"><i class="mdi-action-loyalty left"></i>runloop<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/runtime" class="collection-item"><i class="mdi-action-loyalty left"></i>runtime<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/sqlite" class="collection-item"><i class="mdi-action-loyalty left"></i>sqlite<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//tags/tool" class="collection-item"><i class="mdi-action-loyalty left"></i>tool<div class="secondary-content">2</div></a>
-      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/http/">#http</a>
+        
+       
+      </p>
     </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col s3 m1">
+  
+    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+  
+  </div>
+  <div class="col s6 m10 center">&nbsp</div>
+  <div class="col s3 m1">
+  
+    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-forward"></i></a>
+  
+  </div>
+</div>
+
 
   </div>
 </div>
+
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">

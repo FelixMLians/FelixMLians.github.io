@@ -7,8 +7,286 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 09 Aug 2014 11:38:21 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 22 Oct 2014 17:27:18 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SQLite（简介）</title>
+      <link>http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Wed, 22 Oct 2014 17:27:18 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</guid>
+      <description>
+
+&lt;p&gt;SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
+就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件。&lt;/p&gt;
+
+&lt;p&gt;所有教程参考地址： &lt;a href=&#34;http://www.runoob.com/sqlite/sqlite-intro.html&#34;&gt;http://www.runoob.com/sqlite/sqlite-intro.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;sqlite-命令:e19fbb7c7f34431d5d6c598ccca191ea&#34;&gt;SQLite 命令&lt;/h4&gt;
+
+&lt;p&gt;与关系数据库进行交互的标准 SQLite 命令类似于 SQL。命令包括 CREATE、SELECT、INSERT、UPDATE、DELETE 和 DROP。这些命令基于它们的操作性质可分为以下几种：&lt;/p&gt;
+
+&lt;h4 id=&#34;ddl-数据定义语言:e19fbb7c7f34431d5d6c598ccca191ea&#34;&gt;DDL - 数据定义语言&lt;/h4&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;命令&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;CREATE&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;创建一个新的表，一个表的视图，或者数据库中的其他对象。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;ALTE&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;修改数据库中的某个已有的数据库对象，比如一个表。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;DROP&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;删除整个表，或者表的视图，或者数据库中的其他对象。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&#34;dml-数据操作语言:e19fbb7c7f34431d5d6c598ccca191ea&#34;&gt;DML - 数据操作语言&lt;/h4&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;命令&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;INSERT&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;创建一条记录。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;UPDAT&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;修改记录。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;DELETE&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;删除记录。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&#34;dql-数据查询语言:e19fbb7c7f34431d5d6c598ccca191ea&#34;&gt;DQL - 数据查询语言&lt;/h4&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;命令&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;SELECT&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;从一个或多个表中检索某些记录。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&#34;在-mac-os-x-上安装-sqlite:e19fbb7c7f34431d5d6c598ccca191ea&#34;&gt;在 Mac OS X 上安装 SQLite&lt;/h4&gt;
+
+&lt;p&gt;最新版本的 Mac OS X 会预安装 SQLite，但是如果没有可用的安装，只需按照如下步骤进行：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;请访问 SQLite 下载页面，从源代码区下载 sqlite-autoconf-*.tar.gz。&lt;/li&gt;
+&lt;li&gt;步骤如下：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;	$tar xvfz sqlite-autoconf-3071502.tar.gz
+	$cd sqlite-autoconf-3071502
+	$./configure --prefix=/usr/local
+	$make
+	$make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上述步骤将在 Mac OS X 机器上安装 SQLite，您可以使用下列命令进行验证：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$sqlite3
+SQLite version 3.7.15.2 2013-01-09 11:53:05
+Enter &amp;quot;.help&amp;quot; for instructions
+Enter SQL statements terminated with a &amp;quot;;&amp;quot;
+sqlite&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后，在 SQLite 命令提示符下，使用 SQLite 命令做练习。&lt;/p&gt;
+
+&lt;h4 id=&#34;sqlite-命令-1:e19fbb7c7f34431d5d6c598ccca191ea&#34;&gt;SQLite 命令&lt;/h4&gt;
+
+&lt;p&gt;获取可用的点命令的清单，可以在任何时候输入 &amp;ldquo;.help&amp;rdquo;。&lt;code&gt;sqlite&amp;gt;.help&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;使用 .show 命令，来查看 SQLite 命令提示符的默认设置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sqlite&amp;gt;.show
+     echo: off
+  explain: off
+  headers: off
+     mode: column
+nullvalue: &amp;quot;&amp;quot;
+   output: stdout
+separator: &amp;quot;|&amp;quot;
+    width:
+sqlite&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;确保 sqlite&amp;gt; 提示符与点命令之间没有空格，否则将无法正常工作。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;使用下列的点命令来格式化输出为本教程下面所列出的格式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sqlite&amp;gt;.header on
+sqlite&amp;gt;.mode column
+sqlite&amp;gt;.timer on
+sqlite&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面设置将产生如下格式的输出：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+CPU Time: user 0.000000 sys 0.000000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;主表中保存数据库表的关键信息，并把它命名为 sqlite_master。如要查看表概要，可按如下操作：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sqlite&amp;gt;.schema sqlite_master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这将产生如下结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CREATE TABLE sqlite_master (
+  type text,
+  name text,
+  tbl_name text,
+  rootpage integer,
+  sql text
+);
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>iOS HTTP Multipart Forms POST(头像图片上传)</title>
+      <link>http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</link>
+      <pubDate>Sat, 13 Sep 2014 12:49:42 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</guid>
+      <description>&lt;p&gt;由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。&lt;/p&gt;
+
+&lt;p&gt;上传图片的http post请求的格式是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content-type: multipart/form-data, boundary=---------------------------14737809831466499882746641449
+
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&amp;quot;pic&amp;quot;; filename=&amp;quot;boo.jpg&amp;quot;
+Content-Type: image/jpeg
+
+... contents of boo,jpg ...
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&amp;quot;info&amp;quot;
+
+Hello Boris!
+---------------------------14737809831466499882746641449
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第一行是指定了&lt;code&gt;http post&lt;/code&gt;请求的编码方式为&lt;code&gt;multipart/form-data&lt;/code&gt;（上传文件必须用这个）。
+&lt;code&gt;boundary= xxx&lt;/code&gt; 说明了&lt;code&gt;xxx&lt;/code&gt;为分界线。比如 &lt;code&gt;---------------------------14737809831466499882746641449&lt;/code&gt; 就是一个分界线的意思&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content-Disposition: form-data; name=&amp;quot;info&amp;quot;
+
+Hello Boris!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这句话声明了请求中的一个字段的名称，如&lt;code&gt;info&lt;/code&gt;  以及字段的值，如&lt;code&gt;Hello Boris!&lt;/code&gt;
+这里类似&lt;code&gt;form&lt;/code&gt;表单中的&lt;code&gt;&amp;lt;input name=&amp;quot;info&amp;quot; type=&amp;quot;text&amp;quot; value=&amp;quot;Hello Boris!&amp;quot;/&amp;gt;&lt;/code&gt;
+中间的空行是必须的。&lt;/p&gt;
+
+&lt;p&gt;不同的字段之间用分界线分开，分界线需要单独一行，如 &lt;code&gt;---------------------------14737809831466499882746641449&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;分界线的下一行，是下一个字段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;content-disposition: form-data; name=&amp;quot;pic&amp;quot;; filename=&amp;quot;boo.png&amp;quot;
+Content-Type: image/png
+
+... contents of boo.png ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里声明了变量&lt;code&gt;pic&lt;/code&gt;，也就是我们要传的文件，上传文件的时候需要在后边指定&lt;code&gt;file name：filename=&amp;quot;boo.png&amp;quot;&lt;/code&gt;
+并且需要在下一行指定文件的格式：&lt;code&gt;Content-Type: image/png&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;... contents of boo.png ...&lt;/code&gt;  这里是&lt;code&gt;boo.png&lt;/code&gt;的二进制内容，如&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;89504e47 0d0a1a0a 0000000d 49484452 000000b4 000000b4 08020000 00b2af91 65000020 00494441 5478012c dd79b724 6b7616f6 8c888c88 8c9c8733 55ddb1d5 6a0db486 06218401 ......&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;在http post请求的结尾，需要有一个分界线，但是是前后都有&amp;ndash;的：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;---------------------------14737809831466499882746641449&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;以上的这些格式，是http的规范，每个空行，空格都是必须的。&lt;/p&gt;
+
+&lt;p&gt;下边是iOS的实现代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 建立请求对象
+NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+[request setURL:[NSURL URLWithString:kRequestBaseApi]];
+
+// 请求方式
+[request setHTTPMethod:@&amp;quot;POST&amp;quot;];
+[request setTimeoutInterval:kCLTimeoutInterval];
+
+// 接口参数
+NSString *string = [NSString stringWithFormat:@&amp;quot;{\&amp;quot;action\&amp;quot;:\&amp;quot;saveHeadImg\&amp;quot;,\&amp;quot;uid\&amp;quot;:\&amp;quot;%@\&amp;quot;}&amp;quot;, [ClientState shareInstance].currentUID];
+
+// 头标签，分隔线
+NSString *boundary = @&amp;quot;---------------------------14737809831466499882746641449&amp;quot;;
+NSString *contentType = [NSString stringWithFormat:@&amp;quot;multipart/form-data; boundary=%@&amp;quot;,boundary];
+[request addValue:contentType forHTTPHeaderField: @&amp;quot;Content-Type&amp;quot;];
+
+NSMutableData *body = [NSMutableData data];
+
+// 添加接口参数
+[body appendData:[[NSString stringWithFormat:@&amp;quot;\r\n--%@\r\n&amp;quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[@&amp;quot;Content-Disposition: form-data; name=\&amp;quot;req\&amp;quot;\r\n\r\n&amp;quot; dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[[NSString stringWithFormat:@&amp;quot;%@\r\n&amp;quot;,string] dataUsingEncoding:NSUTF8StringEncoding]];
+
+// 添加图片data
+[body appendData:[[NSString stringWithFormat:@&amp;quot;\r\n--%@\r\n&amp;quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[[NSString stringWithFormat:@&amp;quot;Content-Disposition: form-data; name=\&amp;quot;files\&amp;quot;; filename=\&amp;quot;%@\&amp;quot;\r\n&amp;quot;, fileName]
+                  dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[@&amp;quot;Content-Type: image/pjpeg\r\n\r\n&amp;quot; dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[NSData dataWithData:imageData]];
+
+// 添加尾部分隔线
+[body appendData:[[NSString stringWithFormat:@&amp;quot;\r\n--%@--\r\n&amp;quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[request setHTTPBody:body];
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>关于宏</title>

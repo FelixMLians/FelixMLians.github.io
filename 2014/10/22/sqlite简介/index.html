@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>SQLite（简介）</title>
+  <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://felixmlians.github.io//images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://felixmlians.github.io/"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">Felix&#39;s  Space</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Never send to know for whom the bells tolls; it tolls for thee.</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/FelixMLians"><img src="http://felixmlians.github.io//images/github2-dreamstale35.png"></a>
+        
+        
+          <a href="https://www.facebook.com/felixmorgan109"><img src="http://felixmlians.github.io//images/facebook-dreamstale25.png"></a>
+        
+        
+          <a href="https://twitter.com/FelixMLians"><img src="http://felixmlians.github.io//images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://felixmlians.github.io//index.xml"><img src="http://felixmlians.github.io//images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://felixmlians.github.io//images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>SQLite（简介）</h4>
+          <p>
+          
+            
+              <a href="http://felixmlians.github.io//categories/database/">Database</a>
+            
+           
+          </p>
+          <p>
+
+<p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
+就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件。</p>
+
+<p>所有教程参考地址： <a href="http://www.runoob.com/sqlite/sqlite-intro.html">http://www.runoob.com/sqlite/sqlite-intro.html</a></p>
+
+<h4 id="sqlite-命令:e19fbb7c7f34431d5d6c598ccca191ea">SQLite 命令</h4>
+
+<p>与关系数据库进行交互的标准 SQLite 命令类似于 SQL。命令包括 CREATE、SELECT、INSERT、UPDATE、DELETE 和 DROP。这些命令基于它们的操作性质可分为以下几种：</p>
+
+<h4 id="ddl-数据定义语言:e19fbb7c7f34431d5d6c598ccca191ea">DDL - 数据定义语言</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">CREATE</td>
+<td align="left">创建一个新的表，一个表的视图，或者数据库中的其他对象。</td>
+</tr>
+
+<tr>
+<td align="left">ALTE</td>
+<td align="left">修改数据库中的某个已有的数据库对象，比如一个表。</td>
+</tr>
+
+<tr>
+<td align="left">DROP</td>
+<td align="left">删除整个表，或者表的视图，或者数据库中的其他对象。</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="dml-数据操作语言:e19fbb7c7f34431d5d6c598ccca191ea">DML - 数据操作语言</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">INSERT</td>
+<td align="left">创建一条记录。</td>
+</tr>
+
+<tr>
+<td align="left">UPDAT</td>
+<td align="left">修改记录。</td>
+</tr>
+
+<tr>
+<td align="left">DELETE</td>
+<td align="left">删除记录。</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="dql-数据查询语言:e19fbb7c7f34431d5d6c598ccca191ea">DQL - 数据查询语言</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">SELECT</td>
+<td align="left">从一个或多个表中检索某些记录。</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="在-mac-os-x-上安装-sqlite:e19fbb7c7f34431d5d6c598ccca191ea">在 Mac OS X 上安装 SQLite</h4>
+
+<p>最新版本的 Mac OS X 会预安装 SQLite，但是如果没有可用的安装，只需按照如下步骤进行：</p>
+
+<ul>
+<li>请访问 SQLite 下载页面，从源代码区下载 sqlite-autoconf-*.tar.gz。</li>
+<li>步骤如下：</li>
+</ul>
+
+<pre><code>	$tar xvfz sqlite-autoconf-3071502.tar.gz
+	$cd sqlite-autoconf-3071502
+	$./configure --prefix=/usr/local
+	$make
+	$make install
+</code></pre>
+
+<p>上述步骤将在 Mac OS X 机器上安装 SQLite，您可以使用下列命令进行验证：</p>
+
+<pre><code>$sqlite3
+SQLite version 3.7.15.2 2013-01-09 11:53:05
+Enter &quot;.help&quot; for instructions
+Enter SQL statements terminated with a &quot;;&quot;
+sqlite&gt;
+</code></pre>
+
+<p>最后，在 SQLite 命令提示符下，使用 SQLite 命令做练习。</p>
+
+<h4 id="sqlite-命令-1:e19fbb7c7f34431d5d6c598ccca191ea">SQLite 命令</h4>
+
+<p>获取可用的点命令的清单，可以在任何时候输入 &ldquo;.help&rdquo;。<code>sqlite&gt;.help</code></p>
+
+<p>使用 .show 命令，来查看 SQLite 命令提示符的默认设置</p>
+
+<pre><code>sqlite&gt;.show
+     echo: off
+  explain: off
+  headers: off
+     mode: column
+nullvalue: &quot;&quot;
+   output: stdout
+separator: &quot;|&quot;
+    width:
+sqlite&gt;
+</code></pre>
+
+<blockquote>
+<p>确保 sqlite&gt; 提示符与点命令之间没有空格，否则将无法正常工作。</p>
+</blockquote>
+
+<p>使用下列的点命令来格式化输出为本教程下面所列出的格式：</p>
+
+<pre><code>sqlite&gt;.header on
+sqlite&gt;.mode column
+sqlite&gt;.timer on
+sqlite&gt;
+</code></pre>
+
+<p>上面设置将产生如下格式的输出：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+CPU Time: user 0.000000 sys 0.000000
+</code></pre>
+
+<p>主表中保存数据库表的关键信息，并把它命名为 sqlite_master。如要查看表概要，可按如下操作：</p>
+
+<pre><code>sqlite&gt;.schema sqlite_master
+</code></pre>
+
+<p>这将产生如下结果：</p>
+
+<pre><code>CREATE TABLE sqlite_master (
+  type text,
+  name text,
+  tbl_name text,
+  rootpage integer,
+  sql text
+);
+</code></pre>
+</p>
+          <p>22 Oct 2014
+            
+              
+                <a href="http://felixmlians.github.io//tags/database/">#Database</a>
+              
+                <a href="http://felixmlians.github.io//tags/sqlite/">#SQLite</a>
+              
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'felixmlians';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://felixmlians.github.io//js/materialize.min.js"></script>
+  <script src="http://felixmlians.github.io//js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-70690405-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

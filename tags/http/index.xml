@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Http on Felix&#39;s  Space</title>
+    <link>http://felixmlians.github.io/tags/http/</link>
+    <description>Recent content in Http on Felix&#39;s  Space</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 13 Sep 2014 12:49:42 +0800</lastBuildDate>
+    <atom:link href="http://felixmlians.github.io/tags/http/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>iOS HTTP Multipart Forms POST(头像图片上传)</title>
+      <link>http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</link>
+      <pubDate>Sat, 13 Sep 2014 12:49:42 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</guid>
+      <description>&lt;p&gt;由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。&lt;/p&gt;
+
+&lt;p&gt;上传图片的http post请求的格式是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content-type: multipart/form-data, boundary=---------------------------14737809831466499882746641449
+
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&amp;quot;pic&amp;quot;; filename=&amp;quot;boo.jpg&amp;quot;
+Content-Type: image/jpeg
+
+... contents of boo,jpg ...
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&amp;quot;info&amp;quot;
+
+Hello Boris!
+---------------------------14737809831466499882746641449
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第一行是指定了&lt;code&gt;http post&lt;/code&gt;请求的编码方式为&lt;code&gt;multipart/form-data&lt;/code&gt;（上传文件必须用这个）。
+&lt;code&gt;boundary= xxx&lt;/code&gt; 说明了&lt;code&gt;xxx&lt;/code&gt;为分界线。比如 &lt;code&gt;---------------------------14737809831466499882746641449&lt;/code&gt; 就是一个分界线的意思&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content-Disposition: form-data; name=&amp;quot;info&amp;quot;
+
+Hello Boris!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这句话声明了请求中的一个字段的名称，如&lt;code&gt;info&lt;/code&gt;  以及字段的值，如&lt;code&gt;Hello Boris!&lt;/code&gt;
+这里类似&lt;code&gt;form&lt;/code&gt;表单中的&lt;code&gt;&amp;lt;input name=&amp;quot;info&amp;quot; type=&amp;quot;text&amp;quot; value=&amp;quot;Hello Boris!&amp;quot;/&amp;gt;&lt;/code&gt;
+中间的空行是必须的。&lt;/p&gt;
+
+&lt;p&gt;不同的字段之间用分界线分开，分界线需要单独一行，如 &lt;code&gt;---------------------------14737809831466499882746641449&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;分界线的下一行，是下一个字段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;content-disposition: form-data; name=&amp;quot;pic&amp;quot;; filename=&amp;quot;boo.png&amp;quot;
+Content-Type: image/png
+
+... contents of boo.png ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里声明了变量&lt;code&gt;pic&lt;/code&gt;，也就是我们要传的文件，上传文件的时候需要在后边指定&lt;code&gt;file name：filename=&amp;quot;boo.png&amp;quot;&lt;/code&gt;
+并且需要在下一行指定文件的格式：&lt;code&gt;Content-Type: image/png&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;... contents of boo.png ...&lt;/code&gt;  这里是&lt;code&gt;boo.png&lt;/code&gt;的二进制内容，如&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;89504e47 0d0a1a0a 0000000d 49484452 000000b4 000000b4 08020000 00b2af91 65000020 00494441 5478012c dd79b724 6b7616f6 8c888c88 8c9c8733 55ddb1d5 6a0db486 06218401 ......&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;在http post请求的结尾，需要有一个分界线，但是是前后都有&amp;ndash;的：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;---------------------------14737809831466499882746641449&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;以上的这些格式，是http的规范，每个空行，空格都是必须的。&lt;/p&gt;
+
+&lt;p&gt;下边是iOS的实现代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 建立请求对象
+NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+[request setURL:[NSURL URLWithString:kRequestBaseApi]];
+
+// 请求方式
+[request setHTTPMethod:@&amp;quot;POST&amp;quot;];
+[request setTimeoutInterval:kCLTimeoutInterval];
+
+// 接口参数
+NSString *string = [NSString stringWithFormat:@&amp;quot;{\&amp;quot;action\&amp;quot;:\&amp;quot;saveHeadImg\&amp;quot;,\&amp;quot;uid\&amp;quot;:\&amp;quot;%@\&amp;quot;}&amp;quot;, [ClientState shareInstance].currentUID];
+
+// 头标签，分隔线
+NSString *boundary = @&amp;quot;---------------------------14737809831466499882746641449&amp;quot;;
+NSString *contentType = [NSString stringWithFormat:@&amp;quot;multipart/form-data; boundary=%@&amp;quot;,boundary];
+[request addValue:contentType forHTTPHeaderField: @&amp;quot;Content-Type&amp;quot;];
+
+NSMutableData *body = [NSMutableData data];
+
+// 添加接口参数
+[body appendData:[[NSString stringWithFormat:@&amp;quot;\r\n--%@\r\n&amp;quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[@&amp;quot;Content-Disposition: form-data; name=\&amp;quot;req\&amp;quot;\r\n\r\n&amp;quot; dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[[NSString stringWithFormat:@&amp;quot;%@\r\n&amp;quot;,string] dataUsingEncoding:NSUTF8StringEncoding]];
+
+// 添加图片data
+[body appendData:[[NSString stringWithFormat:@&amp;quot;\r\n--%@\r\n&amp;quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[[NSString stringWithFormat:@&amp;quot;Content-Disposition: form-data; name=\&amp;quot;files\&amp;quot;; filename=\&amp;quot;%@\&amp;quot;\r\n&amp;quot;, fileName]
+                  dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[@&amp;quot;Content-Type: image/pjpeg\r\n\r\n&amp;quot; dataUsingEncoding:NSUTF8StringEncoding]];
+[body appendData:[NSData dataWithData:imageData]];
+
+// 添加尾部分隔线
+[body appendData:[[NSString stringWithFormat:@&amp;quot;\r\n--%@--\r\n&amp;quot;,boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+[request setHTTPBody:body];
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
