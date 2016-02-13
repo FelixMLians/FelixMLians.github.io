@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>什么时候会报unrecognized selector的异常？</title>
+  <title>runloop 简介</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -59,7 +59,7 @@
     <div class="row">
       <div class="col s12">
         <div class="card-panel">
-          <h4>什么时候会报unrecognized selector的异常？</h4>
+          <h4>runloop 简介</h4>
           <p>
           
             
@@ -67,44 +67,100 @@
             
            
           </p>
-          <p><p>简单来说：</p>
+          <p>
 
-<blockquote>
-<p>当调用该对象上某个方法,而该对象上没有实现这个方法的时候， 可以通过“消息转发”进行解决。</p>
+<h4 id="runloop-和线程有什么关系:1bd331b533e8f261b2d2d1994da9040c">runloop 和线程有什么关系？</h4>
 
-<p><code>objc</code>是动态语言，每个方法在运行时会被动态转为消息发送，即：<code>objc_msgSend(receiver, selector)</code>。</p>
-</blockquote>
-
-<p><code>objc</code>在向一个对象发送消息时，<code>runtime</code>库会根据对象的<code>isa</code>指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，如果，在最顶层的父类中依然找不到相应的方法时，程序在运行时会挂掉并抛出异常<code>unrecognized selector sent to XXX</code> 。但是在这之前，objc的运行时会给出三次拯救程序崩溃的机会：</p>
+<p>总的来说，Runloop,如其名，表示着一直在运行的循环。实际上，runloop和线程是紧密相连的，可以这样说runloop是为了线程而生，没有线程，它就没有存在的必要。每个线程，包括程序的主线程（main thread)都有与之对应的runloop对象。</p>
 
 <ol>
-<li><strong>Method resolution</strong></li>
+<li>主线程的runloop默认是启动的。</li>
 </ol>
 
-<p><code>objc</code>运行时会调用<code>+resolveInstanceMethod:</code>或者 <code>+resolveClassMethod:</code>，让你有机会提供一个函数实现。如果你添加了函数，那运行时系统就会重新启动一次消息发送的过程，否则 ，运行时就会移到下一步，消息转发（Message Forwarding）。</p>
+<p>iOS的应用程序里面，程序启动后会有一个如下的 <code>main()</code> 函数</p>
+
+<pre><code>int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+}
+</code></pre>
+
+<p>重点是UIApplicationMain()函数，这个方法会为main thread设置一个NSRunLoop对象，这就解释了，为什么我们的应用可以在无人操作的时候休息，需要让它干活的时候又能立马响应。</p>
 
 <ol>
-<li><strong>Fast forwarding</strong></li>
+<li><p>对其他线程来说，runloop默认是没有启动的，如果你需要更多的线程交互则可以手动配置和启动，如果线程只是去执行一个长时间的已确定的任务则不需要。</p></li>
+
+<li><p>在任何一个cocoa程序的线程中，都可以通过以下代码来获取到当前的runloop。</p></li>
 </ol>
 
-<p>如果目标对象实现了<code>-forwardingTargetForSelector:</code>，Runtime 这时就会调用这个方法，给你把这个消息转发给其他对象的机会。 只要这个方法返回的不是nil和self，整个消息发送的过程就会被重启，当然发送的对象会变成你返回的那个对象。否则，就会继续Normal Fowarding。 这里叫Fast，只是为了区别下一步的转发机制。因为这一步不会创建任何新的对象，但下一步转发会创建一个NSInvocation对象，所以相对更快点。</p>
+<pre><code>    NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+</code></pre>
+
+<h4 id="runloop的mode主要来指定事件在运行中的优先级:1bd331b533e8f261b2d2d1994da9040c">runloop的mode主要来指定事件在运行中的优先级</h4>
+
+<ul>
+<li>NSDefaultRunLoopMode（kCFRunLoopDefaultMode）：默认，空闲状态</li>
+<li>UITrackingRunLoopMode：ScrollView滑动时</li>
+<li>UIInitializationRunLoopMode：启动时</li>
+<li>NSRunLoopCommonModes（kCFRunLoopCommonModes）</li>
+</ul>
+
+<p>苹果公开提供的 Mode 有两个：</p>
 
 <ol>
-<li><strong>Normal forwarding</strong></li>
+<li>NSDefaultRunLoopMode（kCFRunLoopDefaultMode）</li>
+<li>NSRunLoopCommonModes（kCFRunLoopCommonModes）</li>
 </ol>
 
-<p>这一步是Runtime最后一次给你挽救的机会。首先它会发送<code>-methodSignatureForSelector:</code>消息获得函数的参数和返回值类型。</p>
+<h4 id="runloop-只能运行在一中mode-中:1bd331b533e8f261b2d2d1994da9040c">runloop 只能运行在一中mode 中</h4>
 
-<p>如果<code>-methodSignatureForSelector:</code>返回nil，Runtime则会发出<code>-doesNotRecognizeSelector:</code>消息，程序这时也就挂掉了。</p>
+<p>RunLoop只能运行在一种mode下，如果要换mode，当前的loop也需要停下重启成新的。利用这个机制，ScrollView滚动过程中NSDefaultRunLoopMode（kCFRunLoopDefaultMode）的mode会切换到UITrackingRunLoopMode来保证ScrollView的流畅滑动：只能在NSDefaultRunLoopMode模式下处理的事件会影响scrllView的滑动。</p>
 
-<p>如果返回了一个函数签名，Runtime就会创建一个NSInvocation对象并发送<code>-forwardInvocation:</code>消息给目标对象。</p>
+<p>如果我们把一个NSTimer对象以NSDefaultRunLoopMode（kCFRunLoopDefaultMode）添加到主运行循环中的时候, ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。</p>
+
+<p>同时因为mode还是可定制的，所以：</p>
+
+<p>Timer计时会被scrollView的滑动影响的问题可以通过将timer添加到NSRunLoopCommonModes（kCFRunLoopCommonModes）来解决。代码如下：</p>
+
+<pre><code>//将timer添加到NSDefaultRunLoopMode中
+[NSTimer scheduledTimerWithTimeInterval:1.0
+                                 target:self
+                               selector:@selector(timerTick:)
+                               userInfo:nil
+                                repeats:YES];
+//然后再添加到NSRunLoopCommonModes里
+NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
+                                         target:self
+                                       selector:@selector(timerTick:)
+                                       userInfo:nil
+                                        repeats:YES];
+[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+</code></pre>
+
+<h4 id="runloop内部实现:1bd331b533e8f261b2d2d1994da9040c">runloop内部实现</h4>
+
+<p>一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但不退出，通常的代码逻辑：</p>
+
+<pre><code>function loop() {
+    initialize();
+    do {
+        var message = get_next_message();
+        process_message(message);
+    } while (message != quit);
+}
+</code></pre>
+
+<h4 id="objc-管理对象内存:1bd331b533e8f261b2d2d1994da9040c">objc 管理对象内存</h4>
+
+<p>通过retainCount 的机制来决定对象是否需要释放。每次runloop的时候，都会检查对象的retainCount，如果retainCount为0，说明该对象没有地方需要继续使用了，可以释放掉了。</p>
 </p>
-          <p>22 Jun 2014
+          <p>26 Jun 2014
             
               
                 <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
               
-                <a href="http://felixmlians.github.io//tags/error/">#error</a>
+                <a href="http://felixmlians.github.io//tags/runloop/">#runloop</a>
               
             
           </p>
@@ -130,13 +186,13 @@
     <div class="row">
       <div class="col s3 m1">
       
-        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/"><i class="mdi-navigation-arrow-back"></i></a>
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/"><i class="mdi-navigation-arrow-back"></i></a>
       
       </div>
       <div class="col s6 m10 center">&nbsp</div>
       <div class="col s3 m1">
       
-        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/"><i class="mdi-navigation-arrow-forward"></i></a>
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/"><i class="mdi-navigation-arrow-forward"></i></a>
       
       </div>
     </div>

@@ -61,6 +61,196 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/">关于宏</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>C中的宏分为两类，对象宏(object-like macro)和函数宏(function-like macro)。对于对象宏来说确实相对简单，但却也不是那么简单的查找替换。对象宏一般用来定义一些常数，举个例子：</p>
+
+<pre><code>#define M_PI    3.14159265358979323846264338327950288
+</code></pre>
+
+<p><code>#define</code>关键字表明即将开始定义一个宏，紧接着的<code>M_PI</code>是宏的名字，空格之后的数字是内容。类似这样的<code>#define X A</code>的宏是比较简单的，在编译时编译器会在语义分析认定是宏后，将X替换为A，这个过程称为宏的展开。比如对于上面的<code>M_PI</code>直接使用。</p>
+</p>
+      <p>
+      9 Aug 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/macro/">#macro</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/">关于FMDB/SQLite</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>到<a href="https://github.com/ccgus/fmdb">https://github.com/ccgus/fmdb</a> 下载源文件，然后直接将fmdb文件夹拖入到你的工程就OK。
+当然你需要添加依赖库：libsqlite3.dylib</p>
+
+<p>拖入源文件，并且添加依赖库以后你就可以使用FMDB了，引用头文件
+<code>#import &quot;FMDB.h&quot;</code></p>
+</p>
+      <p>
+      18 Jul 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/fmdb/">#FMDB</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/">NSNotification 通知</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>NSNotification 一个对象通知另外一个对象，可以用来传递参数、通信等作用，与delegate的一对一不同，通知是一对多的。在一个对象中注册了通知，那么其他任意对象都可以来对这个对象发出通知。</p>
+
+<ul>
+<li>NSNotificationCenter</li>
+<li>NSNotificationQueue</li>
+</ul>
+</p>
+      <p>
+      3 Jul 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/nsnotification/">#NSNotification</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+</div>
+<div class="row">
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1">block发生引用循环</h4>
+
+<p>一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。解决方法就是将该对象使用 <code>__weak</code>或者 <code>__block</code> 修饰符修饰后在block中使用。</p>
+
+<ol>
+<li><code>id weak weakSelf = self</code>, 或者 <code>weak __typeof(&amp;*self)weakSelf = self</code> (可以将该方法设置为宏）</li>
+<li><code>id __block weakSelf = self</code>;</li>
+</ol>
+</p>
+      <p>
+      29 Jun 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/block/">#block</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/">runloop 简介</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="runloop-和线程有什么关系:1bd331b533e8f261b2d2d1994da9040c">runloop 和线程有什么关系？</h4>
+
+<p>总的来说，Runloop,如其名，表示着一直在运行的循环。实际上，runloop和线程是紧密相连的，可以这样说runloop是为了线程而生，没有线程，它就没有存在的必要。每个线程，包括程序的主线程（main thread)都有与之对应的runloop对象。</p>
+</p>
+      <p>
+      26 Jun 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/runloop/">#runloop</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/">类中增加实例变量</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="能否向编译后得到的类中增加实例变量-能否向运行时创建的类中增加实例变量:e95b6352016c71c7e0e43fef78963e01">能否向编译后得到的类中增加实例变量？能否向运行时创建的类中增加实例变量？</h4>
+
+<ul>
+<li>不能向编译后得到的类中增加实例变量</li>
+<li>能向运行时创建的类中添加实例变量</li>
+</ul>
+</p>
+      <p>
+      23 Jun 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/runtime/">#runtime</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+</div>
+<div class="row">
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/">什么时候会报unrecognized selector的异常？</a></h4>
       <p>
       
@@ -69,9 +259,7 @@
         
        
       </p>
-      <p><h4 id="什么时候会报unrecognized-selector的异常:a9a5119ec17d3de37ee242f6e6968568">什么时候会报unrecognized selector的异常？</h4>
-
-<p>简单来说：</p>
+      <p><p>简单来说：</p>
 
 <blockquote>
 <p>当调用该对象上某个方法,而该对象上没有实现这个方法的时候， 可以通过“消息转发”进行解决。</p>
@@ -85,7 +273,7 @@
         
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
-          <a href="http://felixmlians.github.io//tags/hugo/">#Hugo</a>
+          <a href="http://felixmlians.github.io//tags/error/">#error</a>
         
        
       </p>
@@ -163,66 +351,6 @@
     </div>
   </div>
 
-  
-</div>
-<div class="row">
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/19/markdown--%E8%AF%AD%E6%B3%951/">Markdown--语法（1）</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/tool/">tool</a>
-        
-       
-      </p>
-      <p><h4 id="markdown-介绍:b0164dbc7cd859f061f3f3a09f0206c1">Markdown 介绍</h4>
-
-<p>Markdown 的目标是实现「易读易写」。可读性，无论如何，都是最重要的。</p>
-
-<p>一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。</p>
-
-<p>Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p>
-
-<p>总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p>
-</p>
-      <p>
-      19 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/tool/">#tool</a>
-        
-          <a href="http://felixmlians.github.io//tags/markdown/">#Markdown</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/18/hello-hugo/">Hello Hugo</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/other/">Other</a>
-        
-       
-      </p>
-      <p>Hello Hugo</p>
-      <p>
-      18 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/other/">#Other</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
 </div>
 
 <div class="row">
@@ -234,7 +362,7 @@
   <div class="col s6 m10 center">&nbsp</div>
   <div class="col s3 m1">
   
-    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-forward"></i></a>
+    <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/post/page/2/"><i class="mdi-navigation-arrow-forward"></i></a>
   
   </div>
 </div>

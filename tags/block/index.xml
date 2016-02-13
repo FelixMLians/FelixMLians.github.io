@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Block on Felix&#39;s  Space</title>
+    <link>http://felixmlians.github.io/tags/block/</link>
+    <description>Recent content in Block on Felix&#39;s  Space</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
+    <lastBuildDate>Sun, 29 Jun 2014 20:36:29 +0800</lastBuildDate>
+    <atom:link href="http://felixmlians.github.io/tags/block/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>有关block</title>
+      <link>http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</link>
+      <pubDate>Sun, 29 Jun 2014 20:36:29 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</guid>
+      <description>
+
+&lt;h4 id=&#34;block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;block发生引用循环&lt;/h4&gt;
+
+&lt;p&gt;一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。解决方法就是将该对象使用 &lt;code&gt;__weak&lt;/code&gt;或者 &lt;code&gt;__block&lt;/code&gt; 修饰符修饰后在block中使用。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;id weak weakSelf = self&lt;/code&gt;, 或者 &lt;code&gt;weak __typeof(&amp;amp;*self)weakSelf = self&lt;/code&gt; (可以将该方法设置为宏）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;id __block weakSelf = self&lt;/code&gt;;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;在block内修改block外部变量:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;在block内修改block外部变量&lt;/h4&gt;
+
+&lt;p&gt;默认情况下，在block中访问的外部变量是复制过去的，即：写操作不对原变量生效。但是你可以加上 &lt;code&gt;__block&lt;/code&gt; 来让其写操作生效；&lt;/p&gt;
+
+&lt;h4 id=&#34;使用系统的某些block-api的引用循环问题:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;使用系统的某些block api的引用循环问题&lt;/h4&gt;
+
+&lt;p&gt;系统的block api中，UIView的block版本写动画时不需要考虑。&lt;/p&gt;
+
+&lt;p&gt;所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block强引用 self）没有问题。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
+
+[[NSOperationQueue mainQueue] addOperationWithBlock:^{ self.property = foo; }]; 
+
+[[NSNotificationCenter defaultCenter] addObserverForName:@&amp;quot;cl_Notification&amp;quot; 
+                                                  object:nil 
+                           queue:[NSOperationQueue mainQueue]
+                                              usingBlock:^(NSNotification * notification) {
+                                                    self.property = boo; }]; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是如果你使用了一些参数中可能含有ivar的体统api，如GCD、 NSNotificationCenter就要小心。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;__weak __typeof__(self) weakSelf = self;
+dispatch_group_async(_operationsGroup, _operationsQueue, ^
+{
+__typeof__(self) strongSelf = weakSelf;
+[strongSelf doSomething];
+[strongSelf doSomethingElse];
+} );
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; __weak __typeof__(self) weakSelf = self;
+  _observer = [[NSNotificationCenter defaultCenter] addObserverForName:@&amp;quot;testKey&amp;quot;
+                                                                object:nil
+                                                                 queue:nil
+                                                            usingBlock:^(NSNotification *note) {
+      __typeof__(self) strongSelf = weakSelf;
+      [strongSelf dismissModalViewControllerAnimated:YES];
+  }];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;self&amp;ndash;&amp;gt; _observer &amp;ndash;&amp;gt; block &amp;ndash;&amp;gt; self&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

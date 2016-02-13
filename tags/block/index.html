@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Hugo</title>
+  <title>Block</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -61,35 +61,30 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/">Hugo 静态网站快速生成</a></h4>
+      <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
       <p>
       
         
-          <a href="http://felixmlians.github.io//categories/tool/">tool</a>
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
         
        
       </p>
-      <p><h4 id="安装:e5615f5477fd56f0fd7aa99a370a246f">安装</h4>
+      <p><h4 id="block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1">block发生引用循环</h4>
 
-<p>如果说速度快是Hugo的第一大优点，那么安装简单应该就是Hugo的第二大优点。对于Mac用户，没有brew的话先安装brew，在命令行里敲：</p>
+<p>一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。解决方法就是将该对象使用 <code>__weak</code>或者 <code>__block</code> 修饰符修饰后在block中使用。</p>
 
-<pre><code>$ ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-
-<p>然后再敲一行安装Hugo:</p>
-
-<pre><code>$ brew new Hugo
-</code></pre>
-
-<p>你也可以直接下载对应系统的binary文件，解压就行了:<a href="https://github.com/spf13/hugo/releases">下载地址</a></p>
+<ol>
+<li><code>id weak weakSelf = self</code>, 或者 <code>weak __typeof(&amp;*self)weakSelf = self</code> (可以将该方法设置为宏）</li>
+<li><code>id __block weakSelf = self</code>;</li>
+</ol>
 </p>
       <p>
-      21 Jun 2014
+      29 Jun 2014
       
         
-          <a href="http://felixmlians.github.io//tags/tool/">#tool</a>
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
-          <a href="http://felixmlians.github.io//tags/hugo/">#Hugo</a>
+          <a href="http://felixmlians.github.io//tags/block/">#block</a>
         
        
       </p>

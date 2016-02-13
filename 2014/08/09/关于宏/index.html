@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>关于宏</title>
+  <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://felixmlians.github.io//images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://felixmlians.github.io/"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">Felix&#39;s  Space</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Never send to know for whom the bells tolls; it tolls for thee.</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/FelixMLians"><img src="http://felixmlians.github.io//images/github2-dreamstale35.png"></a>
+        
+        
+          <a href="https://www.facebook.com/felixmorgan109"><img src="http://felixmlians.github.io//images/facebook-dreamstale25.png"></a>
+        
+        
+          <a href="https://twitter.com/FelixMLians"><img src="http://felixmlians.github.io//images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://felixmlians.github.io//index.xml"><img src="http://felixmlians.github.io//images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://felixmlians.github.io//images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>关于宏</h4>
+          <p>
+          
+            
+              <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+            
+           
+          </p>
+          <p>
+
+<p>C中的宏分为两类，对象宏(object-like macro)和函数宏(function-like macro)。对于对象宏来说确实相对简单，但却也不是那么简单的查找替换。对象宏一般用来定义一些常数，举个例子：</p>
+
+<pre><code>#define M_PI    3.14159265358979323846264338327950288
+</code></pre>
+
+<p><code>#define</code>关键字表明即将开始定义一个宏，紧接着的<code>M_PI</code>是宏的名字，空格之后的数字是内容。类似这样的<code>#define X A</code>的宏是比较简单的，在编译时编译器会在语义分析认定是宏后，将X替换为A，这个过程称为宏的展开。比如对于上面的<code>M_PI</code>直接使用。</p>
+
+<p>函数宏顾名思义，就是行为类似函数，可以接受参数的宏。具体来说，在定义的时候，如果我们在宏名字后面跟上一对括号的话，这个宏就变成了函数宏。从最简单的例子开始，比如下面这个函数宏</p>
+
+<pre><code>#define DES(x)  x
+NSString *name = @&quot;Macro Rookie&quot;;  
+NSLog(@&quot;Hello %@&quot;,DES(name));  
+// =&gt; NSLog(@&quot;Hello %@&quot;,name);
+//   =&gt; Hello Macro Rookie 
+</code></pre>
+
+<p>这个宏做的事情是，在编译时如果遇到<code>DES</code>，并且后面带括号，并且括号中的参数个数与定义的相符，那么就将括号中的参数换到定义的内容里去，然后替换掉原来的内容。 具体到这段代码中，<code>DES</code>接受了一个<code>name</code>，然后将整个<code>DES(name)</code>用<code>name</code>替换掉。多个参数的宏例如这样的：</p>
+
+<pre><code>#define PLUS(x,y) (x + y)
+printf(&quot;%d&quot;,PLUS(3,2));  
+// =&gt; printf(&quot;%d&quot;,3 + 2);
+//  =&gt; 5
+</code></pre>
+
+<blockquote>
+<p>因为宏展开其实是编辑器的预处理，因此它可以在更高层级上控制程序源码本身和编译流程。而正是这个特点，赋予了宏很强大的功能和灵活度。但是凡事都有两面性，在获取灵活的背后，是以需要大量时间投入以对各种边界情况进行考虑来作为代价的。</p>
+</blockquote>
+
+<pre><code>#define __NSX_PASTE__(A,B) A##B
+
+#define MIN(A,B) __NSMIN_IMPL__(A,B,__COUNTER__)
+
+#define __NSMIN_IMPL__(A,B,L) ({ __typeof__(A) __NSX_PASTE__(__a,L) = (A); \
+                                 __typeof__(B) __NSX_PASTE__(__b,L) = (B); \
+                                (__NSX_PASTE__(__a,L) &lt; __NSX_PASTE__(__b,L)) ? __NSX_PASTE__(__a,L) : __NSX_PASTE__(__b,L); \
+  })
+</code></pre>
+
+<p>可以看出<code>MIN</code>一共由三个宏定义组合而成。第一个<code>__NSX_PASTE__</code>里出现的两个连着的井号<code>##</code>在宏中是一个特殊符号，它表示将两个参数连接起来这种运算。注意函数宏必须是有意义的运算，因此你不能直接写<code>AB</code>来连接两个参数，而需要写成例子中的<code>A##B</code>。</p>
+
+<p>接下来是我们调用的两个参数的<code>MIN</code>，它做的事是调用了另一个三个参数的宏<code>__NSMIN_IMPL__</code>，其中前两个参数就是我们的输入，而第三个<code>__COUNTER__</code>是一个预定义的宏，这个值在编译过程中将从<code>0</code>开始计数，每次被调用时加<code>1</code>。因为唯一性，所以很多时候被用来构造独立的变量名称。有了上面的基础，再来看最后的实现宏就很简单了。整体思路和前面的实现和之前的GNUC MIN是一样的，区别在于为变量名<code>__a</code>和<code>__b</code>添加了一个计数后缀，这样大大避免了变量名相同而导致问题的可能性。</p>
+
+<h3 id="log:88505ded347af25f6a47875a4eb189b9">Log</h3>
+
+<p>我们通过宏，可以很简单地完成对NSLog原生行为的改进，优雅，高效。只需要在预编译的pch文件中加上</p>
+
+<pre><code>//A better version of NSLog
+#define NSLog(format, ...) do {  \
+                              fprintf(stderr, &quot;&lt;%s : %d&gt; %s\n&quot;,   \
+                              [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],  \
+                              __LINE__, __func__);\
+                              (NSLog)((format), ##__VA_ARGS__);   \
+                              fprintf(stderr, &quot;-------\n&quot;);   \
+                             } while (0)
+</code></pre>
+
+<p>首先是定义部分，第2行的<code>NSLog(format, ...)</code>。我们看到的是一个函数宏，但是它的参数比较奇怪，第二个参数是<code>...</code>，在宏定义（其实也包括函数定义）的时候，写为<code>...</code>的参数被叫做可变参数(variadic)。可变参数的个数不做限定。在这个宏定义中，除了第一个参数format将被单独处理外，接下来输入的参数将作为整体一并看待。回想一下NSLog的用法，我们在使用NSLog时，往往是先给一个format字符串作为第一个参数，然后根据定义的格式在后面的参数里跟上写要输出的变量之类的。这里第一个格式化字符串即对应宏里的format，后面的变量全部映射为<code>...</code>作为整体处理。</p>
+
+<p><code>__FILE__</code>返回当前文件的绝对路径，<code>__LINE__</code>返回展开该宏时在文件中的行数，<code>__func__</code>是改宏所在scope的函数名称。我们在做Log输出时如果带上这这三个参数，便可以加快解读Log，迅速定位。关于编译器预定义的Log以及它们的一些实现机制，感兴趣的同学可以移步到gcc文档的PreDefine页面和clang的Builtin Macro进行查看。在这里我们将格式化输出的三个参数分别设定为文件名的最后一个部分（因为绝对路径太长很难看），行数，以及方法名称。</p>
+
+<pre><code>#define NSLogRect(rect) NSLog(@&quot;%s x:%.4f, y:%.4f, w:%.4f, h:%.4f&quot;, #rect, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+#define NSLogSize(size) NSLog(@&quot;%s w:%.4f, h:%.4f&quot;, #size, size.width, size.height)
+#define NSLogPoint(point) NSLog(@&quot;%s x:%.4f, y:%.4f&quot;, #point, point.x, point.y)
+</code></pre>
+
+<h3 id="宏:88505ded347af25f6a47875a4eb189b9">宏</h3>
+
+<pre><code>//获取系统版本  
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]  
+#define CurrentSystemVersion [[UIDevice currentDevice] systemVersion]  
+
+//获取当前语言  
+#define CurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])  
+
+//判断是否 Retina屏、设备是否%fhone 5、是否是iPad  
+#define isRetina ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)  
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)  
+#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)     
+
+// rgb颜色转换（16进制-&gt;10进制）  
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue &amp; 0xFF0000) &gt;&gt; 16))/255.0 green:((float)((rgbValue &amp; 0xFF00) &gt;&gt; 8))/255.0 blue:((float)(rgbValue &amp; 0xFF))/255.0 alpha:1.0]  
+
+//带有RGBA的颜色设置  
+#define COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]  
+
+// 获取RGB颜色  
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]  
+#define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
+  //由角度获取弧度 有弧度获取角度  
+#define degreesToRadian(x) (M_PI * (x) / 180.0)  
+#define radianToDegrees(radian) (radian*180.0)/(M_PI)  
+
+#define DISPATCH_ONCE_BLOCK(onceBlock) static dispatch_once_t onceToken; dispatch_once(&amp;onceToken, onceBlock);
+
+DISPATCH_ONCE_BLOCK(^{
+//code
+})
+</code></pre>
+</p>
+          <p>9 Aug 2014
+            
+              
+                <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+              
+                <a href="http://felixmlians.github.io//tags/macro/">#macro</a>
+              
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'felixmlians';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://felixmlians.github.io//js/materialize.min.js"></script>
+  <script src="http://felixmlians.github.io//js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-70690405-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

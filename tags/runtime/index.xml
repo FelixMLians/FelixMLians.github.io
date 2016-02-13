@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Runtime on Felix&#39;s  Space</title>
+    <link>http://felixmlians.github.io/tags/runtime/</link>
+    <description>Recent content in Runtime on Felix&#39;s  Space</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
+    <lastBuildDate>Mon, 23 Jun 2014 18:34:54 +0800</lastBuildDate>
+    <atom:link href="http://felixmlians.github.io/tags/runtime/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>类中增加实例变量</title>
+      <link>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Mon, 23 Jun 2014 18:34:54 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</guid>
+      <description>
+
+&lt;h4 id=&#34;能否向编译后得到的类中增加实例变量-能否向运行时创建的类中增加实例变量:e95b6352016c71c7e0e43fef78963e01&#34;&gt;能否向编译后得到的类中增加实例变量？能否向运行时创建的类中增加实例变量？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;不能向编译后得到的类中增加实例变量&lt;/li&gt;
+&lt;li&gt;能向运行时创建的类中添加实例变量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因为：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;编译后的类已经注册在 &lt;code&gt;runtime&lt;/code&gt; 中，类结构体中的 &lt;code&gt;objc_ivar_list&lt;/code&gt; 实例变量的链表和 &lt;code&gt;instance_size&lt;/code&gt; 实例变量的内存大小已经确定，同时 &lt;code&gt;runtime&lt;/code&gt; 会调用 &lt;code&gt;class_setWeakIvarLayout&lt;/code&gt; 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；&lt;/li&gt;
+&lt;li&gt;运行时创建的类是可以添加实例变量，调用 &lt;code&gt;class_addIvar&lt;/code&gt; 函数。但是得在调用 &lt;code&gt;objc_allocateClassPair&lt;/code&gt; 之后，&lt;code&gt;objc_registerClassPair&lt;/code&gt; 之前，原因同上。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

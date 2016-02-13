@@ -7,8 +7,579 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 22 Jun 2014 19:59:51 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 09 Aug 2014 11:38:21 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>关于宏</title>
+      <link>http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/</link>
+      <pubDate>Sat, 09 Aug 2014 11:38:21 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/</guid>
+      <description>
+
+&lt;p&gt;C中的宏分为两类，对象宏(object-like macro)和函数宏(function-like macro)。对于对象宏来说确实相对简单，但却也不是那么简单的查找替换。对象宏一般用来定义一些常数，举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define M_PI    3.14159265358979323846264338327950288
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;#define&lt;/code&gt;关键字表明即将开始定义一个宏，紧接着的&lt;code&gt;M_PI&lt;/code&gt;是宏的名字，空格之后的数字是内容。类似这样的&lt;code&gt;#define X A&lt;/code&gt;的宏是比较简单的，在编译时编译器会在语义分析认定是宏后，将X替换为A，这个过程称为宏的展开。比如对于上面的&lt;code&gt;M_PI&lt;/code&gt;直接使用。&lt;/p&gt;
+
+&lt;p&gt;函数宏顾名思义，就是行为类似函数，可以接受参数的宏。具体来说，在定义的时候，如果我们在宏名字后面跟上一对括号的话，这个宏就变成了函数宏。从最简单的例子开始，比如下面这个函数宏&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define DES(x)  x
+NSString *name = @&amp;quot;Macro Rookie&amp;quot;;  
+NSLog(@&amp;quot;Hello %@&amp;quot;,DES(name));  
+// =&amp;gt; NSLog(@&amp;quot;Hello %@&amp;quot;,name);
+//   =&amp;gt; Hello Macro Rookie 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个宏做的事情是，在编译时如果遇到&lt;code&gt;DES&lt;/code&gt;，并且后面带括号，并且括号中的参数个数与定义的相符，那么就将括号中的参数换到定义的内容里去，然后替换掉原来的内容。 具体到这段代码中，&lt;code&gt;DES&lt;/code&gt;接受了一个&lt;code&gt;name&lt;/code&gt;，然后将整个&lt;code&gt;DES(name)&lt;/code&gt;用&lt;code&gt;name&lt;/code&gt;替换掉。多个参数的宏例如这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define PLUS(x,y) (x + y)
+printf(&amp;quot;%d&amp;quot;,PLUS(3,2));  
+// =&amp;gt; printf(&amp;quot;%d&amp;quot;,3 + 2);
+//  =&amp;gt; 5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;因为宏展开其实是编辑器的预处理，因此它可以在更高层级上控制程序源码本身和编译流程。而正是这个特点，赋予了宏很强大的功能和灵活度。但是凡事都有两面性，在获取灵活的背后，是以需要大量时间投入以对各种边界情况进行考虑来作为代价的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;#define __NSX_PASTE__(A,B) A##B
+
+#define MIN(A,B) __NSMIN_IMPL__(A,B,__COUNTER__)
+
+#define __NSMIN_IMPL__(A,B,L) ({ __typeof__(A) __NSX_PASTE__(__a,L) = (A); \
+                                 __typeof__(B) __NSX_PASTE__(__b,L) = (B); \
+                                (__NSX_PASTE__(__a,L) &amp;lt; __NSX_PASTE__(__b,L)) ? __NSX_PASTE__(__a,L) : __NSX_PASTE__(__b,L); \
+  })
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看出&lt;code&gt;MIN&lt;/code&gt;一共由三个宏定义组合而成。第一个&lt;code&gt;__NSX_PASTE__&lt;/code&gt;里出现的两个连着的井号&lt;code&gt;##&lt;/code&gt;在宏中是一个特殊符号，它表示将两个参数连接起来这种运算。注意函数宏必须是有意义的运算，因此你不能直接写&lt;code&gt;AB&lt;/code&gt;来连接两个参数，而需要写成例子中的&lt;code&gt;A##B&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;接下来是我们调用的两个参数的&lt;code&gt;MIN&lt;/code&gt;，它做的事是调用了另一个三个参数的宏&lt;code&gt;__NSMIN_IMPL__&lt;/code&gt;，其中前两个参数就是我们的输入，而第三个&lt;code&gt;__COUNTER__&lt;/code&gt;是一个预定义的宏，这个值在编译过程中将从&lt;code&gt;0&lt;/code&gt;开始计数，每次被调用时加&lt;code&gt;1&lt;/code&gt;。因为唯一性，所以很多时候被用来构造独立的变量名称。有了上面的基础，再来看最后的实现宏就很简单了。整体思路和前面的实现和之前的GNUC MIN是一样的，区别在于为变量名&lt;code&gt;__a&lt;/code&gt;和&lt;code&gt;__b&lt;/code&gt;添加了一个计数后缀，这样大大避免了变量名相同而导致问题的可能性。&lt;/p&gt;
+
+&lt;h3 id=&#34;log:88505ded347af25f6a47875a4eb189b9&#34;&gt;Log&lt;/h3&gt;
+
+&lt;p&gt;我们通过宏，可以很简单地完成对NSLog原生行为的改进，优雅，高效。只需要在预编译的pch文件中加上&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//A better version of NSLog
+#define NSLog(format, ...) do {  \
+                              fprintf(stderr, &amp;quot;&amp;lt;%s : %d&amp;gt; %s\n&amp;quot;,   \
+                              [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],  \
+                              __LINE__, __func__);\
+                              (NSLog)((format), ##__VA_ARGS__);   \
+                              fprintf(stderr, &amp;quot;-------\n&amp;quot;);   \
+                             } while (0)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;首先是定义部分，第2行的&lt;code&gt;NSLog(format, ...)&lt;/code&gt;。我们看到的是一个函数宏，但是它的参数比较奇怪，第二个参数是&lt;code&gt;...&lt;/code&gt;，在宏定义（其实也包括函数定义）的时候，写为&lt;code&gt;...&lt;/code&gt;的参数被叫做可变参数(variadic)。可变参数的个数不做限定。在这个宏定义中，除了第一个参数format将被单独处理外，接下来输入的参数将作为整体一并看待。回想一下NSLog的用法，我们在使用NSLog时，往往是先给一个format字符串作为第一个参数，然后根据定义的格式在后面的参数里跟上写要输出的变量之类的。这里第一个格式化字符串即对应宏里的format，后面的变量全部映射为&lt;code&gt;...&lt;/code&gt;作为整体处理。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;__FILE__&lt;/code&gt;返回当前文件的绝对路径，&lt;code&gt;__LINE__&lt;/code&gt;返回展开该宏时在文件中的行数，&lt;code&gt;__func__&lt;/code&gt;是改宏所在scope的函数名称。我们在做Log输出时如果带上这这三个参数，便可以加快解读Log，迅速定位。关于编译器预定义的Log以及它们的一些实现机制，感兴趣的同学可以移步到gcc文档的PreDefine页面和clang的Builtin Macro进行查看。在这里我们将格式化输出的三个参数分别设定为文件名的最后一个部分（因为绝对路径太长很难看），行数，以及方法名称。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define NSLogRect(rect) NSLog(@&amp;quot;%s x:%.4f, y:%.4f, w:%.4f, h:%.4f&amp;quot;, #rect, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+#define NSLogSize(size) NSLog(@&amp;quot;%s w:%.4f, h:%.4f&amp;quot;, #size, size.width, size.height)
+#define NSLogPoint(point) NSLog(@&amp;quot;%s x:%.4f, y:%.4f&amp;quot;, #point, point.x, point.y)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;宏:88505ded347af25f6a47875a4eb189b9&#34;&gt;宏&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//获取系统版本  
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]  
+#define CurrentSystemVersion [[UIDevice currentDevice] systemVersion]  
+
+//获取当前语言  
+#define CurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])  
+
+//判断是否 Retina屏、设备是否%fhone 5、是否是iPad  
+#define isRetina ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)  
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)  
+#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)     
+
+// rgb颜色转换（16进制-&amp;gt;10进制）  
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue &amp;amp; 0xFF0000) &amp;gt;&amp;gt; 16))/255.0 green:((float)((rgbValue &amp;amp; 0xFF00) &amp;gt;&amp;gt; 8))/255.0 blue:((float)(rgbValue &amp;amp; 0xFF))/255.0 alpha:1.0]  
+
+//带有RGBA的颜色设置  
+#define COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]  
+
+// 获取RGB颜色  
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]  
+#define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
+  //由角度获取弧度 有弧度获取角度  
+#define degreesToRadian(x) (M_PI * (x) / 180.0)  
+#define radianToDegrees(radian) (radian*180.0)/(M_PI)  
+
+#define DISPATCH_ONCE_BLOCK(onceBlock) static dispatch_once_t onceToken; dispatch_once(&amp;amp;onceToken, onceBlock);
+
+DISPATCH_ONCE_BLOCK(^{
+//code
+})
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>关于FMDB/SQLite</title>
+      <link>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</link>
+      <pubDate>Fri, 18 Jul 2014 21:35:38 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</guid>
+      <description>
+
+&lt;p&gt;到&lt;a href=&#34;https://github.com/ccgus/fmdb&#34;&gt;https://github.com/ccgus/fmdb&lt;/a&gt; 下载源文件，然后直接将fmdb文件夹拖入到你的工程就OK。
+当然你需要添加依赖库：libsqlite3.dylib&lt;/p&gt;
+
+&lt;p&gt;拖入源文件，并且添加依赖库以后你就可以使用FMDB了，引用头文件
+&lt;code&gt;#import &amp;quot;FMDB.h&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;usage:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;USAGE&lt;/h2&gt;
+
+&lt;p&gt;在FMDB中主要有三个类：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;FMDatabase - 简单的说这个类就是代表了数据库&lt;/li&gt;
+&lt;li&gt;FMResultSet - 这个类表示查询操作的结果&lt;/li&gt;
+&lt;li&gt;FMDatabaseQueue - 多线程操作的时候你会用到这个类，并且这是线程安全的。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;创建数据库:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;创建数据库&lt;/h3&gt;
+
+&lt;p&gt;你需要使用一个path来创建一个本地FMDatabase数据库，这个path有三种类型：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;你可以使用一个本地的地址来创建这个数据库，这个地址不一定真实存在，如果不存在，那么FMDB会创建这个数据库并返回，存在则直接返回这个数据库。&lt;/li&gt;
+&lt;li&gt;一个空字符串@&amp;ldquo;&amp;rdquo;.FMDB会在本地创建一个临时的数据库，当数据库关闭的时候会删除这个数据库。&lt;/li&gt;
+&lt;li&gt;NULL.如果你将这个path填的是NULL，那么这个数据被创建在内存中，数据库关闭的时候被销毁。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;(更多信息关于临时数据库和在内存中的数据库，你可以阅读这篇文档 &lt;a href=&#34;http://www.sqlite.org/inmemorydb.html&#34;&gt;http://www.sqlite.org/inmemorydb.html&lt;/a&gt; )&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FMDatabase *db = [FMDatabase databaseWithPath:@&amp;quot;/tmp/tmp.db&amp;quot;];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;打开数据库:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;打开数据库&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;if (![db open]) {
+    return;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;executing-updates:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Executing Updates&lt;/h3&gt;
+
+&lt;p&gt;所有不是select操作的操作都算update. 包括 CREATE, UPDATE, INSERT, ALTER, COMMIT, BEGIN, DETACH, DELETE, DROP, END, EXPLAIN, VACUUM, and REPLACE ····换句话说也就是如果你的操作不是以SELECT开头的都是update操作.&lt;/p&gt;
+
+&lt;p&gt;update操作返回一个布尔值，YES表示操作成功，NO表示你可以遇到了一些错误.FMDatabase有两个方法 -lastErrorMessage 和 -lastErrorCode，你可以使用这两个方法来查看错误。&lt;/p&gt;
+
+&lt;h3 id=&#34;executing-queries:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Executing Queries&lt;/h3&gt;
+
+&lt;p&gt;SELECT 查询使用 -executeQuery&amp;hellip; 方法.&lt;/p&gt;
+
+&lt;p&gt;查询成功返回 FMResultSet,失败则是返回nil.
+同样你可以使用FMDatabase的两个方法 -lastErrorMessage and -lastErrorCode 来查找原因。&lt;/p&gt;
+
+&lt;p&gt;你需要用一个循环来获取到查询到的每一个值。like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FMResultSet *s = [db executeQuery:@&amp;quot;SELECT * FROM myTable&amp;quot;];
+while ([s next]) {
+    //retrieve values for each record
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;FMResultSet 有许多类型用来返回不同类型的查询结果的值&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;intForColumn:
+longForColumn:
+longLongIntForColumn:
+boolForColumn:
+doubleForColumn:
+stringForColumn:
+dateForColumn:
+dataForColumn:
+dataNoCopyForColumn:
+UTF8StringForColumnName:
+objectForColumnName:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上的每个方法都有对应的 {type}ForColumnIndex: 上面那一溜方法是用例的名字来获取数据，而这个方法则是用数据在查询结果中对应的位置来获取数据.&lt;/p&gt;
+
+&lt;h3 id=&#34;closing:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Closing&lt;/h3&gt;
+
+&lt;p&gt;用完了FMDB记得关闭&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[db close];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;批处理:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;批处理&lt;/h3&gt;
+
+&lt;p&gt;FMDatabase的方法 executeStatements:withResultBlock:可以使用字符串来同时处理多条指令。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSString *sql = @&amp;quot;create table test1 (id integer primary key autoincrement, x text);&amp;quot;
+                 &amp;quot;create table test2 (id integer primary key autoincrement, y text);&amp;quot;
+                 &amp;quot;create table test3 (id integer primary key autoincrement, z text);&amp;quot;
+                 &amp;quot;insert into test1 (x) values (&#39;XXX&#39;);&amp;quot;
+                 &amp;quot;insert into test2 (y) values (&#39;YYY&#39;);&amp;quot;
+                 &amp;quot;insert into test3 (z) values (&#39;ZZZ&#39;);&amp;quot;;
+
+success = [db executeStatements:sql];
+
+sql = @&amp;quot;select count(*) as count from test1;&amp;quot;
+       &amp;quot;select count(*) as count from test2;&amp;quot;
+       &amp;quot;select count(*) as count from test3;&amp;quot;;
+
+success = [self.db executeStatements:sql withResultBlock:^int(NSDictionary *dictionary) {
+    NSInteger count = [dictionary[@&amp;quot;count&amp;quot;] integerValue];
+    XCTAssertEqual(count, 1, @&amp;quot;expected one record for dictionary %@&amp;quot;, dictionary);
+    return 0;
+}];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;数据处理:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;数据处理&lt;/h3&gt;
+
+&lt;p&gt;你必须使用标准的SQLite的标准语法，像下面那样（而不是SQL中那样）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INSERT INTO myTable VALUES (?, ?, ?, ?)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;‘？’这个符号表示插入数据的替代符，操作方法会接收参数来替代这个符号 (或者是代表这些参数的，比如说：NSArray, NSDictionary, va_list).&lt;/p&gt;
+
+&lt;p&gt;OC中你可以像下面这样使用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSInteger identifier = 42;
+NSString *name = @&amp;quot;Liam O&#39;Flaherty (\&amp;quot;the famous Irish author\&amp;quot;)&amp;quot;;
+NSDate *date = [NSDate date];
+NSString *comment = nil;
+
+BOOL success = [db executeUpdate:@&amp;quot;INSERT INTO authors (identifier, name, date, comment) VALUES (?, ?, ?, ?)&amp;quot;, @(identifier), name, date, comment ?: [NSNull null]];
+if (!success) {
+NSLog(@&amp;quot;error = %@&amp;quot;, [db lastErrorMessage]);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note:这里需要注意的是，如果是基本数据类型比如说&lt;code&gt;NSInteger&lt;/code&gt;，你需要转化为&lt;code&gt;NSNumber&lt;/code&gt;。
+如果是插入nil，那么你不能直接插入nil，而是需要插入&lt;code&gt;[NSNull null]&lt;/code&gt;，像上面那个例子中写的是：&lt;code&gt;comment ?: [NSNull null]&lt;/code&gt;，那么如果commit是nil的话则会插入nil，反之则会插入commit.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;下面这种书写方法和上面表达的是同一个意思。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;像上面这种写法参数是以冒号开头的，SQLite支持其他字符，但是在字典中key都是以冒号为前缀的，所以你的字典key中不要包含冒号&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSDictionary *arguments = @{@&amp;quot;identifier&amp;quot;: @(identifier), @&amp;quot;name&amp;quot;: name, @&amp;quot;date&amp;quot;: date, @&amp;quot;comment&amp;quot;: comment ?: [NSNull null]};
+BOOL success = [db executeUpdate:@&amp;quot;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)&amp;quot; withParameterDictionary:arguments];
+if (!success) {
+NSLog(@&amp;quot;error = %@&amp;quot;, [db lastErrorMessage]);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最关键的一点就是：千万不要用NSString的方法比如说 stringWithFormat来手动插入参数，必须要使用Values(?，?)这样的方法，把？当作替代符。&lt;/p&gt;
+
+&lt;h3 id=&#34;fmdatabasequeue-是线程安全的:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;FMDatabaseQueue 是线程安全的&lt;/h3&gt;
+
+&lt;p&gt;不要在多个线程之间使用同一个 FMDatabase对象，最好是每一个线程都有一个独立的 FMDatabase对象，如果你在多线程之间使用同一个对象，那么会有不好的事情发生。
+如果你需要在多线程中使用 FMDatabase,那么请使用 FMDatabaseQueue，下面是他的使用方法:&lt;/p&gt;
+
+&lt;p&gt;首先创建你的线程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:aPath];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，像这样使用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[queue inDatabase:^(FMDatabase *db) {
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @1];
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @2];
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @3];
+
+FMResultSet *rs = [db executeQuery:@&amp;quot;select * from foo&amp;quot;];
+while ([rs next]) {
+    …
+}
+}];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;An easy way to wrap things up in a transaction can be done like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @1];
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @2];
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @3];
+
+if (whoopsSomethingWrongHappened) {
+    *rollback = YES;
+    return;
+}
+// etc…
+[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @4];
+}];
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>NSNotification 通知</title>
+      <link>http://felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/</link>
+      <pubDate>Thu, 03 Jul 2014 18:56:41 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/</guid>
+      <description>
+
+&lt;p&gt;NSNotification 一个对象通知另外一个对象，可以用来传递参数、通信等作用，与delegate的一对一不同，通知是一对多的。在一个对象中注册了通知，那么其他任意对象都可以来对这个对象发出通知。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;NSNotificationCenter&lt;/li&gt;
+&lt;li&gt;NSNotificationQueue&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;nsnotificationcenter:cd29d22e126672704ff5fec0205d1cc7&#34;&gt;NSNotificationCenter&lt;/h3&gt;
+
+&lt;p&gt;注册一个通知：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[[NSNotificationCenter defaultCenter] addObserver:self  
+                                         selector:@selector(getNotification:) 
+                                             name:@&amp;quot;notificationMethon&amp;quot; object:nil];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;NSNorificationCenter是一个单例，我们可以通过defaultCenter来获取到通知中心这个单例；&lt;/p&gt;
+
+&lt;p&gt;需要注意的是当我们添加一个通知以后，必须在合适的位置将通知移除，不然下次再添加这个通知并调用时，这个通知将会被调用多次，而这一般不是我们所预料的。一般我们在对象的析构函数中将通知移除，我们可以选择将这个对象中的所有通知移除，也可以选择一个一个按照通知的name来移除。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+[[NSNotificationCenter defaultCenter] removeObserver:self name:@&amp;quot;notificationMethon&amp;quot; object:nil];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;发出通知就是通过 &lt;code&gt;postNotificationName&lt;/code&gt; 函数来实现，这里发出的通知是同步操作，也就是只有当发出的通知执行完成后才会继续执行下面的代码。&lt;/p&gt;
+
+&lt;p&gt;这是发出通知以后会调用的方法，在多线程操作时，发出通知的对象和接收通知的对象处于同一个线程。
+在这个响应的方法中有一个参数(NSNotification *)info这个参数是NSNotification类型的，这个类型有几个属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (readonly, copy) NSString *name;
+@property (nullable, readonly, retain) id object;
+@property (nullable, readonly, copy) NSDictionary *userInfo;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;nsnotificationqueue:cd29d22e126672704ff5fec0205d1cc7&#34;&gt;NSNotificationQueue&lt;/h3&gt;
+
+&lt;p&gt;NSNotificationQueue就有一些区别，他有两个非常重要的特点：即通告的聚结和异步发送。聚结是把和刚进入队列的通告相类似的其它通告从队列中移除的过程。如果一个新的通告和已经在队列中的通告相类似，则新的通告不进入队列，而所有类似的通告（除了队列中的第一个通告以外）都被移除。然而，您不应该依赖于这个特殊的聚结行为。
+而异步发送则很好理解了，也就是说发出通知以后立刻返回，也就是是继续执行下面的代码，并不管通知发出后的具体情况&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSNotification *notifacation = [[NSNotification alloc]initWithName:@&amp;quot;notificationName&amp;quot; object:nil userInfo:@{@&amp;quot;key1&amp;quot;:@&amp;quot;value1&amp;quot;}];
+[[NSNotificationQueue defaultQueue] enqueueNotification:notifacation postingStyle:NSPostWhenIdle];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以通过，NSNotificationQueue的defaultQueue来获取到这个通知队列，然后调用enqueueNotification来发出通知，我们可以看到第二个参数postingStyle,这个参数是一个枚举，他可以是以下三个值：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef NS_ENUM(NSUInteger, NSPostingStyle) {
+    NSPostWhenIdle = 1,
+    NSPostASAP = 2,
+    NSPostNow = 3
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这三个不同的值是有一定区别的。（以下内容摘抄自网络）&lt;/p&gt;
+
+&lt;p&gt;尽快发送
+以NSPostASAP风格进入队列的通告会在运行循环的当前迭代完成时被发送给通告中心，如果当前运行循环模式和请求的模式相匹配的话（如果请求的模式和当前模式不同，则通告在进入请求的模式时被发出）。由于运行循环在每个迭代过程中可能进行多个调用分支（callout），所以在当前调用分支退出及控制权返回运行循环时，通告可能被分发，也可能不被分发。其它的调用分支可能先发生，比如定时器或由其它源触发了事件，或者其它异步的通告被分发了。&lt;/p&gt;
+
+&lt;p&gt;您通常可以将NSPostASAP风格用于开销昂贵的资源，比如显示服务器。如果在运行循环的一个调用分支过程中有很多客户代码在窗口缓冲区中进行描画，在每次描画之后将缓冲区的内容刷新到显示服务器的开销是很昂贵的。在这种情况下，每个draw&amp;hellip;方法都会将诸如“FlushTheServer” 这样的通告排入队列，并指定按名称和对象进行聚结，以及使用NSPostASAP风格。结果，在运行循环的最后，那些通告中只有一个被派发，而窗口缓冲区也只被刷新一次。&lt;/p&gt;
+
+&lt;p&gt;空闲时发送
+以NSPostWhenIdle风格进入队列的通告只在运行循环处于等待状态时才被发出。在这种状态下，运行循环的输入通道中没有任何事件，包括定时器和异步事件。以NSPostWhenIdle风格进入队列的一个典型的例子是当用户键入文本、而程序的其它地方需要显示文本字节长度的时候。在用户输入每一个字符后都对文本输入框的尺寸进行更新的开销是很大的（而且不是特别有用），特别是当用户快速输入的时候。在这种情况下，Cocoa会在每个字符键入之后，将诸如“ChangeTheDisplayedSize”这样的通告进行排队，同时把聚结开关打开，并使用NSPostWhenIdle风格。当用户停止输入的时候，队列中只有一个“ChangeTheDisplayedSize”通告（由于聚结的原因）会在运行循环进入等待状态时被发出，显示部分也因此被刷新。请注意，运行循环即将退出（当所有的输入通道都过时的时候，会发生这种情况）时并不处于等待状态，因此也不会发出通告。&lt;/p&gt;
+
+&lt;p&gt;立即发送
+以NSPostNow风格进入队列的通告会在聚结之后，立即发送到通告中心。您可以在不需要异步调用行为的时候 使用NSPostNow风格（或者通过NSNotificationCenter的postNotification:方法来发送）。在很多编程环境下，我们不仅允许同步的行为，而且希望使用这种行为：即您希望通告中心在通告派发之后返回，以便确定观察者对象收到通告并进行了处理。当然，当您希望通过聚结移除队列中类似的通告时，应该用enqueueNotification&amp;hellip;方法，且使用NSPostNow风格，而不是使用postNotification:方法。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>有关block</title>
+      <link>http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</link>
+      <pubDate>Sun, 29 Jun 2014 20:36:29 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</guid>
+      <description>
+
+&lt;h4 id=&#34;block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;block发生引用循环&lt;/h4&gt;
+
+&lt;p&gt;一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。解决方法就是将该对象使用 &lt;code&gt;__weak&lt;/code&gt;或者 &lt;code&gt;__block&lt;/code&gt; 修饰符修饰后在block中使用。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;id weak weakSelf = self&lt;/code&gt;, 或者 &lt;code&gt;weak __typeof(&amp;amp;*self)weakSelf = self&lt;/code&gt; (可以将该方法设置为宏）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;id __block weakSelf = self&lt;/code&gt;;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;在block内修改block外部变量:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;在block内修改block外部变量&lt;/h4&gt;
+
+&lt;p&gt;默认情况下，在block中访问的外部变量是复制过去的，即：写操作不对原变量生效。但是你可以加上 &lt;code&gt;__block&lt;/code&gt; 来让其写操作生效；&lt;/p&gt;
+
+&lt;h4 id=&#34;使用系统的某些block-api的引用循环问题:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;使用系统的某些block api的引用循环问题&lt;/h4&gt;
+
+&lt;p&gt;系统的block api中，UIView的block版本写动画时不需要考虑。&lt;/p&gt;
+
+&lt;p&gt;所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block强引用 self）没有问题。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
+
+[[NSOperationQueue mainQueue] addOperationWithBlock:^{ self.property = foo; }]; 
+
+[[NSNotificationCenter defaultCenter] addObserverForName:@&amp;quot;cl_Notification&amp;quot; 
+                                                  object:nil 
+                           queue:[NSOperationQueue mainQueue]
+                                              usingBlock:^(NSNotification * notification) {
+                                                    self.property = boo; }]; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是如果你使用了一些参数中可能含有ivar的体统api，如GCD、 NSNotificationCenter就要小心。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;__weak __typeof__(self) weakSelf = self;
+dispatch_group_async(_operationsGroup, _operationsQueue, ^
+{
+__typeof__(self) strongSelf = weakSelf;
+[strongSelf doSomething];
+[strongSelf doSomethingElse];
+} );
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; __weak __typeof__(self) weakSelf = self;
+  _observer = [[NSNotificationCenter defaultCenter] addObserverForName:@&amp;quot;testKey&amp;quot;
+                                                                object:nil
+                                                                 queue:nil
+                                                            usingBlock:^(NSNotification *note) {
+      __typeof__(self) strongSelf = weakSelf;
+      [strongSelf dismissModalViewControllerAnimated:YES];
+  }];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;self&amp;ndash;&amp;gt; _observer &amp;ndash;&amp;gt; block &amp;ndash;&amp;gt; self&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>runloop 简介</title>
+      <link>http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Thu, 26 Jun 2014 19:49:43 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/</guid>
+      <description>
+
+&lt;h4 id=&#34;runloop-和线程有什么关系:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop 和线程有什么关系？&lt;/h4&gt;
+
+&lt;p&gt;总的来说，Runloop,如其名，表示着一直在运行的循环。实际上，runloop和线程是紧密相连的，可以这样说runloop是为了线程而生，没有线程，它就没有存在的必要。每个线程，包括程序的主线程（main thread)都有与之对应的runloop对象。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;主线程的runloop默认是启动的。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;iOS的应用程序里面，程序启动后会有一个如下的 &lt;code&gt;main()&lt;/code&gt; 函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;重点是UIApplicationMain()函数，这个方法会为main thread设置一个NSRunLoop对象，这就解释了，为什么我们的应用可以在无人操作的时候休息，需要让它干活的时候又能立马响应。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;对其他线程来说，runloop默认是没有启动的，如果你需要更多的线程交互则可以手动配置和启动，如果线程只是去执行一个长时间的已确定的任务则不需要。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在任何一个cocoa程序的线程中，都可以通过以下代码来获取到当前的runloop。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;    NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;runloop的mode主要来指定事件在运行中的优先级:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop的mode主要来指定事件在运行中的优先级&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;NSDefaultRunLoopMode（kCFRunLoopDefaultMode）：默认，空闲状态&lt;/li&gt;
+&lt;li&gt;UITrackingRunLoopMode：ScrollView滑动时&lt;/li&gt;
+&lt;li&gt;UIInitializationRunLoopMode：启动时&lt;/li&gt;
+&lt;li&gt;NSRunLoopCommonModes（kCFRunLoopCommonModes）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;苹果公开提供的 Mode 有两个：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;NSDefaultRunLoopMode（kCFRunLoopDefaultMode）&lt;/li&gt;
+&lt;li&gt;NSRunLoopCommonModes（kCFRunLoopCommonModes）&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;runloop-只能运行在一中mode-中:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop 只能运行在一中mode 中&lt;/h4&gt;
+
+&lt;p&gt;RunLoop只能运行在一种mode下，如果要换mode，当前的loop也需要停下重启成新的。利用这个机制，ScrollView滚动过程中NSDefaultRunLoopMode（kCFRunLoopDefaultMode）的mode会切换到UITrackingRunLoopMode来保证ScrollView的流畅滑动：只能在NSDefaultRunLoopMode模式下处理的事件会影响scrllView的滑动。&lt;/p&gt;
+
+&lt;p&gt;如果我们把一个NSTimer对象以NSDefaultRunLoopMode（kCFRunLoopDefaultMode）添加到主运行循环中的时候, ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。&lt;/p&gt;
+
+&lt;p&gt;同时因为mode还是可定制的，所以：&lt;/p&gt;
+
+&lt;p&gt;Timer计时会被scrollView的滑动影响的问题可以通过将timer添加到NSRunLoopCommonModes（kCFRunLoopCommonModes）来解决。代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//将timer添加到NSDefaultRunLoopMode中
+[NSTimer scheduledTimerWithTimeInterval:1.0
+                                 target:self
+                               selector:@selector(timerTick:)
+                               userInfo:nil
+                                repeats:YES];
+//然后再添加到NSRunLoopCommonModes里
+NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
+                                         target:self
+                                       selector:@selector(timerTick:)
+                                       userInfo:nil
+                                        repeats:YES];
+[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;runloop内部实现:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop内部实现&lt;/h4&gt;
+
+&lt;p&gt;一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但不退出，通常的代码逻辑：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function loop() {
+    initialize();
+    do {
+        var message = get_next_message();
+        process_message(message);
+    } while (message != quit);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;objc-管理对象内存:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;objc 管理对象内存&lt;/h4&gt;
+
+&lt;p&gt;通过retainCount 的机制来决定对象是否需要释放。每次runloop的时候，都会检查对象的retainCount，如果retainCount为0，说明该对象没有地方需要继续使用了，可以释放掉了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>类中增加实例变量</title>
+      <link>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Mon, 23 Jun 2014 18:34:54 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</guid>
+      <description>
+
+&lt;h4 id=&#34;能否向编译后得到的类中增加实例变量-能否向运行时创建的类中增加实例变量:e95b6352016c71c7e0e43fef78963e01&#34;&gt;能否向编译后得到的类中增加实例变量？能否向运行时创建的类中增加实例变量？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;不能向编译后得到的类中增加实例变量&lt;/li&gt;
+&lt;li&gt;能向运行时创建的类中添加实例变量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因为：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;编译后的类已经注册在 &lt;code&gt;runtime&lt;/code&gt; 中，类结构体中的 &lt;code&gt;objc_ivar_list&lt;/code&gt; 实例变量的链表和 &lt;code&gt;instance_size&lt;/code&gt; 实例变量的内存大小已经确定，同时 &lt;code&gt;runtime&lt;/code&gt; 会调用 &lt;code&gt;class_setWeakIvarLayout&lt;/code&gt; 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；&lt;/li&gt;
+&lt;li&gt;运行时创建的类是可以添加实例变量，调用 &lt;code&gt;class_addIvar&lt;/code&gt; 函数。但是得在调用 &lt;code&gt;objc_allocateClassPair&lt;/code&gt; 之后，&lt;code&gt;objc_registerClassPair&lt;/code&gt; 之前，原因同上。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>什么时候会报unrecognized selector的异常？</title>
@@ -16,11 +587,7 @@
       <pubDate>Sun, 22 Jun 2014 19:59:51 +0800</pubDate>
       
       <guid>http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/</guid>
-      <description>
-
-&lt;h4 id=&#34;什么时候会报unrecognized-selector的异常:a9a5119ec17d3de37ee242f6e6968568&#34;&gt;什么时候会报unrecognized selector的异常？&lt;/h4&gt;
-
-&lt;p&gt;简单来说：&lt;/p&gt;
+      <description>&lt;p&gt;简单来说：&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;当调用该对象上某个方法,而该对象上没有实现这个方法的时候， 可以通过“消息转发”进行解决。&lt;/p&gt;

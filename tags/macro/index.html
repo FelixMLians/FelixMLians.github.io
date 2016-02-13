@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Hugo</title>
+  <title>Macro</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -61,35 +61,28 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/">Hugo 静态网站快速生成</a></h4>
+      <h4><a href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/">关于宏</a></h4>
       <p>
       
         
-          <a href="http://felixmlians.github.io//categories/tool/">tool</a>
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
         
        
       </p>
-      <p><h4 id="安装:e5615f5477fd56f0fd7aa99a370a246f">安装</h4>
+      <p><p>C中的宏分为两类，对象宏(object-like macro)和函数宏(function-like macro)。对于对象宏来说确实相对简单，但却也不是那么简单的查找替换。对象宏一般用来定义一些常数，举个例子：</p>
 
-<p>如果说速度快是Hugo的第一大优点，那么安装简单应该就是Hugo的第二大优点。对于Mac用户，没有brew的话先安装brew，在命令行里敲：</p>
-
-<pre><code>$ ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+<pre><code>#define M_PI    3.14159265358979323846264338327950288
 </code></pre>
 
-<p>然后再敲一行安装Hugo:</p>
-
-<pre><code>$ brew new Hugo
-</code></pre>
-
-<p>你也可以直接下载对应系统的binary文件，解压就行了:<a href="https://github.com/spf13/hugo/releases">下载地址</a></p>
+<p><code>#define</code>关键字表明即将开始定义一个宏，紧接着的<code>M_PI</code>是宏的名字，空格之后的数字是内容。类似这样的<code>#define X A</code>的宏是比较简单的，在编译时编译器会在语义分析认定是宏后，将X替换为A，这个过程称为宏的展开。比如对于上面的<code>M_PI</code>直接使用。</p>
 </p>
       <p>
-      21 Jun 2014
+      9 Aug 2014
       
         
-          <a href="http://felixmlians.github.io//tags/tool/">#tool</a>
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
-          <a href="http://felixmlians.github.io//tags/hugo/">#Hugo</a>
+          <a href="http://felixmlians.github.io//tags/macro/">#macro</a>
         
        
       </p>
