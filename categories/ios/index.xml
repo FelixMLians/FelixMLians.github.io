@@ -7,8 +7,256 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 13 Sep 2014 12:49:42 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 17 Nov 2014 14:01:09 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/categories/ios/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>iOS 多线程锁</title>
+      <link>http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <pubDate>Mon, 17 Nov 2014 14:01:09 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <description>
+
+&lt;h4 id=&#34;dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;dispatch_semaphore&lt;/h4&gt;
+
+&lt;p&gt;信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。&lt;/p&gt;
+
+&lt;p&gt;在GCD中有三个函数是semaphore的操作，分别是：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;dispatch_semaphore_create　　　创建一个semaphore&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_signal　　　发送一个信号&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_wait　　　　等待信号&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，&lt;code&gt;dispatch_semaphore_signal&lt;/code&gt;是发送一个信号，自然会让信号总量加1，&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_group_t group = dispatch_group_create();   
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(10);   
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);   
+    for (int i = 0; i &amp;lt; 100; i++)   
+    {   
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);   
+        dispatch_group_async(group, queue, ^{   
+            NSLog(@&amp;quot;%i&amp;quot;,i);   
+            sleep(2);   
+            dispatch_semaphore_signal(semaphore);   
+        });   
+    }   
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);   
+    dispatch_release(group);   
+    dispatch_release(semaphore);   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码创建了一个初使值为10的semaphore，每一次for循环都会创建一个新的线程，线程结束的时候会发送一个信号，线程创建之前会信号等待，所以当同时创建了10个线程之后，for循环就会阻塞，等待有线程结束之后会增加一个信号才继续执行，如此就形成了对并发的控制，如上就是一个并发数为10的一个线程队列。&lt;/p&gt;
+
+&lt;h4 id=&#34;pthread-mutex-t:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;pthread_mutex_t&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_NORMAL，则不提供死锁检测。尝试重新锁定互斥锁会导致死锁。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或未锁定，则将产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_ERRORCHECK，则会提供错误检查。如果某个线程尝试重新锁定的互斥锁已经由该线程锁定，则将返回错误。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或者未锁定，则将返回错误。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_RECURSIVE，则该互斥锁会保留锁定计数这一概念。线程首次成功获取互斥锁时，锁定计数会设置为 1。线程每重新锁定该互斥锁一次，锁定计数就增加 1。线程每解除锁定该互斥锁一次，锁定计数就减小 1。 锁定计数达到 0 时，该互斥锁即可供其他线程获取。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或者未锁定，则将返回错误。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果互斥锁类型是 PTHREAD_MUTEX_DEFAULT，则尝试以递归方式锁定该互斥锁将产生不确定的行为。对于不是由调用线程锁定的互斥锁，如果尝试解除对它的锁定，则会产生不确定的行为。如果尝试解除锁定尚未锁定的互斥锁，则会产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+TestObj *obj = [[TestObj alloc] init];
+
+__block pthread_mutex_t mutex;
+pthread_mutex_init(&amp;amp;mutex, NULL);
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    pthread_mutex_lock(&amp;amp;mutex);
+    [obj method1];
+    sleep(5);
+    pthread_mutex_unlock(&amp;amp;mutex);
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);
+    pthread_mutex_lock(&amp;amp;mutex);
+    [obj method2];
+    pthread_mutex_unlock(&amp;amp;mutex);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;synchronized:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;@synchronized&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+TestObj *obj = [[TestObj alloc] init];
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    @synchronized(obj){
+        [obj method1];
+        sleep(10);
+    }
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);
+    @synchronized(obj){
+        [obj method2];
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;nslock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSLock&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+TestObj *obj = [[TestObj alloc] init];
+NSLock *lock = [[NSLock alloc] init];
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [lock lock];
+    [obj method1];
+    sleep(10);
+    [lock unlock];
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);//以保证让线程2的代码后执行
+    [lock lock];
+    [obj method2];
+    [lock unlock];
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;NSLock是Cocoa提供给我们最基本的锁对象，这也是我们经常所使用的，除lock和unlock方法外，NSLock还提供了tryLock和lockBeforeDate:两个方法，前一个方法会尝试加锁，如果锁不可用(已经被锁住)，刚并不会阻塞线程，并返回NO。lockBeforeDate:方法会在所指定Date之前尝试加锁，如果在指定时间之前都不能加锁，则返回NO。&lt;/p&gt;
+
+&lt;h4 id=&#34;nsrecursivelock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSRecursiveLock&lt;/h4&gt;
+
+&lt;p&gt;NSRecursiveLock实际上定义的是一个递归锁，这个锁可以被同一线程多次请求，而不会引起死锁。这主要是用在循环或递归操作中。我们先来看一个示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSRecursiveLock *lock = [[NSRecursiveLock alloc] init];
+ 
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ 
+    static void (^RecursiveMethod)(int);
+ 
+    RecursiveMethod = ^(int value) {
+ 
+        [lock lock];
+        if (value &amp;gt; 0) {
+ 
+            NSLog(@&amp;quot;value = %d&amp;quot;, value);
+            sleep(2);
+            RecursiveMethod(value - 1);
+        }
+        [lock unlock];
+    };
+ 
+    RecursiveMethod(5);
+});
+ 
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ 
+    sleep(2);
+    BOOL flag = [lock lockBeforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    if (flag) {
+        NSLog(@&amp;quot;lock before date&amp;quot;);
+ 
+        [lock unlock];
+    } else {
+        NSLog(@&amp;quot;fail to lock before date&amp;quot;);
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;NSRecursiveLock除了实现NSLocking协议的方法外，还提供了两个方法，分别如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 在给定的时间之前去尝试请求一个锁
+- (BOOL)lockBeforeDate:(NSDate *)limit
+ 
+// 尝试去请求一个锁，并会立即返回一个布尔值，表示尝试是否成功
+- (BOOL)tryLock
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外，NSRecursiveLock还声明了一个name属性，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property(copy) NSString *name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以使用这个字符串来标识一个锁。Cocoa也会使用这个name作为错误描述信息的一部分。&lt;/p&gt;
+
+&lt;h4 id=&#34;nscondition:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSCondition&lt;/h4&gt;
+
+&lt;p&gt;使用NSCondition，实现多线程的同步，即，可实现生产者消费者问题。&lt;/p&gt;
+
+&lt;p&gt;基本思路是，首先要创建公用的NSCondition实例。然后：&lt;/p&gt;
+
+&lt;p&gt;消费者取得锁，取产品，如果没有，则wait，这时会释放锁，直到有线程唤醒它去消费产品；&lt;/p&gt;
+
+&lt;p&gt;生产者制造产品，首先也是要取得锁，然后生产，再发signal，这样可唤醒wait的消费者。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (IBAction)conditionTest:(id)sender
+{
+    NSLog(@&amp;quot;begin condition works!&amp;quot;);
+    products = [[NSMutableArray alloc] init];
+    condition = [[NSCondition alloc] init];
+     
+    [NSThread detachNewThreadSelector:@selector(createProducter) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(createConsumenr) toTarget:self withObject:nil];
+}
+ 
+- (void)createConsumenr
+{
+    [condition lock];
+    while ([products count] == 0) {
+        NSLog(@&amp;quot;wait for products&amp;quot;);
+        [condition wait];
+    }
+    [products removeObjectAtIndex:0];
+    NSLog(@&amp;quot;comsume a product&amp;quot;);
+    [condition unlock];
+}
+ 
+- (void)createProducter
+{
+    [condition lock];
+    [products addObject:[[NSObject alloc] init]];
+    NSLog(@&amp;quot;produce a product&amp;quot;);
+    [condition signal];
+    [condition unlock];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;nsconditionlock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSConditionLock&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+NSConditionLock *theLock = [[NSConditionLock alloc] init];
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    for (int i=0;i&amp;lt;=2;i++)
+    {
+        [theLock lock];
+        NSLog(@&amp;quot;thread1:%d&amp;quot;,i);
+        sleep(2);
+        [theLock unlockWithCondition:i];
+    }
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [theLock lockWhenCondition:2];
+    NSLog(@&amp;quot;thread2&amp;quot;);
+    [theLock unlock];
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;nsdistributedlock-分布式锁:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSDistributedLock 分布式锁&lt;/h4&gt;
+</description>
+    </item>
     
     <item>
       <title>iOS HTTP Multipart Forms POST(头像图片上传)</title>
@@ -214,206 +462,6 @@ printf(&amp;quot;%d&amp;quot;,PLUS(3,2));
 DISPATCH_ONCE_BLOCK(^{
 //code
 })
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>关于FMDB/SQLite</title>
-      <link>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</link>
-      <pubDate>Fri, 18 Jul 2014 21:35:38 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</guid>
-      <description>
-
-&lt;p&gt;到&lt;a href=&#34;https://github.com/ccgus/fmdb&#34;&gt;https://github.com/ccgus/fmdb&lt;/a&gt; 下载源文件，然后直接将fmdb文件夹拖入到你的工程就OK。
-当然你需要添加依赖库：libsqlite3.dylib&lt;/p&gt;
-
-&lt;p&gt;拖入源文件，并且添加依赖库以后你就可以使用FMDB了，引用头文件
-&lt;code&gt;#import &amp;quot;FMDB.h&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;usage:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;USAGE&lt;/h2&gt;
-
-&lt;p&gt;在FMDB中主要有三个类：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;FMDatabase - 简单的说这个类就是代表了数据库&lt;/li&gt;
-&lt;li&gt;FMResultSet - 这个类表示查询操作的结果&lt;/li&gt;
-&lt;li&gt;FMDatabaseQueue - 多线程操作的时候你会用到这个类，并且这是线程安全的。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;创建数据库:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;创建数据库&lt;/h3&gt;
-
-&lt;p&gt;你需要使用一个path来创建一个本地FMDatabase数据库，这个path有三种类型：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;你可以使用一个本地的地址来创建这个数据库，这个地址不一定真实存在，如果不存在，那么FMDB会创建这个数据库并返回，存在则直接返回这个数据库。&lt;/li&gt;
-&lt;li&gt;一个空字符串@&amp;ldquo;&amp;rdquo;.FMDB会在本地创建一个临时的数据库，当数据库关闭的时候会删除这个数据库。&lt;/li&gt;
-&lt;li&gt;NULL.如果你将这个path填的是NULL，那么这个数据被创建在内存中，数据库关闭的时候被销毁。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;(更多信息关于临时数据库和在内存中的数据库，你可以阅读这篇文档 &lt;a href=&#34;http://www.sqlite.org/inmemorydb.html&#34;&gt;http://www.sqlite.org/inmemorydb.html&lt;/a&gt; )&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FMDatabase *db = [FMDatabase databaseWithPath:@&amp;quot;/tmp/tmp.db&amp;quot;];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;打开数据库:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;打开数据库&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;if (![db open]) {
-    return;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;executing-updates:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Executing Updates&lt;/h3&gt;
-
-&lt;p&gt;所有不是select操作的操作都算update. 包括 CREATE, UPDATE, INSERT, ALTER, COMMIT, BEGIN, DETACH, DELETE, DROP, END, EXPLAIN, VACUUM, and REPLACE ····换句话说也就是如果你的操作不是以SELECT开头的都是update操作.&lt;/p&gt;
-
-&lt;p&gt;update操作返回一个布尔值，YES表示操作成功，NO表示你可以遇到了一些错误.FMDatabase有两个方法 -lastErrorMessage 和 -lastErrorCode，你可以使用这两个方法来查看错误。&lt;/p&gt;
-
-&lt;h3 id=&#34;executing-queries:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Executing Queries&lt;/h3&gt;
-
-&lt;p&gt;SELECT 查询使用 -executeQuery&amp;hellip; 方法.&lt;/p&gt;
-
-&lt;p&gt;查询成功返回 FMResultSet,失败则是返回nil.
-同样你可以使用FMDatabase的两个方法 -lastErrorMessage and -lastErrorCode 来查找原因。&lt;/p&gt;
-
-&lt;p&gt;你需要用一个循环来获取到查询到的每一个值。like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FMResultSet *s = [db executeQuery:@&amp;quot;SELECT * FROM myTable&amp;quot;];
-while ([s next]) {
-    //retrieve values for each record
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;FMResultSet 有许多类型用来返回不同类型的查询结果的值&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;intForColumn:
-longForColumn:
-longLongIntForColumn:
-boolForColumn:
-doubleForColumn:
-stringForColumn:
-dateForColumn:
-dataForColumn:
-dataNoCopyForColumn:
-UTF8StringForColumnName:
-objectForColumnName:
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;以上的每个方法都有对应的 {type}ForColumnIndex: 上面那一溜方法是用例的名字来获取数据，而这个方法则是用数据在查询结果中对应的位置来获取数据.&lt;/p&gt;
-
-&lt;h3 id=&#34;closing:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Closing&lt;/h3&gt;
-
-&lt;p&gt;用完了FMDB记得关闭&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[db close];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;批处理:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;批处理&lt;/h3&gt;
-
-&lt;p&gt;FMDatabase的方法 executeStatements:withResultBlock:可以使用字符串来同时处理多条指令。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSString *sql = @&amp;quot;create table test1 (id integer primary key autoincrement, x text);&amp;quot;
-                 &amp;quot;create table test2 (id integer primary key autoincrement, y text);&amp;quot;
-                 &amp;quot;create table test3 (id integer primary key autoincrement, z text);&amp;quot;
-                 &amp;quot;insert into test1 (x) values (&#39;XXX&#39;);&amp;quot;
-                 &amp;quot;insert into test2 (y) values (&#39;YYY&#39;);&amp;quot;
-                 &amp;quot;insert into test3 (z) values (&#39;ZZZ&#39;);&amp;quot;;
-
-success = [db executeStatements:sql];
-
-sql = @&amp;quot;select count(*) as count from test1;&amp;quot;
-       &amp;quot;select count(*) as count from test2;&amp;quot;
-       &amp;quot;select count(*) as count from test3;&amp;quot;;
-
-success = [self.db executeStatements:sql withResultBlock:^int(NSDictionary *dictionary) {
-    NSInteger count = [dictionary[@&amp;quot;count&amp;quot;] integerValue];
-    XCTAssertEqual(count, 1, @&amp;quot;expected one record for dictionary %@&amp;quot;, dictionary);
-    return 0;
-}];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;数据处理:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;数据处理&lt;/h3&gt;
-
-&lt;p&gt;你必须使用标准的SQLite的标准语法，像下面那样（而不是SQL中那样）：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;INSERT INTO myTable VALUES (?, ?, ?, ?)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;‘？’这个符号表示插入数据的替代符，操作方法会接收参数来替代这个符号 (或者是代表这些参数的，比如说：NSArray, NSDictionary, va_list).&lt;/p&gt;
-
-&lt;p&gt;OC中你可以像下面这样使用：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSInteger identifier = 42;
-NSString *name = @&amp;quot;Liam O&#39;Flaherty (\&amp;quot;the famous Irish author\&amp;quot;)&amp;quot;;
-NSDate *date = [NSDate date];
-NSString *comment = nil;
-
-BOOL success = [db executeUpdate:@&amp;quot;INSERT INTO authors (identifier, name, date, comment) VALUES (?, ?, ?, ?)&amp;quot;, @(identifier), name, date, comment ?: [NSNull null]];
-if (!success) {
-NSLog(@&amp;quot;error = %@&amp;quot;, [db lastErrorMessage]);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Note:这里需要注意的是，如果是基本数据类型比如说&lt;code&gt;NSInteger&lt;/code&gt;，你需要转化为&lt;code&gt;NSNumber&lt;/code&gt;。
-如果是插入nil，那么你不能直接插入nil，而是需要插入&lt;code&gt;[NSNull null]&lt;/code&gt;，像上面那个例子中写的是：&lt;code&gt;comment ?: [NSNull null]&lt;/code&gt;，那么如果commit是nil的话则会插入nil，反之则会插入commit.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;下面这种书写方法和上面表达的是同一个意思。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;像上面这种写法参数是以冒号开头的，SQLite支持其他字符，但是在字典中key都是以冒号为前缀的，所以你的字典key中不要包含冒号&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSDictionary *arguments = @{@&amp;quot;identifier&amp;quot;: @(identifier), @&amp;quot;name&amp;quot;: name, @&amp;quot;date&amp;quot;: date, @&amp;quot;comment&amp;quot;: comment ?: [NSNull null]};
-BOOL success = [db executeUpdate:@&amp;quot;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)&amp;quot; withParameterDictionary:arguments];
-if (!success) {
-NSLog(@&amp;quot;error = %@&amp;quot;, [db lastErrorMessage]);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;最关键的一点就是：千万不要用NSString的方法比如说 stringWithFormat来手动插入参数，必须要使用Values(?，?)这样的方法，把？当作替代符。&lt;/p&gt;
-
-&lt;h3 id=&#34;fmdatabasequeue-是线程安全的:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;FMDatabaseQueue 是线程安全的&lt;/h3&gt;
-
-&lt;p&gt;不要在多个线程之间使用同一个 FMDatabase对象，最好是每一个线程都有一个独立的 FMDatabase对象，如果你在多线程之间使用同一个对象，那么会有不好的事情发生。
-如果你需要在多线程中使用 FMDatabase,那么请使用 FMDatabaseQueue，下面是他的使用方法:&lt;/p&gt;
-
-&lt;p&gt;首先创建你的线程&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:aPath];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后，像这样使用：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[queue inDatabase:^(FMDatabase *db) {
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @1];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @2];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @3];
-
-FMResultSet *rs = [db executeQuery:@&amp;quot;select * from foo&amp;quot;];
-while ([rs next]) {
-    …
-}
-}];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;An easy way to wrap things up in a transaction can be done like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @1];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @2];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @3];
-
-if (whoopsSomethingWrongHappened) {
-    *rollback = YES;
-    return;
-}
-// etc…
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @4];
-}];
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

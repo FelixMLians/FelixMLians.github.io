@@ -61,6 +61,44 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34">dispatch_semaphore</h4>
+
+<p>信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。</p>
+
+<p>在GCD中有三个函数是semaphore的操作，分别是：</p>
+
+<ul>
+<li>dispatch_semaphore_create　　　创建一个semaphore</li>
+<li>dispatch_semaphore_signal　　　发送一个信号</li>
+<li>dispatch_semaphore_wait　　　　等待信号</li>
+</ul>
+
+<p>　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，<code>dispatch_semaphore_signal</code>是发送一个信号，自然会让信号总量加1，<code>dispatch_semaphore_wait</code>等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。</p>
+</p>
+      <p>
+      17 Nov 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/lock/">#Lock</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">iOS HTTP Multipart Forms POST(头像图片上传)</a></h4>
       <p>
       
@@ -132,13 +170,16 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/">关于FMDB/SQLite</a></h4>
       <p>
       
         
-          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+          <a href="http://felixmlians.github.io//categories/database/">Database</a>
         
        
       </p>
@@ -156,14 +197,13 @@ Hello Boris!
         
           <a href="http://felixmlians.github.io//tags/fmdb/">#FMDB</a>
         
+          <a href="http://felixmlians.github.io//tags/database/">#Database</a>
+        
        
       </p>
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -229,6 +269,9 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/">runloop 简介</a></h4>
@@ -256,9 +299,6 @@ Hello Boris!
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">

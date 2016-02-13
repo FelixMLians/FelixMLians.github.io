@@ -61,6 +61,44 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34">dispatch_semaphore</h4>
+
+<p>信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。</p>
+
+<p>在GCD中有三个函数是semaphore的操作，分别是：</p>
+
+<ul>
+<li>dispatch_semaphore_create　　　创建一个semaphore</li>
+<li>dispatch_semaphore_signal　　　发送一个信号</li>
+<li>dispatch_semaphore_wait　　　　等待信号</li>
+</ul>
+
+<p>　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，<code>dispatch_semaphore_signal</code>是发送一个信号，自然会让信号总量加1，<code>dispatch_semaphore_wait</code>等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。</p>
+</p>
+      <p>
+      17 Nov 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/lock/">#Lock</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/">SQLite（简介）</a></h4>
       <p>
       
@@ -130,6 +168,9 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/">关于宏</a></h4>
@@ -161,16 +202,13 @@ Hello Boris!
   </div>
 
   
-</div>
-<div class="row">
-  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/">关于FMDB/SQLite</a></h4>
       <p>
       
         
-          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+          <a href="http://felixmlians.github.io//categories/database/">Database</a>
         
        
       </p>
@@ -187,6 +225,8 @@ Hello Boris!
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
           <a href="http://felixmlians.github.io//tags/fmdb/">#FMDB</a>
+        
+          <a href="http://felixmlians.github.io//tags/database/">#Database</a>
         
        
       </p>
@@ -225,6 +265,9 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
@@ -257,9 +300,6 @@ Hello Boris!
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -313,38 +353,6 @@ Hello Boris!
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
           <a href="http://felixmlians.github.io//tags/runtime/">#runtime</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/">什么时候会报unrecognized selector的异常？</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
-        
-       
-      </p>
-      <p><p>简单来说：</p>
-
-<blockquote>
-<p>当调用该对象上某个方法,而该对象上没有实现这个方法的时候， 可以通过“消息转发”进行解决。</p>
-
-<p><code>objc</code>是动态语言，每个方法在运行时会被动态转为消息发送，即：<code>objc_msgSend(receiver, selector)</code>。</p>
-</blockquote>
-</p>
-      <p>
-      22 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
-        
-          <a href="http://felixmlians.github.io//tags/error/">#error</a>
         
        
       </p>

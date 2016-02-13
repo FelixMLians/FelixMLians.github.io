@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Categories</title>
+  <title>Lock</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -53,24 +52,70 @@
   </div>
 
 
-
 <div class="container">
   <div class="section">
 
-    <div class="collection">
+
+<div class="row">
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
+      <p>
       
-        <a href="http://felixmlians.github.io//categories/database" class="collection-item"><i class="mdi-action-perm-media left"></i>database<div class="secondary-content">2</div></a>
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34">dispatch_semaphore</h4>
+
+<p>信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。</p>
+
+<p>在GCD中有三个函数是semaphore的操作，分别是：</p>
+
+<ul>
+<li>dispatch_semaphore_create　　　创建一个semaphore</li>
+<li>dispatch_semaphore_signal　　　发送一个信号</li>
+<li>dispatch_semaphore_wait　　　　等待信号</li>
+</ul>
+
+<p>　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，<code>dispatch_semaphore_signal</code>是发送一个信号，自然会让信号总量加1，<code>dispatch_semaphore_wait</code>等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。</p>
+</p>
+      <p>
+      17 Nov 2014
       
-        <a href="http://felixmlians.github.io//categories/ios" class="collection-item"><i class="mdi-action-perm-media left"></i>ios<div class="secondary-content">8</div></a>
-      
-        <a href="http://felixmlians.github.io//categories/other" class="collection-item"><i class="mdi-action-perm-media left"></i>other<div class="secondary-content">2</div></a>
-      
-        <a href="http://felixmlians.github.io//categories/tool" class="collection-item"><i class="mdi-action-perm-media left"></i>tool<div class="secondary-content">2</div></a>
-      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/lock/">#Lock</a>
+        
+       
+      </p>
     </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col s3 m1">
+  
+    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+  
+  </div>
+  <div class="col s6 m10 center">&nbsp</div>
+  <div class="col s3 m1">
+  
+    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-forward"></i></a>
+  
+  </div>
+</div>
+
 
   </div>
 </div>
+
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">
