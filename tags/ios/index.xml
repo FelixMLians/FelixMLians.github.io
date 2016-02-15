@@ -7,8 +7,80 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 22 Dec 2014 11:22:30 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2015 12:15:44 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/tags/ios/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>iOS 证书以及迁移到新电脑</title>
+      <link>http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</link>
+      <pubDate>Sun, 01 Mar 2015 12:15:44 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</guid>
+      <description>
+
+&lt;blockquote&gt;
+&lt;p&gt;WARNING：Distribution Certification只有配置证书的电脑才可使用，因此即使导出导出Keychain安装到其他电脑上，其他电脑也不可能具有证书的权限。&lt;strong&gt;（新电脑要发布版本需要重新生成证书）&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&#34;1-certification-证书:f838faa4b7dbcdab7b27ff1aa0caa800&#34;&gt;1. Certification(证书)&lt;/h4&gt;
+
+&lt;p&gt;证书是对电脑开发资格的认证，每个开发者帐号有一套，分为两种：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developer Certification(开发证书)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;安装在电脑上提供权限：开发人员通过设备进行真机测试。
+可以生成副本供多台电脑安装；&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Distribution Certification(发布证书)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;安装在电脑上提供发布iOS程序的权限：开发人员可以制做测试版和发布版的程序。&lt;/p&gt;
+
+&lt;p&gt;不可生成副本，仅有配置该证书的电脑才可使用；（副本制做介绍在下面Keychain中介绍）&lt;/p&gt;
+
+&lt;h4 id=&#34;2-provisioning-profile-授权文件:f838faa4b7dbcdab7b27ff1aa0caa800&#34;&gt;2. Provisioning Profile(授权文件)&lt;/h4&gt;
+
+&lt;p&gt;授权文件是对设备如iPod Touch、iPad、iPhone的授权，文件内记录的是设备的UDID和程序的App Id，即：使被授权的设备可以安装或调试Bundle identifier与授权文件中记录的App Id对应的程序。&lt;/p&gt;
+
+&lt;p&gt;开发者帐号在创建授权文件时候会选择App Id，（开发者帐号下App Id中添加，单选）和UDID（开发者帐号下Devices中添加最多100个，多选）。&lt;/p&gt;
+
+&lt;p&gt;授权文件分为两种，对应相应的证书使用：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developer Provisioning Profile(开发授权文件)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在装有开发证书或副本的电脑上使用，开发人员选择该授权文件通过电脑将程序安装到授权文件记录的设备中，即可进行真机测试。&lt;/p&gt;
+
+&lt;p&gt;注意：确保电脑有权限真机调试，即安装了开发证书或副本；在开发工具中程序的Bundle identifier和选中使用的授权文件的App Id要一致；连接调试的设备的UDID在选中的授权文件中有记录。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Distribution Provisioning Profile(发布授权文件)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在装有发布证书的电脑上（即配置证书的电脑，只有一台）制做测试版和发布版的程序。&lt;/p&gt;
+
+&lt;p&gt;发布版就是发布到App Store上的程序文件，开发者帐号创建授权文件时选择store选项，选择App Id，无需选择UDID；&lt;/p&gt;
+
+&lt;p&gt;测试版就是在发布之前交给测试人员可同步到设备上的程序文件，开发者帐号创建授权文件时选择AdHoc，选择App Id和UDID；只有选中的UDID对应的设备才可能安装上通过该授权文件制做的程序。&lt;/p&gt;
+
+&lt;h4 id=&#34;3-keychain-开发密钥:f838faa4b7dbcdab7b27ff1aa0caa800&#34;&gt;3. Keychain(开发密钥)&lt;/h4&gt;
+
+&lt;p&gt;安 装证书成功的情况下证书下都会生成Keychain，上面提到的证书副本（导出证书重新命名）就是通过配置证书的电脑导出Keychain（就是.p12 文件）安装到其他机子上，让其他机子得到证书对应的权限。Developer Certification就可以制做副本Keychain分发到其他电脑上安装，使其可以进行真机测试。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;导出私钥和数字证书是为安全保存和能够在多台电脑上进行工作。打开Keychain Access应用选择’KEY’分类。&lt;/li&gt;
+&lt;li&gt;右键点击和你iphone开发证书关联的私钥，并在弹出菜单中选择导出选项。&lt;/li&gt;
+&lt;li&gt;使用(.p12)保存包含了你个人信息的钥匙。&lt;/li&gt;
+&lt;li&gt;你将会被提示创建一个密码。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;现在可以通过.p12文件在不同系统之间传输。双击.p12在其他系统上进行安装。输入你在step4输入的密码。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>iOS 截屏拼图</title>

@@ -7,8 +7,80 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 01 Jan 2015 00:00:36 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2015 12:15:44 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>iOS 证书以及迁移到新电脑</title>
+      <link>http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</link>
+      <pubDate>Sun, 01 Mar 2015 12:15:44 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</guid>
+      <description>
+
+&lt;blockquote&gt;
+&lt;p&gt;WARNING：Distribution Certification只有配置证书的电脑才可使用，因此即使导出导出Keychain安装到其他电脑上，其他电脑也不可能具有证书的权限。&lt;strong&gt;（新电脑要发布版本需要重新生成证书）&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&#34;1-certification-证书:f838faa4b7dbcdab7b27ff1aa0caa800&#34;&gt;1. Certification(证书)&lt;/h4&gt;
+
+&lt;p&gt;证书是对电脑开发资格的认证，每个开发者帐号有一套，分为两种：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developer Certification(开发证书)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;安装在电脑上提供权限：开发人员通过设备进行真机测试。
+可以生成副本供多台电脑安装；&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Distribution Certification(发布证书)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;安装在电脑上提供发布iOS程序的权限：开发人员可以制做测试版和发布版的程序。&lt;/p&gt;
+
+&lt;p&gt;不可生成副本，仅有配置该证书的电脑才可使用；（副本制做介绍在下面Keychain中介绍）&lt;/p&gt;
+
+&lt;h4 id=&#34;2-provisioning-profile-授权文件:f838faa4b7dbcdab7b27ff1aa0caa800&#34;&gt;2. Provisioning Profile(授权文件)&lt;/h4&gt;
+
+&lt;p&gt;授权文件是对设备如iPod Touch、iPad、iPhone的授权，文件内记录的是设备的UDID和程序的App Id，即：使被授权的设备可以安装或调试Bundle identifier与授权文件中记录的App Id对应的程序。&lt;/p&gt;
+
+&lt;p&gt;开发者帐号在创建授权文件时候会选择App Id，（开发者帐号下App Id中添加，单选）和UDID（开发者帐号下Devices中添加最多100个，多选）。&lt;/p&gt;
+
+&lt;p&gt;授权文件分为两种，对应相应的证书使用：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developer Provisioning Profile(开发授权文件)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在装有开发证书或副本的电脑上使用，开发人员选择该授权文件通过电脑将程序安装到授权文件记录的设备中，即可进行真机测试。&lt;/p&gt;
+
+&lt;p&gt;注意：确保电脑有权限真机调试，即安装了开发证书或副本；在开发工具中程序的Bundle identifier和选中使用的授权文件的App Id要一致；连接调试的设备的UDID在选中的授权文件中有记录。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Distribution Provisioning Profile(发布授权文件)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在装有发布证书的电脑上（即配置证书的电脑，只有一台）制做测试版和发布版的程序。&lt;/p&gt;
+
+&lt;p&gt;发布版就是发布到App Store上的程序文件，开发者帐号创建授权文件时选择store选项，选择App Id，无需选择UDID；&lt;/p&gt;
+
+&lt;p&gt;测试版就是在发布之前交给测试人员可同步到设备上的程序文件，开发者帐号创建授权文件时选择AdHoc，选择App Id和UDID；只有选中的UDID对应的设备才可能安装上通过该授权文件制做的程序。&lt;/p&gt;
+
+&lt;h4 id=&#34;3-keychain-开发密钥:f838faa4b7dbcdab7b27ff1aa0caa800&#34;&gt;3. Keychain(开发密钥)&lt;/h4&gt;
+
+&lt;p&gt;安 装证书成功的情况下证书下都会生成Keychain，上面提到的证书副本（导出证书重新命名）就是通过配置证书的电脑导出Keychain（就是.p12 文件）安装到其他机子上，让其他机子得到证书对应的权限。Developer Certification就可以制做副本Keychain分发到其他电脑上安装，使其可以进行真机测试。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;导出私钥和数字证书是为安全保存和能够在多台电脑上进行工作。打开Keychain Access应用选择’KEY’分类。&lt;/li&gt;
+&lt;li&gt;右键点击和你iphone开发证书关联的私钥，并在弹出菜单中选择导出选项。&lt;/li&gt;
+&lt;li&gt;使用(.p12)保存包含了你个人信息的钥匙。&lt;/li&gt;
+&lt;li&gt;你将会被提示创建一个密码。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;现在可以通过.p12文件在不同系统之间传输。双击.p12在其他系统上进行安装。输入你在step4输入的密码。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>When you are old</title>
@@ -1447,255 +1519,6 @@ contents here
 &lt;p&gt;注释也统计在代码量之内，毕竟也一个字一个字码出来的;&lt;/p&gt;
 
 &lt;p&gt;lipo -info xxxx.a    查看支持哪些构架&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Markdown--语法（1）</title>
-      <link>http://felixmlians.github.io/2014/06/19/markdown--%E8%AF%AD%E6%B3%951/</link>
-      <pubDate>Thu, 19 Jun 2014 19:23:58 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/06/19/markdown--%E8%AF%AD%E6%B3%951/</guid>
-      <description>
-
-&lt;h4 id=&#34;markdown-介绍:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;Markdown 介绍&lt;/h4&gt;
-
-&lt;p&gt;Markdown 的目标是实现「易读易写」。可读性，无论如何，都是最重要的。&lt;/p&gt;
-
-&lt;p&gt;一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。&lt;/p&gt;
-
-&lt;p&gt;Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
-
-&lt;p&gt;总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
-
-&lt;h4 id=&#34;markdown-官方文档:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;Markdown 官方文档&lt;/h4&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&#34;http://daringfireball.net/projects/markdown/syntax&#34;&gt;创始人John Gruber的 Markdown 语法说明&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://wowubuntu.com/markdown/#list&#34;&gt;Markdown 中文版语法说明&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&#34;工具:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;工具&lt;/h4&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Mou for Mac (free)&lt;/li&gt;
-&lt;li&gt;Ulysses for Mac (professional)&lt;/li&gt;
-&lt;li&gt;iA writer&lt;/li&gt;
-&lt;li&gt;Tumblr for Mac&lt;/li&gt;
-&lt;li&gt;简书&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&#34;markdown-语法:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;Markdown 语法&lt;/h4&gt;
-
-&lt;h5 id=&#34;标题:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;标题&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;标题是每篇文章都需要也是最常用的格式，在 Markdown 中，如果一段文字被定义为标题，只要在这段文字前加 # 号即可。以此类推，总共六级标题，建议在 # 后面加一个空格，这是最标准的 Markdown 语法。&lt;/p&gt;
-
-&lt;h5 id=&#34;粗体与斜体:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;粗体与斜体&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;Markdown 的粗体和斜体：用两个 * 包含一段文本就是粗体的语法，用一个 * 包含一段文本就是斜体的语法。&lt;/p&gt;
-
-&lt;p&gt;例如：&lt;strong&gt;我是粗体君&lt;/strong&gt;     &lt;em&gt;我是斜体君&lt;/em&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;列表:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;列表&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;&lt;strong&gt;无序列表&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;在 Markdown 下，列表的显示只需要在文字前加上 - 或 * 即可变为无序列表；&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;有序列表&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;有序列表则直接在文字前加1. 2. 3. 符号要和文字之间加上一个字符的空格。例如：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Ordered list item 1&lt;/li&gt;
-&lt;li&gt;Ordered list item 2&lt;/li&gt;
-&lt;li&gt;Ordered list item 3&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&#34;引用:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;引用&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;如果你需要引用一小段别处的句子，就可以采用引用格式，只需要在文本前加入 &amp;gt; 这种尖括号（大于号）即可：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我是引用本体君&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;要注意符号和文本间的空格&lt;/p&gt;
-
-&lt;h5 id=&#34;图片与链接:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;图片与链接&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;插入链接与插入图片的语法差不多，区别在于最前方的！ 号&lt;/p&gt;
-
-&lt;p&gt;图片为： &lt;code&gt;！[ ]( )&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;链接为： &lt;code&gt;[ ]( )&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;插入链接&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.baidu.com&#34;&gt;度娘&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;插入图片&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://25.io/mou/Mou_128.png&#34; alt=&#34;Mou icon&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;邮箱和纯链接&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;An email &lt;code&gt;&amp;lt;example@example.com&amp;gt;&lt;/code&gt; link:&lt;a href=&#34;mailto:example@example.com&#34;&gt;example@example.com&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Simple inline link &lt;code&gt;&amp;lt;http://chenluois.com&amp;gt;&lt;/code&gt; :&lt;a href=&#34;mailto:example@example.com&#34;&gt;example@example.com&lt;/a&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;表格:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;表格&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;My Table&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;Are&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;Sucks&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;col 1&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;is&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;left&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;col 2&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;is&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;center&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;table&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;is&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;boring&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h5 id=&#34;代码框:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;代码框&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;只需要用两个 ` 把中间的代码包裹起来,使用 tab 键即缩进。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; 	@interface UINavigationBar (Awesome)
-	- (void)lt_setBackgroundColor:(UIColor *)backgroundColor;
-	- (void)lt_setElementsAlpha:(CGFloat)alpha;
-	- (void)lt_setTranslationY:(CGFloat)translationY;
-	- (void)lt_reset;
-	@end 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;分割线:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;分割线&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;分割线的语法只需要3个 * 号，例如：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;我在分割线上&lt;/code&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;code&gt;我在分割线下&lt;/code&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;快捷键:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;快捷键&lt;/strong&gt;&lt;/h5&gt;
-
-&lt;p&gt;Mou 的 Help 文档非常具体，不熟悉的可以前去查看&lt;/p&gt;
-
-&lt;h6 id=&#34;view:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;View&lt;/strong&gt;&lt;/h6&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Toggle live preview: Shift + Cmd + I&lt;/li&gt;
-&lt;li&gt;Toggle Words Counter: Shift + Cmd + W&lt;/li&gt;
-&lt;li&gt;Toggle Transparent: Shift + Cmd + T&lt;/li&gt;
-&lt;li&gt;Toggle Floating: Shift + Cmd + F&lt;/li&gt;
-&lt;li&gt;Left/Right = &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;1&lt;/sub&gt;: Cmd + 0&lt;/li&gt;
-&lt;li&gt;Left/Right = &lt;sup&gt;3&lt;/sup&gt;&amp;frasl;&lt;sub&gt;1&lt;/sub&gt;: Cmd + +&lt;/li&gt;
-&lt;li&gt;Left/Right = &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;: Cmd + -&lt;/li&gt;
-&lt;li&gt;Toggle Writing orientation: Cmd + L&lt;/li&gt;
-&lt;li&gt;Toggle fullscreen: Control + Cmd + F&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h6 id=&#34;actions:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Actions&lt;/strong&gt;&lt;/h6&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Copy HTML: Option + Cmd + C&lt;/li&gt;
-&lt;li&gt;Strong: Select text, Cmd + B&lt;/li&gt;
-&lt;li&gt;Emphasize: Select text, Cmd + I&lt;/li&gt;
-&lt;li&gt;Inline Code: Select text, Cmd + K&lt;/li&gt;
-&lt;li&gt;Strikethrough: Select text, Cmd + U&lt;/li&gt;
-&lt;li&gt;Link: Select text, Control + Shift + L&lt;/li&gt;
-&lt;li&gt;Image: Select text, Control + Shift + I&lt;/li&gt;
-&lt;li&gt;Select Word: Control + Option + W&lt;/li&gt;
-&lt;li&gt;Select Line: Shift + Cmd + L&lt;/li&gt;
-&lt;li&gt;Select All: Cmd + A&lt;/li&gt;
-&lt;li&gt;Deselect All: Cmd + D&lt;/li&gt;
-&lt;li&gt;Convert to Uppercase: Select text, Control + U&lt;/li&gt;
-&lt;li&gt;Convert to Lowercase: Select text, Control + Shift + U&lt;/li&gt;
-&lt;li&gt;Convert to Titlecase: Select text, Control + Option + U&lt;/li&gt;
-&lt;li&gt;Convert to List: Select lines, Control + L&lt;/li&gt;
-&lt;li&gt;Convert to Blockquote: Select lines, Control + Q&lt;/li&gt;
-&lt;li&gt;Convert to H1: Cmd + 1&lt;/li&gt;
-&lt;li&gt;Convert to H2: Cmd + 2&lt;/li&gt;
-&lt;li&gt;Convert to H3: Cmd + 3&lt;/li&gt;
-&lt;li&gt;Convert to H4: Cmd + 4&lt;/li&gt;
-&lt;li&gt;Convert to H5: Cmd + 5&lt;/li&gt;
-&lt;li&gt;Convert to H6: Cmd + 6&lt;/li&gt;
-&lt;li&gt;Convert Spaces to Tabs: Control + [&lt;/li&gt;
-&lt;li&gt;Convert Tabs to Spaces: Control + ]&lt;/li&gt;
-&lt;li&gt;Insert Current Date: Control + Shift + 1&lt;/li&gt;
-&lt;li&gt;Insert Current Time: Control + Shift + 2&lt;/li&gt;
-&lt;li&gt;Insert entity &amp;lt;: Control + Shift + ,&lt;/li&gt;
-&lt;li&gt;Insert entity &amp;gt;: Control + Shift + .&lt;/li&gt;
-&lt;li&gt;Insert entity &amp;amp;: Control + Shift + 7&lt;/li&gt;
-&lt;li&gt;Insert entity Space: Control + Shift + Space&lt;/li&gt;
-&lt;li&gt;Insert Scriptogr.am Header: Control + Shift + G&lt;/li&gt;
-&lt;li&gt;Shift Line Left: Select lines, Cmd + [&lt;/li&gt;
-&lt;li&gt;Shift Line Right: Select lines, Cmd + ]&lt;/li&gt;
-&lt;li&gt;New Line: Cmd + Return&lt;/li&gt;
-&lt;li&gt;Comment: Cmd + /&lt;/li&gt;
-&lt;li&gt;Hard Linebreak: Control + Return&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h6 id=&#34;edit:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/h6&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Auto complete current word: Esc&lt;/li&gt;
-&lt;li&gt;Find: Cmd + F&lt;/li&gt;
-&lt;li&gt;Close find bar: Esc&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h6 id=&#34;post:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Post&lt;/strong&gt;&lt;/h6&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Post on Scriptogr.am: Control + Shift + S&lt;/li&gt;
-&lt;li&gt;Post on Tumblr: Control + Shift + T&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h6 id=&#34;export:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;&lt;strong&gt;Export&lt;/strong&gt;&lt;/h6&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Export HTML: Option + Cmd + E&lt;/li&gt;
-&lt;li&gt;Export PDF:  Option + Cmd + P&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;相关工具:b0164dbc7cd859f061f3f3a09f0206c1&#34;&gt;相关工具&lt;/h4&gt;
-
-&lt;p&gt;用来上传图片获取 URL 地址&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://droplr.com/&#34;&gt;Droplr&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.getcloudapp.com/&#34;&gt;Cloudapp&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://itunes.apple.com/cn/app/yi-xiang/id672522335?mt=12&amp;amp;ign-mpt=uo%3D4&#34;&gt;ezShare for Mac&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;在线好用的Markdown工具，为印象笔记而生&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.evernote.com/shard/s21/sh/f481aee9-203a-431d-9c2c-b7d7b0e2e4c0/35e078a7e2696d2ad54239c094d3865a&#34;&gt;马克飞象&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     

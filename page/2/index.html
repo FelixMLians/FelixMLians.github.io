@@ -61,6 +61,39 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1">block发生引用循环</h4>
+
+<p>一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。解决方法就是将该对象使用 <code>__weak</code>或者 <code>__block</code> 修饰符修饰后在block中使用。</p>
+
+<ol>
+<li><code>id weak weakSelf = self</code>, 或者 <code>weak __typeof(&amp;*self)weakSelf = self</code> (可以将该方法设置为宏）</li>
+<li><code>id __block weakSelf = self</code>;</li>
+</ol>
+</p>
+      <p>
+      29 Jun 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/block/">#block</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/">runloop 简介</a></h4>
       <p>
       
@@ -118,6 +151,9 @@
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/">什么时候会报unrecognized selector的异常？</a></h4>
@@ -149,9 +185,6 @@
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -224,6 +257,9 @@
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/19/markdown--%E8%AF%AD%E6%B3%951/">Markdown--语法（1）</a></h4>
@@ -257,9 +293,6 @@
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">

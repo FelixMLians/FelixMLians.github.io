@@ -61,6 +61,53 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/">iOS 证书以及迁移到新电脑</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><blockquote>
+<p>WARNING：Distribution Certification只有配置证书的电脑才可使用，因此即使导出导出Keychain安装到其他电脑上，其他电脑也不可能具有证书的权限。<strong>（新电脑要发布版本需要重新生成证书）</strong>。</p>
+</blockquote>
+
+<h4 id="1-certification-证书:f838faa4b7dbcdab7b27ff1aa0caa800">1. Certification(证书)</h4>
+
+<p>证书是对电脑开发资格的认证，每个开发者帐号有一套，分为两种：</p>
+
+<ul>
+<li>Developer Certification(开发证书)</li>
+</ul>
+
+<p>安装在电脑上提供权限：开发人员通过设备进行真机测试。
+可以生成副本供多台电脑安装；</p>
+
+<ul>
+<li>Distribution Certification(发布证书)</li>
+</ul>
+
+<p>安装在电脑上提供发布iOS程序的权限：开发人员可以制做测试版和发布版的程序。</p>
+
+<p>不可生成副本，仅有配置该证书的电脑才可使用；（副本制做介绍在下面Keychain中介绍）</p>
+</p>
+      <p>
+      1 Mar 2015
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/certification/">#certification</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/01/01/when-you-are-old/">When you are old</a></h4>
       <p>
       
@@ -139,6 +186,9 @@
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
@@ -176,9 +226,6 @@
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -251,6 +298,9 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/">关于宏</a></h4>
@@ -281,9 +331,6 @@ Hello Boris!
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -341,39 +388,6 @@ Hello Boris!
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
           <a href="http://felixmlians.github.io//tags/nsnotification/">#NSNotification</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
-        
-       
-      </p>
-      <p><h4 id="block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1">block发生引用循环</h4>
-
-<p>一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。解决方法就是将该对象使用 <code>__weak</code>或者 <code>__block</code> 修饰符修饰后在block中使用。</p>
-
-<ol>
-<li><code>id weak weakSelf = self</code>, 或者 <code>weak __typeof(&amp;*self)weakSelf = self</code> (可以将该方法设置为宏）</li>
-<li><code>id __block weakSelf = self</code>;</li>
-</ol>
-</p>
-      <p>
-      29 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
-        
-          <a href="http://felixmlians.github.io//tags/block/">#block</a>
         
        
       </p>

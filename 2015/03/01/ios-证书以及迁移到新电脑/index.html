@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>When you are old</title>
+  <title>iOS 证书以及迁移到新电脑</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -59,40 +59,84 @@
     <div class="row">
       <div class="col s12">
         <div class="card-panel">
-          <h4>When you are old</h4>
+          <h4>iOS 证书以及迁移到新电脑</h4>
           <p>
           
             
-              <a href="http://felixmlians.github.io//categories/poem/">poem</a>
+              <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
             
            
           </p>
-          <p><p>Another year,so many things changed,so many people left,I don&rsquo;t know what to do,but carry on and on.</p>
+          <p>
 
-<p><strong>Viva la vida!</strong></p>
+<blockquote>
+<p>WARNING：Distribution Certification只有配置证书的电脑才可使用，因此即使导出导出Keychain安装到其他电脑上，其他电脑也不可能具有证书的权限。<strong>（新电脑要发布版本需要重新生成证书）</strong>。</p>
+</blockquote>
 
-<pre><code>        When you are old and grey and full of sleep
-　　　　 And nodding by the fire,take down this book
-　　　　 And slowly read,and dream of the soft look
-　　　　 Your eyes had once, and of their shadows deep;
-　　　　
-　　　　 How many loved your moments of glad grace,
-　　　　 And loved your beauty with love false or true,
-　　　　 But one man loved the pilgrim soul in you,
-　　　　 And loved the sorrows of your changing face;
-　　　　
-　　　　 And bending down beside the glowing bars,
-　　　　 Murmur,a little sadly,how love fled
-　　　　 And paced upon the mountains overhead
-　　　　 And hid his face amid a crowd of stars.
-　　
-　　(BY William Butler Yeats)
-</code></pre>
+<h4 id="1-certification-证书:f838faa4b7dbcdab7b27ff1aa0caa800">1. Certification(证书)</h4>
+
+<p>证书是对电脑开发资格的认证，每个开发者帐号有一套，分为两种：</p>
+
+<ul>
+<li>Developer Certification(开发证书)</li>
+</ul>
+
+<p>安装在电脑上提供权限：开发人员通过设备进行真机测试。
+可以生成副本供多台电脑安装；</p>
+
+<ul>
+<li>Distribution Certification(发布证书)</li>
+</ul>
+
+<p>安装在电脑上提供发布iOS程序的权限：开发人员可以制做测试版和发布版的程序。</p>
+
+<p>不可生成副本，仅有配置该证书的电脑才可使用；（副本制做介绍在下面Keychain中介绍）</p>
+
+<h4 id="2-provisioning-profile-授权文件:f838faa4b7dbcdab7b27ff1aa0caa800">2. Provisioning Profile(授权文件)</h4>
+
+<p>授权文件是对设备如iPod Touch、iPad、iPhone的授权，文件内记录的是设备的UDID和程序的App Id，即：使被授权的设备可以安装或调试Bundle identifier与授权文件中记录的App Id对应的程序。</p>
+
+<p>开发者帐号在创建授权文件时候会选择App Id，（开发者帐号下App Id中添加，单选）和UDID（开发者帐号下Devices中添加最多100个，多选）。</p>
+
+<p>授权文件分为两种，对应相应的证书使用：</p>
+
+<ul>
+<li>Developer Provisioning Profile(开发授权文件)</li>
+</ul>
+
+<p>在装有开发证书或副本的电脑上使用，开发人员选择该授权文件通过电脑将程序安装到授权文件记录的设备中，即可进行真机测试。</p>
+
+<p>注意：确保电脑有权限真机调试，即安装了开发证书或副本；在开发工具中程序的Bundle identifier和选中使用的授权文件的App Id要一致；连接调试的设备的UDID在选中的授权文件中有记录。</p>
+
+<ul>
+<li>Distribution Provisioning Profile(发布授权文件)</li>
+</ul>
+
+<p>在装有发布证书的电脑上（即配置证书的电脑，只有一台）制做测试版和发布版的程序。</p>
+
+<p>发布版就是发布到App Store上的程序文件，开发者帐号创建授权文件时选择store选项，选择App Id，无需选择UDID；</p>
+
+<p>测试版就是在发布之前交给测试人员可同步到设备上的程序文件，开发者帐号创建授权文件时选择AdHoc，选择App Id和UDID；只有选中的UDID对应的设备才可能安装上通过该授权文件制做的程序。</p>
+
+<h4 id="3-keychain-开发密钥:f838faa4b7dbcdab7b27ff1aa0caa800">3. Keychain(开发密钥)</h4>
+
+<p>安 装证书成功的情况下证书下都会生成Keychain，上面提到的证书副本（导出证书重新命名）就是通过配置证书的电脑导出Keychain（就是.p12 文件）安装到其他机子上，让其他机子得到证书对应的权限。Developer Certification就可以制做副本Keychain分发到其他电脑上安装，使其可以进行真机测试。</p>
+
+<ol>
+<li>导出私钥和数字证书是为安全保存和能够在多台电脑上进行工作。打开Keychain Access应用选择’KEY’分类。</li>
+<li>右键点击和你iphone开发证书关联的私钥，并在弹出菜单中选择导出选项。</li>
+<li>使用(.p12)保存包含了你个人信息的钥匙。</li>
+<li>你将会被提示创建一个密码。</li>
+</ol>
+
+<p>现在可以通过.p12文件在不同系统之间传输。双击.p12在其他系统上进行安装。输入你在step4输入的密码。</p>
 </p>
-          <p>1 Jan 2015
+          <p>1 Mar 2015
             
               
-                <a href="http://felixmlians.github.io//tags/poem/">#poem</a>
+                <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+              
+                <a href="http://felixmlians.github.io//tags/certification/">#certification</a>
               
             
           </p>
@@ -118,13 +162,13 @@
     <div class="row">
       <div class="col s3 m1">
       
-        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/"><i class="mdi-navigation-arrow-back"></i></a>
+        <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
       
       </div>
       <div class="col s6 m10 center">&nbsp</div>
       <div class="col s3 m1">
       
-        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2014/12/22/ios-%E6%88%AA%E5%B1%8F%E6%8B%BC%E5%9B%BE/"><i class="mdi-navigation-arrow-forward"></i></a>
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2015/01/01/when-you-are-old/"><i class="mdi-navigation-arrow-forward"></i></a>
       
       </div>
     </div>
