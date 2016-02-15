@@ -7,8 +7,355 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 01 Mar 2015 12:15:44 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Aug 2015 17:35:29 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>iOS 多线程锁</title>
+      <link>http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <pubDate>Thu, 27 Aug 2015 17:35:29 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <description>
+
+&lt;h4 id=&#34;dispatch-semaphore:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;dispatch_semaphore&lt;/h4&gt;
+
+&lt;p&gt;信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。&lt;/p&gt;
+
+&lt;p&gt;在GCD中有三个函数是semaphore的操作，分别是：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;dispatch_semaphore_create　　　创建一个semaphore&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_signal　　　发送一个信号&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_wait　　　　等待信号&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，&lt;code&gt;dispatch_semaphore_signal&lt;/code&gt;是发送一个信号，自然会让信号总量加1，&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_group_t group = dispatch_group_create();   
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(10);   
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);   
+    for (int i = 0; i &amp;lt; 100; i++)   
+    {   
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);   
+        dispatch_group_async(group, queue, ^{   
+            NSLog(@&amp;quot;%i&amp;quot;,i);   
+            sleep(2);   
+            dispatch_semaphore_signal(semaphore);   
+        });   
+    }   
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);   
+    dispatch_release(group);   
+    dispatch_release(semaphore);   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码创建了一个初使值为10的semaphore，每一次for循环都会创建一个新的线程，线程结束的时候会发送一个信号，线程创建之前会信号等待，所以当同时创建了10个线程之后，for循环就会阻塞，等待有线程结束之后会增加一个信号才继续执行，如此就形成了对并发的控制，如上就是一个并发数为10的一个线程队列。&lt;/p&gt;
+
+&lt;h4 id=&#34;pthread-mutex-t:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;pthread_mutex_t&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_NORMAL，则不提供死锁检测。尝试重新锁定互斥锁会导致死锁。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或未锁定，则将产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_ERRORCHECK，则会提供错误检查。如果某个线程尝试重新锁定的互斥锁已经由该线程锁定，则将返回错误。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或者未锁定，则将返回错误。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_RECURSIVE，则该互斥锁会保留锁定计数这一概念。线程首次成功获取互斥锁时，锁定计数会设置为 1。线程每重新锁定该互斥锁一次，锁定计数就增加 1。线程每解除锁定该互斥锁一次，锁定计数就减小 1。 锁定计数达到 0 时，该互斥锁即可供其他线程获取。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或者未锁定，则将返回错误。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果互斥锁类型是 PTHREAD_MUTEX_DEFAULT，则尝试以递归方式锁定该互斥锁将产生不确定的行为。对于不是由调用线程锁定的互斥锁，如果尝试解除对它的锁定，则会产生不确定的行为。如果尝试解除锁定尚未锁定的互斥锁，则会产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+TestObj *obj = [[TestObj alloc] init];
+
+__block pthread_mutex_t mutex;
+pthread_mutex_init(&amp;amp;mutex, NULL);
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    pthread_mutex_lock(&amp;amp;mutex);
+    [obj method1];
+    sleep(5);
+    pthread_mutex_unlock(&amp;amp;mutex);
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);
+    pthread_mutex_lock(&amp;amp;mutex);
+    [obj method2];
+    pthread_mutex_unlock(&amp;amp;mutex);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;synchronized:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;@synchronized&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+TestObj *obj = [[TestObj alloc] init];
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    @synchronized(obj){
+        [obj method1];
+        sleep(10);
+    }
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);
+    @synchronized(obj){
+        [obj method2];
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;nslock:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSLock&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+TestObj *obj = [[TestObj alloc] init];
+NSLock *lock = [[NSLock alloc] init];
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [lock lock];
+    [obj method1];
+    sleep(10);
+    [lock unlock];
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);//以保证让线程2的代码后执行
+    [lock lock];
+    [obj method2];
+    [lock unlock];
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;NSLock是Cocoa提供给我们最基本的锁对象，这也是我们经常所使用的，除lock和unlock方法外，NSLock还提供了tryLock和lockBeforeDate:两个方法，前一个方法会尝试加锁，如果锁不可用(已经被锁住)，刚并不会阻塞线程，并返回NO。lockBeforeDate:方法会在所指定Date之前尝试加锁，如果在指定时间之前都不能加锁，则返回NO。&lt;/p&gt;
+
+&lt;h4 id=&#34;nsrecursivelock:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSRecursiveLock&lt;/h4&gt;
+
+&lt;p&gt;NSRecursiveLock实际上定义的是一个递归锁，这个锁可以被同一线程多次请求，而不会引起死锁。这主要是用在循环或递归操作中。我们先来看一个示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSRecursiveLock *lock = [[NSRecursiveLock alloc] init];
+ 
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ 
+    static void (^RecursiveMethod)(int);
+ 
+    RecursiveMethod = ^(int value) {
+ 
+        [lock lock];
+        if (value &amp;gt; 0) {
+ 
+            NSLog(@&amp;quot;value = %d&amp;quot;, value);
+            sleep(2);
+            RecursiveMethod(value - 1);
+        }
+        [lock unlock];
+    };
+ 
+    RecursiveMethod(5);
+});
+ 
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ 
+    sleep(2);
+    BOOL flag = [lock lockBeforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    if (flag) {
+        NSLog(@&amp;quot;lock before date&amp;quot;);
+ 
+        [lock unlock];
+    } else {
+        NSLog(@&amp;quot;fail to lock before date&amp;quot;);
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;NSRecursiveLock除了实现NSLocking协议的方法外，还提供了两个方法，分别如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 在给定的时间之前去尝试请求一个锁
+- (BOOL)lockBeforeDate:(NSDate *)limit
+ 
+// 尝试去请求一个锁，并会立即返回一个布尔值，表示尝试是否成功
+- (BOOL)tryLock
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外，NSRecursiveLock还声明了一个name属性，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property(copy) NSString *name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以使用这个字符串来标识一个锁。Cocoa也会使用这个name作为错误描述信息的一部分。&lt;/p&gt;
+
+&lt;h4 id=&#34;nscondition:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSCondition&lt;/h4&gt;
+
+&lt;p&gt;使用NSCondition，实现多线程的同步，即，可实现生产者消费者问题。&lt;/p&gt;
+
+&lt;p&gt;基本思路是，首先要创建公用的NSCondition实例。然后：&lt;/p&gt;
+
+&lt;p&gt;消费者取得锁，取产品，如果没有，则wait，这时会释放锁，直到有线程唤醒它去消费产品；&lt;/p&gt;
+
+&lt;p&gt;生产者制造产品，首先也是要取得锁，然后生产，再发signal，这样可唤醒wait的消费者。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (IBAction)conditionTest:(id)sender
+{
+    NSLog(@&amp;quot;begin condition works!&amp;quot;);
+    products = [[NSMutableArray alloc] init];
+    condition = [[NSCondition alloc] init];
+     
+    [NSThread detachNewThreadSelector:@selector(createProducter) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(createConsumenr) toTarget:self withObject:nil];
+}
+ 
+- (void)createConsumenr
+{
+    [condition lock];
+    while ([products count] == 0) {
+        NSLog(@&amp;quot;wait for products&amp;quot;);
+        [condition wait];
+    }
+    [products removeObjectAtIndex:0];
+    NSLog(@&amp;quot;comsume a product&amp;quot;);
+    [condition unlock];
+}
+ 
+- (void)createProducter
+{
+    [condition lock];
+    [products addObject:[[NSObject alloc] init]];
+    NSLog(@&amp;quot;produce a product&amp;quot;);
+    [condition signal];
+    [condition unlock];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;nsconditionlock:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSConditionLock&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//主线程中
+NSConditionLock *theLock = [[NSConditionLock alloc] init];
+
+//线程1
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    for (int i=0;i&amp;lt;=2;i++)
+    {
+        [theLock lock];
+        NSLog(@&amp;quot;thread1:%d&amp;quot;,i);
+        sleep(2);
+        [theLock unlockWithCondition:i];
+    }
+});
+
+//线程2
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [theLock lockWhenCondition:2];
+    NSLog(@&amp;quot;thread2&amp;quot;);
+    [theLock unlock];
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;nsdistributedlock-分布式锁:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSDistributedLock 分布式锁&lt;/h4&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>编程小助手 - 学习编程的有效工具</title>
+      <link>http://felixmlians.github.io/2015/07/23/%E7%BC%96%E7%A8%8B%E5%B0%8F%E5%8A%A9%E6%89%8B---%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%89%E6%95%88%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Thu, 23 Jul 2015 10:47:39 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/07/23/%E7%BC%96%E7%A8%8B%E5%B0%8F%E5%8A%A9%E6%89%8B---%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%89%E6%95%88%E5%B7%A5%E5%85%B7/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;编程小助手 - 学习编程的有效工具&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://itunes.apple.com/cn/app/bian-cheng-xiao-zhu-shou-xue/id1007208297?mt=8&#34;&gt;https://itunes.apple.com/cn/app/bian-cheng-xiao-zhu-shou-xue/id1007208297?mt=8&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;4+&lt;/p&gt;
+
+&lt;p&gt;Swift语言如今如火如荼，势头一发不可收拾。作为iOS开发者都应该开始学习swift语言，本软件主要针对Swifter们开发入门，基础知识温故知新的小工具。&lt;/p&gt;
+
+&lt;p&gt;无论你是在坐车途中还是在买单排队，所有细小的时间你都可以充分利用起来，学习充电。&lt;/p&gt;
+
+&lt;p&gt;本工具不仅提供了Swift基础语法，还有详尽的进阶指导资源。&lt;/p&gt;
+
+&lt;p&gt;PS:业余制作，巩固复习下swift语法&lt;/p&gt;
+
+&lt;p&gt;个人博客地址： &lt;a href=&#34;http://felixmlians.github.io/&#34;&gt;http://felixmlians.github.io/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>IDFA 3选项释义</title>
+      <link>http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</link>
+      <pubDate>Thu, 11 Jun 2015 19:39:50 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</guid>
+      <description>&lt;p&gt;Everything has come to its usual state now. Simply upload your binary as you&amp;rsquo;ve been doing this while, and broadly classify IDFA in two categories:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;publisher: You use third-party ad-networks library to display ad. Choose the 1st option in IDFA -&amp;gt; &amp;ldquo;Serve advertisements within the app&amp;rdquo;. You&amp;rsquo;re a publisher since you show ads, but do not perform advertising for your own app.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Advertiser: You use third-party libraries to track conversions for your app, as well as track &amp;lsquo;goals&amp;rsquo; in your app. You directly do not show ads in your app. Choose the 2nd &amp;amp; 3rd option in IDFA -&amp;gt; &amp;ldquo;Attribute this app installation to a previously served ad&amp;rdquo;. AND &amp;ldquo;Attribute an action taken within this app to a previously served advertisement&amp;rdquo;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Mixed: You track conversions for your app, as well as display ads in your app. Choose all three options.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>iOS 砸壳，获取头文件，反编译工具 </title>
+      <link>http://felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Thu, 21 May 2015 15:25:47 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;AppCrackr,dumpdecrypted
+下载地址：&lt;a href=&#34;https://github.com/stefanesser/dumpdecrypted/archive/master.zip&#34;&gt;https://github.com/stefanesser/dumpdecrypted/archive/master.zip&lt;/a&gt;进行砸壳。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用class-dump获取头文件&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用Hopper Disassembler   IDA Pro 进行反编译&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>iOS NSDateFormatter </title>
+      <link>http://felixmlians.github.io/2015/04/06/ios-nsdateformatter/</link>
+      <pubDate>Mon, 06 Apr 2015 23:11:23 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/04/06/ios-nsdateformatter/</guid>
+      <description>&lt;p&gt;格式化参数如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    G: 公元时代，例如AD公元
+    yy: 年的后2位,12
+    yyyy: 完整年,2012
+    MM: 月，显示为1-12
+    MMM: 月，显示为英文月份简写,如 Jan
+    MMMM: 月，显示为英文月份全称，如 Janualy
+    dd: 日，2位数表示，如02
+    d: 日，1-2位显示，如 2
+    EEE: 简写星期几，如Sun
+    EEEE: 全写星期几，如Sunday
+    aa: 上下午，AM/PM
+    H: 时，24小时制，0-23
+    K：时，12小时制，0-11
+    m: 分，1-2位
+    mm: 分，2位
+    s: 秒，1-2位
+    ss: 秒，2位
+    S: 毫秒
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;常用日期组合：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;yyyy-MM-dd HH:mm:ss.SSS&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;yyyy-MM-dd HH:mm:ss&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;yyyy-MM-dd&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MM dd yyyy&lt;/strong&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>iOS 证书以及迁移到新电脑</title>
@@ -238,250 +585,99 @@ UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.tableView.frame.size.widt
     </item>
     
     <item>
-      <title>iOS 多线程锁</title>
-      <link>http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <title>多线程 NSOperation</title>
+      <link>http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</link>
       <pubDate>Mon, 17 Nov 2014 14:01:09 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <guid>http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</guid>
       <description>
 
-&lt;h4 id=&#34;dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;dispatch_semaphore&lt;/h4&gt;
+&lt;h4 id=&#34;nsoperation介绍:222d30bac2b83aad43e4b91c3497980d&#34;&gt;NSOperation介绍&lt;/h4&gt;
 
-&lt;p&gt;信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。&lt;/p&gt;
-
-&lt;p&gt;在GCD中有三个函数是semaphore的操作，分别是：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;dispatch_semaphore_create　　　创建一个semaphore&lt;/li&gt;
-&lt;li&gt;dispatch_semaphore_signal　　　发送一个信号&lt;/li&gt;
-&lt;li&gt;dispatch_semaphore_wait　　　　等待信号&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，&lt;code&gt;dispatch_semaphore_signal&lt;/code&gt;是发送一个信号，自然会让信号总量加1，&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;dispatch_group_t group = dispatch_group_create();   
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(10);   
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);   
-    for (int i = 0; i &amp;lt; 100; i++)   
-    {   
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);   
-        dispatch_group_async(group, queue, ^{   
-            NSLog(@&amp;quot;%i&amp;quot;,i);   
-            sleep(2);   
-            dispatch_semaphore_signal(semaphore);   
-        });   
-    }   
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);   
-    dispatch_release(group);   
-    dispatch_release(semaphore);   
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面代码创建了一个初使值为10的semaphore，每一次for循环都会创建一个新的线程，线程结束的时候会发送一个信号，线程创建之前会信号等待，所以当同时创建了10个线程之后，for循环就会阻塞，等待有线程结束之后会增加一个信号才继续执行，如此就形成了对并发的控制，如上就是一个并发数为10的一个线程队列。&lt;/p&gt;
-
-&lt;h4 id=&#34;pthread-mutex-t:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;pthread_mutex_t&lt;/h4&gt;
+&lt;p&gt;NSOperation是一个抽象的基类，表示一个独立的计算单元，可以为子类提供有用且线程安全的建立状态，优先级，依赖和取消等操作。系统已经给我们封装了NSBlockOperation和NSInvocationOperation这两个实体类。&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_NORMAL，则不提供死锁检测。尝试重新锁定互斥锁会导致死锁。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或未锁定，则将产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_ERRORCHECK，则会提供错误检查。如果某个线程尝试重新锁定的互斥锁已经由该线程锁定，则将返回错误。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或者未锁定，则将返回错误。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_RECURSIVE，则该互斥锁会保留锁定计数这一概念。线程首次成功获取互斥锁时，锁定计数会设置为 1。线程每重新锁定该互斥锁一次，锁定计数就增加 1。线程每解除锁定该互斥锁一次，锁定计数就减小 1。 锁定计数达到 0 时，该互斥锁即可供其他线程获取。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或者未锁定，则将返回错误。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;如果互斥锁类型是 PTHREAD_MUTEX_DEFAULT，则尝试以递归方式锁定该互斥锁将产生不确定的行为。对于不是由调用线程锁定的互斥锁，如果尝试解除对它的锁定，则会产生不确定的行为。如果尝试解除锁定尚未锁定的互斥锁，则会产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;使用NSOperation处理多线程时，就是将“操作”添加到队列中。&lt;/li&gt;
+&lt;li&gt;NSOperation是一个抽象类，不能直接使用(方法没有实现)，约束子类都具有共同的属性和方法。&lt;/li&gt;
+&lt;li&gt;NSOperation的子类：NSInvocationOperation、NSBlockOperation、自定义NSOperation。&lt;/li&gt;
+&lt;li&gt;通过NSOperationQueue可以创建并发队列，获取主队列，获取当前队列。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;pre&gt;&lt;code&gt;//主线程中
-TestObj *obj = [[TestObj alloc] init];
+&lt;h4 id=&#34;nsoperation定义:222d30bac2b83aad43e4b91c3497980d&#34;&gt;NSOperation定义&lt;/h4&gt;
 
-__block pthread_mutex_t mutex;
-pthread_mutex_init(&amp;amp;mutex, NULL);
+&lt;pre&gt;&lt;code&gt;- (void)start;
+- (void)main;
 
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    pthread_mutex_lock(&amp;amp;mutex);
-    [obj method1];
-    sleep(5);
-    pthread_mutex_unlock(&amp;amp;mutex);
-});
+@property (readonly, getter=isCancelled) BOOL cancelled;
+- (void)cancel;
 
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    pthread_mutex_lock(&amp;amp;mutex);
-    [obj method2];
-    pthread_mutex_unlock(&amp;amp;mutex);
-});
+@property (readonly, getter=isExecuting) BOOL executing;
+@property (readonly, getter=isFinished) BOOL finished;
+@property (readonly, getter=isConcurrent) BOOL concurrent; // To be deprecated; use and override &#39;asynchronous&#39; below
+@property (readonly, getter=isAsynchronous) BOOL asynchronous NS_AVAILABLE(10_8, 7_0);
+@property (readonly, getter=isReady) BOOL ready;
+
+- (void)addDependency:(NSOperation *)op;
+- (void)removeDependency:(NSOperation *)op;
+
+@property (readonly, copy) NSArray *dependencies;
+
+typedef NS_ENUM(NSInteger, NSOperationQueuePriority) {
+    NSOperationQueuePriorityVeryLow = -8L,
+    NSOperationQueuePriorityLow = -4L,
+    NSOperationQueuePriorityNormal = 0,
+    NSOperationQueuePriorityHigh = 4,
+    NSOperationQueuePriorityVeryHigh = 8
+};
+
+@property NSOperationQueuePriority queuePriority;
+
+@property (copy) void (^completionBlock)(void) NS_AVAILABLE(10_6, 4_0);
+
+- (void)waitUntilFinished NS_AVAILABLE(10_6, 4_0);
+
+@property double threadPriority NS_DEPRECATED(10_6, 10_10, 4_0, 8_0);
+
+@property NSQualityOfService qualityOfService NS_AVAILABLE(10_10, 8_0);
+
+@property (copy) NSString *name NS_AVAILABLE(10_10, 8_0);
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;synchronized:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;@synchronized&lt;/h4&gt;
+&lt;h5 id=&#34;状态:222d30bac2b83aad43e4b91c3497980d&#34;&gt;状态&lt;/h5&gt;
 
-&lt;pre&gt;&lt;code&gt;//主线程中
-TestObj *obj = [[TestObj alloc] init];
+&lt;p&gt;NSOperation提供了&lt;code&gt;ready cancelled executing finished&lt;/code&gt;这几个状态变化，我们的开发也是必须处理自己关心的其中的状态。这些状态都是基于keypath的KVO通知决定，所以在你手动改变自己关心的状态时，请别忘了手动发送通知。这里面每个属性都是相互独立的，同时只可能有一个状态是YES。finished这个状态在操作完成后请及时设置为YES，因为NSOperationQueue所管理的队列中，只有isFinished为YES时才将其移除队列，这点在内存管理和避免死锁很关键。&lt;/p&gt;
 
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    @synchronized(obj){
-        [obj method1];
-        sleep(10);
-    }
-});
+&lt;h5 id=&#34;依赖:222d30bac2b83aad43e4b91c3497980d&#34;&gt;依赖&lt;/h5&gt;
 
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    @synchronized(obj){
-        [obj method2];
-    }
-});
+&lt;p&gt;NSOperation中我们可以为操作分解为若干个小的任务，通过添加他们之间的依赖关系进行操作，我们可以直接调用 &lt;code&gt;- (void)addDependency:(NSOperation*)op;&lt;/code&gt; 这个方法添加依赖.依赖关系可以跨操作队列，操作不再同一个队列中，依赖关系也是存在的。&lt;/p&gt;
+
+&lt;h5 id=&#34;执行:222d30bac2b83aad43e4b91c3497980d&#34;&gt;执行&lt;/h5&gt;
+
+&lt;p&gt;执行一个operation有两种方法，第一种是自己手动的调用start这个方法，这种方法调用会在当前调用的线程进行同步执行，所以在主线程里面自己一定要小心的调用，不然就会把主线程给卡死。第二种是将operation添加到operationQueue中去，这个也是我们用得最多的也是提倡的方法。NSOperationQueue会在我们添加进去operation的时候尽快进行执行。当然如果 &lt;code&gt;NSOperationQueue的maxConcurrentOperationCount&lt;/code&gt; 如果设置为1的话，进相当于FIFO了。&lt;/p&gt;
+
+&lt;h4 id=&#34;gcd和nsoperation的对比:222d30bac2b83aad43e4b91c3497980d&#34;&gt;GCD和NSOperation的对比&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;GCD&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;GCD是iOS4.0推出的，主要针对多核CPU做了优化，是C语言的技术。 
+
+GCD是将任务(block)添加到队列(串行/并行/全局/主队列)，并且以同步/异步的方式执行任务的函数。
+
+GCD提供给了一些NSOperation不具备的功能：①一次性执行；②延迟执行；③调度组。
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;nslock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSLock&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;NSOperation&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;pre&gt;&lt;code&gt;//主线程中
-TestObj *obj = [[TestObj alloc] init];
-NSLock *lock = [[NSLock alloc] init];
+&lt;pre&gt;&lt;code&gt;NSOperation是iOS2.0推出的，iOS4.0之后重写了NSOperation。
 
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [lock lock];
-    [obj method1];
-    sleep(10);
-    [lock unlock];
-});
+NSOperation将操作(异步的任务)添加到队列(并发队列)，就会执行指定操作的函数。
 
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);//以保证让线程2的代码后执行
-    [lock lock];
-    [obj method2];
-    [lock unlock];
-});
+NSOperation里提供的方便的操作：①最大并发数；②队列的暂停/继续；③取消所有的操作；④指定操作之间的依赖关系(GCD可以用同步实现)。
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;NSLock是Cocoa提供给我们最基本的锁对象，这也是我们经常所使用的，除lock和unlock方法外，NSLock还提供了tryLock和lockBeforeDate:两个方法，前一个方法会尝试加锁，如果锁不可用(已经被锁住)，刚并不会阻塞线程，并返回NO。lockBeforeDate:方法会在所指定Date之前尝试加锁，如果在指定时间之前都不能加锁，则返回NO。&lt;/p&gt;
-
-&lt;h4 id=&#34;nsrecursivelock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSRecursiveLock&lt;/h4&gt;
-
-&lt;p&gt;NSRecursiveLock实际上定义的是一个递归锁，这个锁可以被同一线程多次请求，而不会引起死锁。这主要是用在循环或递归操作中。我们先来看一个示例：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSRecursiveLock *lock = [[NSRecursiveLock alloc] init];
- 
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
- 
-    static void (^RecursiveMethod)(int);
- 
-    RecursiveMethod = ^(int value) {
- 
-        [lock lock];
-        if (value &amp;gt; 0) {
- 
-            NSLog(@&amp;quot;value = %d&amp;quot;, value);
-            sleep(2);
-            RecursiveMethod(value - 1);
-        }
-        [lock unlock];
-    };
- 
-    RecursiveMethod(5);
-});
- 
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
- 
-    sleep(2);
-    BOOL flag = [lock lockBeforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-    if (flag) {
-        NSLog(@&amp;quot;lock before date&amp;quot;);
- 
-        [lock unlock];
-    } else {
-        NSLog(@&amp;quot;fail to lock before date&amp;quot;);
-    }
-});
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;NSRecursiveLock除了实现NSLocking协议的方法外，还提供了两个方法，分别如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// 在给定的时间之前去尝试请求一个锁
-- (BOOL)lockBeforeDate:(NSDate *)limit
- 
-// 尝试去请求一个锁，并会立即返回一个布尔值，表示尝试是否成功
-- (BOOL)tryLock
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;另外，NSRecursiveLock还声明了一个name属性，如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@property(copy) NSString *name
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我们可以使用这个字符串来标识一个锁。Cocoa也会使用这个name作为错误描述信息的一部分。&lt;/p&gt;
-
-&lt;h4 id=&#34;nscondition:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSCondition&lt;/h4&gt;
-
-&lt;p&gt;使用NSCondition，实现多线程的同步，即，可实现生产者消费者问题。&lt;/p&gt;
-
-&lt;p&gt;基本思路是，首先要创建公用的NSCondition实例。然后：&lt;/p&gt;
-
-&lt;p&gt;消费者取得锁，取产品，如果没有，则wait，这时会释放锁，直到有线程唤醒它去消费产品；&lt;/p&gt;
-
-&lt;p&gt;生产者制造产品，首先也是要取得锁，然后生产，再发signal，这样可唤醒wait的消费者。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (IBAction)conditionTest:(id)sender
-{
-    NSLog(@&amp;quot;begin condition works!&amp;quot;);
-    products = [[NSMutableArray alloc] init];
-    condition = [[NSCondition alloc] init];
-     
-    [NSThread detachNewThreadSelector:@selector(createProducter) toTarget:self withObject:nil];
-    [NSThread detachNewThreadSelector:@selector(createConsumenr) toTarget:self withObject:nil];
-}
- 
-- (void)createConsumenr
-{
-    [condition lock];
-    while ([products count] == 0) {
-        NSLog(@&amp;quot;wait for products&amp;quot;);
-        [condition wait];
-    }
-    [products removeObjectAtIndex:0];
-    NSLog(@&amp;quot;comsume a product&amp;quot;);
-    [condition unlock];
-}
- 
-- (void)createProducter
-{
-    [condition lock];
-    [products addObject:[[NSObject alloc] init]];
-    NSLog(@&amp;quot;produce a product&amp;quot;);
-    [condition signal];
-    [condition unlock];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;nsconditionlock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSConditionLock&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;//主线程中
-NSConditionLock *theLock = [[NSConditionLock alloc] init];
-
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    for (int i=0;i&amp;lt;=2;i++)
-    {
-        [theLock lock];
-        NSLog(@&amp;quot;thread1:%d&amp;quot;,i);
-        sleep(2);
-        [theLock unlockWithCondition:i];
-    }
-});
-
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [theLock lockWhenCondition:2];
-    NSLog(@&amp;quot;thread2&amp;quot;);
-    [theLock unlock];
-});
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;nsdistributedlock-分布式锁:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSDistributedLock 分布式锁&lt;/h4&gt;
 </description>
     </item>
     
@@ -1211,314 +1407,6 @@ __typeof__(self) strongSelf = weakSelf;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;self&amp;ndash;&amp;gt; _observer &amp;ndash;&amp;gt; block &amp;ndash;&amp;gt; self&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>runloop 简介</title>
-      <link>http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/</link>
-      <pubDate>Thu, 26 Jun 2014 19:49:43 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/06/26/runloop-%E7%AE%80%E4%BB%8B/</guid>
-      <description>
-
-&lt;h4 id=&#34;runloop-和线程有什么关系:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop 和线程有什么关系？&lt;/h4&gt;
-
-&lt;p&gt;总的来说，Runloop,如其名，表示着一直在运行的循环。实际上，runloop和线程是紧密相连的，可以这样说runloop是为了线程而生，没有线程，它就没有存在的必要。每个线程，包括程序的主线程（main thread)都有与之对应的runloop对象。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;主线程的runloop默认是启动的。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;iOS的应用程序里面，程序启动后会有一个如下的 &lt;code&gt;main()&lt;/code&gt; 函数&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;int main(int argc, char * argv[]) {
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;重点是UIApplicationMain()函数，这个方法会为main thread设置一个NSRunLoop对象，这就解释了，为什么我们的应用可以在无人操作的时候休息，需要让它干活的时候又能立马响应。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;对其他线程来说，runloop默认是没有启动的，如果你需要更多的线程交互则可以手动配置和启动，如果线程只是去执行一个长时间的已确定的任务则不需要。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在任何一个cocoa程序的线程中，都可以通过以下代码来获取到当前的runloop。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code&gt;    NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;runloop的mode主要来指定事件在运行中的优先级:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop的mode主要来指定事件在运行中的优先级&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;NSDefaultRunLoopMode（kCFRunLoopDefaultMode）：默认，空闲状态&lt;/li&gt;
-&lt;li&gt;UITrackingRunLoopMode：ScrollView滑动时&lt;/li&gt;
-&lt;li&gt;UIInitializationRunLoopMode：启动时&lt;/li&gt;
-&lt;li&gt;NSRunLoopCommonModes（kCFRunLoopCommonModes）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;苹果公开提供的 Mode 有两个：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;NSDefaultRunLoopMode（kCFRunLoopDefaultMode）&lt;/li&gt;
-&lt;li&gt;NSRunLoopCommonModes（kCFRunLoopCommonModes）&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&#34;runloop-只能运行在一中mode-中:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop 只能运行在一中mode 中&lt;/h4&gt;
-
-&lt;p&gt;RunLoop只能运行在一种mode下，如果要换mode，当前的loop也需要停下重启成新的。利用这个机制，ScrollView滚动过程中NSDefaultRunLoopMode（kCFRunLoopDefaultMode）的mode会切换到UITrackingRunLoopMode来保证ScrollView的流畅滑动：只能在NSDefaultRunLoopMode模式下处理的事件会影响scrllView的滑动。&lt;/p&gt;
-
-&lt;p&gt;如果我们把一个NSTimer对象以NSDefaultRunLoopMode（kCFRunLoopDefaultMode）添加到主运行循环中的时候, ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。&lt;/p&gt;
-
-&lt;p&gt;同时因为mode还是可定制的，所以：&lt;/p&gt;
-
-&lt;p&gt;Timer计时会被scrollView的滑动影响的问题可以通过将timer添加到NSRunLoopCommonModes（kCFRunLoopCommonModes）来解决。代码如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//将timer添加到NSDefaultRunLoopMode中
-[NSTimer scheduledTimerWithTimeInterval:1.0
-                                 target:self
-                               selector:@selector(timerTick:)
-                               userInfo:nil
-                                repeats:YES];
-//然后再添加到NSRunLoopCommonModes里
-NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
-                                         target:self
-                                       selector:@selector(timerTick:)
-                                       userInfo:nil
-                                        repeats:YES];
-[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;runloop内部实现:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;runloop内部实现&lt;/h4&gt;
-
-&lt;p&gt;一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但不退出，通常的代码逻辑：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;function loop() {
-    initialize();
-    do {
-        var message = get_next_message();
-        process_message(message);
-    } while (message != quit);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;objc-管理对象内存:1bd331b533e8f261b2d2d1994da9040c&#34;&gt;objc 管理对象内存&lt;/h4&gt;
-
-&lt;p&gt;通过retainCount 的机制来决定对象是否需要释放。每次runloop的时候，都会检查对象的retainCount，如果retainCount为0，说明该对象没有地方需要继续使用了，可以释放掉了。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>类中增加实例变量</title>
-      <link>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</link>
-      <pubDate>Mon, 23 Jun 2014 18:34:54 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</guid>
-      <description>
-
-&lt;h4 id=&#34;能否向编译后得到的类中增加实例变量-能否向运行时创建的类中增加实例变量:e95b6352016c71c7e0e43fef78963e01&#34;&gt;能否向编译后得到的类中增加实例变量？能否向运行时创建的类中增加实例变量？&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;不能向编译后得到的类中增加实例变量&lt;/li&gt;
-&lt;li&gt;能向运行时创建的类中添加实例变量&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;因为：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;编译后的类已经注册在 &lt;code&gt;runtime&lt;/code&gt; 中，类结构体中的 &lt;code&gt;objc_ivar_list&lt;/code&gt; 实例变量的链表和 &lt;code&gt;instance_size&lt;/code&gt; 实例变量的内存大小已经确定，同时 &lt;code&gt;runtime&lt;/code&gt; 会调用 &lt;code&gt;class_setWeakIvarLayout&lt;/code&gt; 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；&lt;/li&gt;
-&lt;li&gt;运行时创建的类是可以添加实例变量，调用 &lt;code&gt;class_addIvar&lt;/code&gt; 函数。但是得在调用 &lt;code&gt;objc_allocateClassPair&lt;/code&gt; 之后，&lt;code&gt;objc_registerClassPair&lt;/code&gt; 之前，原因同上。&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>什么时候会报unrecognized selector的异常？</title>
-      <link>http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/</link>
-      <pubDate>Sun, 22 Jun 2014 19:59:51 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/</guid>
-      <description>&lt;p&gt;简单来说：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;当调用该对象上某个方法,而该对象上没有实现这个方法的时候， 可以通过“消息转发”进行解决。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;objc&lt;/code&gt;是动态语言，每个方法在运行时会被动态转为消息发送，即：&lt;code&gt;objc_msgSend(receiver, selector)&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;code&gt;objc&lt;/code&gt;在向一个对象发送消息时，&lt;code&gt;runtime&lt;/code&gt;库会根据对象的&lt;code&gt;isa&lt;/code&gt;指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，如果，在最顶层的父类中依然找不到相应的方法时，程序在运行时会挂掉并抛出异常&lt;code&gt;unrecognized selector sent to XXX&lt;/code&gt; 。但是在这之前，objc的运行时会给出三次拯救程序崩溃的机会：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Method resolution&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;code&gt;objc&lt;/code&gt;运行时会调用&lt;code&gt;+resolveInstanceMethod:&lt;/code&gt;或者 &lt;code&gt;+resolveClassMethod:&lt;/code&gt;，让你有机会提供一个函数实现。如果你添加了函数，那运行时系统就会重新启动一次消息发送的过程，否则 ，运行时就会移到下一步，消息转发（Message Forwarding）。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Fast forwarding&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;如果目标对象实现了&lt;code&gt;-forwardingTargetForSelector:&lt;/code&gt;，Runtime 这时就会调用这个方法，给你把这个消息转发给其他对象的机会。 只要这个方法返回的不是nil和self，整个消息发送的过程就会被重启，当然发送的对象会变成你返回的那个对象。否则，就会继续Normal Fowarding。 这里叫Fast，只是为了区别下一步的转发机制。因为这一步不会创建任何新的对象，但下一步转发会创建一个NSInvocation对象，所以相对更快点。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Normal forwarding&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;这一步是Runtime最后一次给你挽救的机会。首先它会发送&lt;code&gt;-methodSignatureForSelector:&lt;/code&gt;消息获得函数的参数和返回值类型。&lt;/p&gt;
-
-&lt;p&gt;如果&lt;code&gt;-methodSignatureForSelector:&lt;/code&gt;返回nil，Runtime则会发出&lt;code&gt;-doesNotRecognizeSelector:&lt;/code&gt;消息，程序这时也就挂掉了。&lt;/p&gt;
-
-&lt;p&gt;如果返回了一个函数签名，Runtime就会创建一个NSInvocation对象并发送&lt;code&gt;-forwardInvocation:&lt;/code&gt;消息给目标对象。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Hugo 静态网站快速生成</title>
-      <link>http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</link>
-      <pubDate>Sat, 21 Jun 2014 00:12:23 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</guid>
-      <description>
-
-&lt;h4 id=&#34;安装:e5615f5477fd56f0fd7aa99a370a246f&#34;&gt;安装&lt;/h4&gt;
-
-&lt;p&gt;如果说速度快是Hugo的第一大优点，那么安装简单应该就是Hugo的第二大优点。对于Mac用户，没有brew的话先安装brew，在命令行里敲：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后再敲一行安装Hugo:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ brew new Hugo
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;你也可以直接下载对应系统的binary文件，解压就行了:&lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;下载地址&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;建站:e5615f5477fd56f0fd7aa99a370a246f&#34;&gt;建站&lt;/h4&gt;
-
-&lt;p&gt;首先建立自己的网站，mysite是网站的路径&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo new site mysite
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后进入该路径&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ cd mysite
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在该目录下你可以看到以下几个目录和config.toml文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; ▸ archetypes/ 
- ▸ content/
- ▸ layouts/
- ▸ static/
-   config.toml
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;config.toml是网站的配置文件，包括baseurl, title, copyright等等网站参数。&lt;/p&gt;
-
-&lt;p&gt;这几个文件夹的作用分别是：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;archetypes：包括内容类型，在创建新内容时自动生成内容的配置&lt;/li&gt;
-&lt;li&gt;content：包括网站内容，全部使用markdown格式（/post）&lt;/li&gt;
-&lt;li&gt;layouts：包括了网站的模版，决定内容如何呈现&lt;/li&gt;
-&lt;li&gt;static：包括了css, js, fonts, media等，决定网站的外观&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Hugo提供了一些完整的主题可以使用，下载这些主题：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git clone --recursive https://github.com/spf13/hugoThemes themes
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;此时现成的主题存放在themes/文件夹中。&lt;/p&gt;
-
-&lt;p&gt;现在我们先熟悉一下Hugo，创建新页面：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo new about.md
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;进入content/文件夹可以看到，此时多了一个markdown格式的文件about.md，打开文件可以看到时间和文件名等信息已经自动加到文件开头，包括创建时间，页面名，是否为草稿等。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;---
-+++
-date = &amp;quot;2015-02-01T18:19:54+08:00&amp;quot;
-draft = true
-title = &amp;quot;about&amp;quot;
-
-+++
-
-contents here
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我在页面中加入了主题，然后运行Hugo:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo server -t hyde --buildDrafts
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;-t参数的意思是使用hyde主题渲染我们的页面，注意到about.md目前是作为草稿，即draft参数设置为true，运行Hugo时要加上&amp;ndash;buildDrafts参数才会生成被标记为草稿的页面。 在浏览器输入localhost:1313，就可以看到我们刚刚创建的页面。&lt;/p&gt;
-
-&lt;p&gt;注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。&lt;/p&gt;
-
-&lt;h4 id=&#34;评论功能:e5615f5477fd56f0fd7aa99a370a246f&#34;&gt;评论功能&lt;/h4&gt;
-
-&lt;p&gt;Hugo默认支持Disqus的评论，需要在模版中添加以下代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ template &amp;quot;_internal/disqus.html&amp;quot; . }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;spf13在/layouts/partials/disqus.html中已经添加好了。
-只需要去&lt;a href=&#34;https://disqus.com/&#34;&gt;Disqus&lt;/a&gt;注册一个账号，然后在config.toml里加上：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;disqusShortname = &amp;quot;yourdisqusShortname&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;插入图片:e5615f5477fd56f0fd7aa99a370a246f&#34;&gt;插入图片&lt;/h4&gt;
-
-&lt;p&gt;图片文件放在static/media文件中，插入图片：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ % img src=&amp;quot;/media/example.jpg&amp;quot; alt=&amp;quot;example&amp;quot; %}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;注意这里的{{和%之间也加上了空格，避免这行代码起作用，实际使用也需要把空格去掉。&lt;/p&gt;
-
-&lt;h4 id=&#34;官方网站:e5615f5477fd56f0fd7aa99a370a246f&#34;&gt;官方网站&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.gohugo.org/&#34;&gt;Hugo 中文网站&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://themes.gohugo.io/&#34;&gt;Hugo themes&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>统计 iOS 开发代码</title>
-      <link>http://felixmlians.github.io/2014/06/20/%E7%BB%9F%E8%AE%A1-ios-%E5%BC%80%E5%8F%91%E4%BB%A3%E7%A0%81/</link>
-      <pubDate>Fri, 20 Jun 2014 18:45:12 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/06/20/%E7%BB%9F%E8%AE%A1-ios-%E5%BC%80%E5%8F%91%E4%BB%A3%E7%A0%81/</guid>
-      <description>
-
-&lt;h4 id=&#34;统计-ios-开发代码:d2832ab34fd5f8cc046f66037089c327&#34;&gt;统计 iOS 开发代码&lt;/h4&gt;
-
-&lt;p&gt;如果要统计ios开发代码，包括头文件的，终端命令进入项目目录下，命令如下：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;find . -name &amp;quot;*.m&amp;quot; -or -name &amp;quot;*.h&amp;quot; -or -name &amp;quot;*.xib&amp;quot; -or -name &amp;quot;*.c&amp;quot; |xargs wc -l  
-列出每个文件的行数&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;find . -name &amp;quot;*.m&amp;quot; -or -name &amp;quot;*.h&amp;quot; -or -name &amp;quot;*.xib&amp;quot; -or -name &amp;quot;*.c&amp;quot; |xargs grep -v &amp;quot;^$&amp;quot;|wc -l  
-列出代码行数总和&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;grep -v &amp;ldquo;^$&amp;ldquo;是去掉空行;&lt;/p&gt;
-
-&lt;p&gt;注释也统计在代码量之内，毕竟也一个字一个字码出来的;&lt;/p&gt;
-
-&lt;p&gt;lipo -info xxxx.a    查看支持哪些构架&lt;/p&gt;
 </description>
     </item>
     

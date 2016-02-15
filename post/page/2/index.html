@@ -61,6 +61,174 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/">SQLite（简介）</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/database/">Database</a>
+        
+       
+      </p>
+      <p><p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
+就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件。</p>
+
+<p>所有教程参考地址： <a href="http://www.runoob.com/sqlite/sqlite-intro.html">http://www.runoob.com/sqlite/sqlite-intro.html</a></p>
+</p>
+      <p>
+      22 Oct 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/database/">#Database</a>
+        
+          <a href="http://felixmlians.github.io//tags/sqlite/">#SQLite</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">iOS HTTP Multipart Forms POST(头像图片上传)</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。</p>
+
+<p>上传图片的http post请求的格式是这样的：</p>
+
+<pre><code>Content-type: multipart/form-data, boundary=---------------------------14737809831466499882746641449
+
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;boo.jpg&quot;
+Content-Type: image/jpeg
+
+... contents of boo,jpg ...
+---------------------------14737809831466499882746641449
+Content-Disposition: form-data; name=&quot;info&quot;
+
+Hello Boris!
+---------------------------14737809831466499882746641449
+</code></pre>
+</p>
+      <p>
+      13 Sep 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/http/">#http</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/">关于宏</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>C中的宏分为两类，对象宏(object-like macro)和函数宏(function-like macro)。对于对象宏来说确实相对简单，但却也不是那么简单的查找替换。对象宏一般用来定义一些常数，举个例子：</p>
+
+<pre><code>#define M_PI    3.14159265358979323846264338327950288
+</code></pre>
+
+<p><code>#define</code>关键字表明即将开始定义一个宏，紧接着的<code>M_PI</code>是宏的名字，空格之后的数字是内容。类似这样的<code>#define X A</code>的宏是比较简单的，在编译时编译器会在语义分析认定是宏后，将X替换为A，这个过程称为宏的展开。比如对于上面的<code>M_PI</code>直接使用。</p>
+</p>
+      <p>
+      9 Aug 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/macro/">#macro</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+</div>
+<div class="row">
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/">关于FMDB/SQLite</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/database/">Database</a>
+        
+       
+      </p>
+      <p><p>到<a href="https://github.com/ccgus/fmdb">https://github.com/ccgus/fmdb</a> 下载源文件，然后直接将fmdb文件夹拖入到你的工程就OK。
+当然你需要添加依赖库：libsqlite3.dylib</p>
+
+<p>拖入源文件，并且添加依赖库以后你就可以使用FMDB了，引用头文件
+<code>#import &quot;FMDB.h&quot;</code></p>
+</p>
+      <p>
+      18 Jul 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/fmdb/">#FMDB</a>
+        
+          <a href="http://felixmlians.github.io//tags/database/">#Database</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/">NSNotification 通知</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><p>NSNotification 一个对象通知另外一个对象，可以用来传递参数、通信等作用，与delegate的一对一不同，通知是一对多的。在一个对象中注册了通知，那么其他任意对象都可以来对这个对象发出通知。</p>
+
+<ul>
+<li>NSNotificationCenter</li>
+<li>NSNotificationQueue</li>
+</ul>
+</p>
+      <p>
+      3 Jul 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/nsnotification/">#NSNotification</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
       <p>
       
@@ -91,6 +259,9 @@
     </div>
   </div>
 
+  
+</div>
+<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -151,9 +322,6 @@
   </div>
 
   
-</div>
-<div class="row">
-  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/">什么时候会报unrecognized selector的异常？</a></h4>
@@ -185,137 +353,6 @@
     </div>
   </div>
 
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/">Hugo 静态网站快速生成</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/tool/">tool</a>
-        
-       
-      </p>
-      <p><h4 id="安装:e5615f5477fd56f0fd7aa99a370a246f">安装</h4>
-
-<p>如果说速度快是Hugo的第一大优点，那么安装简单应该就是Hugo的第二大优点。对于Mac用户，没有brew的话先安装brew，在命令行里敲：</p>
-
-<pre><code>$ ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-
-<p>然后再敲一行安装Hugo:</p>
-
-<pre><code>$ brew new Hugo
-</code></pre>
-
-<p>你也可以直接下载对应系统的binary文件，解压就行了:<a href="https://github.com/spf13/hugo/releases">下载地址</a></p>
-</p>
-      <p>
-      21 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/tool/">#tool</a>
-        
-          <a href="http://felixmlians.github.io//tags/hugo/">#Hugo</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/20/%E7%BB%9F%E8%AE%A1-ios-%E5%BC%80%E5%8F%91%E4%BB%A3%E7%A0%81/">统计 iOS 开发代码</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/other/">other</a>
-        
-       
-      </p>
-      <p><h4 id="统计-ios-开发代码:d2832ab34fd5f8cc046f66037089c327">统计 iOS 开发代码</h4>
-
-<p>如果要统计ios开发代码，包括头文件的，终端命令进入项目目录下，命令如下：</p>
-
-<ol>
-<li><code>find . -name &quot;*.m&quot; -or -name &quot;*.h&quot; -or -name &quot;*.xib&quot; -or -name &quot;*.c&quot; |xargs wc -l  
-列出每个文件的行数</code></li>
-</ol>
-</p>
-      <p>
-      20 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/caculate/">#caculate</a>
-        
-          <a href="http://felixmlians.github.io//tags/other/">#other</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-</div>
-<div class="row">
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/19/markdown--%E8%AF%AD%E6%B3%951/">Markdown--语法（1）</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/tool/">tool</a>
-        
-       
-      </p>
-      <p><h4 id="markdown-介绍:b0164dbc7cd859f061f3f3a09f0206c1">Markdown 介绍</h4>
-
-<p>Markdown 的目标是实现「易读易写」。可读性，无论如何，都是最重要的。</p>
-
-<p>一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。</p>
-
-<p>Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p>
-
-<p>总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p>
-</p>
-      <p>
-      19 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/tool/">#tool</a>
-        
-          <a href="http://felixmlians.github.io//tags/markdown/">#Markdown</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/18/hello-hugo/">Hello Hugo</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/other/">Other</a>
-        
-       
-      </p>
-      <p>Hello Hugo</p>
-      <p>
-      18 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/other/">#Other</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
 </div>
 
 <div class="row">
@@ -327,7 +364,7 @@
   <div class="col s6 m10 center">&nbsp</div>
   <div class="col s3 m1">
   
-    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-forward"></i></a>
+    <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/post/page/3/"><i class="mdi-navigation-arrow-forward"></i></a>
   
   </div>
 </div>

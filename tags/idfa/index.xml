@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Idfa on Felix&#39;s  Space</title>
+    <link>http://felixmlians.github.io/tags/idfa/</link>
+    <description>Recent content in Idfa on Felix&#39;s  Space</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 11 Jun 2015 19:39:50 +0800</lastBuildDate>
+    <atom:link href="http://felixmlians.github.io/tags/idfa/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>IDFA 3选项释义</title>
+      <link>http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</link>
+      <pubDate>Thu, 11 Jun 2015 19:39:50 +0800</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</guid>
+      <description>&lt;p&gt;Everything has come to its usual state now. Simply upload your binary as you&amp;rsquo;ve been doing this while, and broadly classify IDFA in two categories:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;publisher: You use third-party ad-networks library to display ad. Choose the 1st option in IDFA -&amp;gt; &amp;ldquo;Serve advertisements within the app&amp;rdquo;. You&amp;rsquo;re a publisher since you show ads, but do not perform advertising for your own app.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Advertiser: You use third-party libraries to track conversions for your app, as well as track &amp;lsquo;goals&amp;rsquo; in your app. You directly do not show ads in your app. Choose the 2nd &amp;amp; 3rd option in IDFA -&amp;gt; &amp;ldquo;Attribute this app installation to a previously served ad&amp;rdquo;. AND &amp;ldquo;Attribute an action taken within this app to a previously served advertisement&amp;rdquo;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Mixed: You track conversions for your app, as well as display ads in your app. Choose all three options.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

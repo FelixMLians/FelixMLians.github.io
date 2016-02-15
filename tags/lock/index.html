@@ -61,7 +61,7 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
+      <h4><a href="http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
       <p>
       
         
@@ -69,7 +69,7 @@
         
        
       </p>
-      <p><h4 id="dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34">dispatch_semaphore</h4>
+      <p><h4 id="dispatch-semaphore:21f28a9b1cab32cb5f6a7caf9e0a2884">dispatch_semaphore</h4>
 
 <p>信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。</p>
 
@@ -84,7 +84,7 @@
 <p>　　简单的介绍一下这三个函数，第一个函数有一个整形的参数，我们可以理解为信号的总量，<code>dispatch_semaphore_signal</code>是发送一个信号，自然会让信号总量加1，<code>dispatch_semaphore_wait</code>等待信号，当信号总量少于0的时候就会一直等待，否则就可以正常的执行，并让信号总量-1，根据这样的原理，我们便可以快速的创建一个并发控制来同步任务和有限资源访问控制。</p>
 </p>
       <p>
-      17 Nov 2014
+      27 Aug 2015
       
         
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>

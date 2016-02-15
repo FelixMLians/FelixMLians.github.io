@@ -7,18 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 17 Nov 2014 14:01:09 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Aug 2015 17:35:29 +0800</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/tags/lock/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>iOS 多线程锁</title>
-      <link>http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
-      <pubDate>Mon, 17 Nov 2014 14:01:09 +0800</pubDate>
+      <link>http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <pubDate>Thu, 27 Aug 2015 17:35:29 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/11/17/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <guid>http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
       <description>
 
-&lt;h4 id=&#34;dispatch-semaphore:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;dispatch_semaphore&lt;/h4&gt;
+&lt;h4 id=&#34;dispatch-semaphore:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;dispatch_semaphore&lt;/h4&gt;
 
 &lt;p&gt;信号量是一个整形值并且具有一个初始计数值，并且支持两个操作：信号通知和等待。当一个信号量被信号通知，其计数会被增加。当一个线程在一个信号量上等待时，线程会被阻塞（如果有必要的话），直至计数器大于零，然后线程会减少这个计数。&lt;/p&gt;
 
@@ -51,7 +51,7 @@
 
 &lt;p&gt;上面代码创建了一个初使值为10的semaphore，每一次for循环都会创建一个新的线程，线程结束的时候会发送一个信号，线程创建之前会信号等待，所以当同时创建了10个线程之后，for循环就会阻塞，等待有线程结束之后会增加一个信号才继续执行，如此就形成了对并发的控制，如上就是一个并发数为10的一个线程队列。&lt;/p&gt;
 
-&lt;h4 id=&#34;pthread-mutex-t:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;pthread_mutex_t&lt;/h4&gt;
+&lt;h4 id=&#34;pthread-mutex-t:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;pthread_mutex_t&lt;/h4&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;如果互斥锁类型为 PTHREAD_MUTEX_NORMAL，则不提供死锁检测。尝试重新锁定互斥锁会导致死锁。如果某个线程尝试解除锁定的互斥锁不是由该线程锁定或未锁定，则将产生不确定的行为。&lt;/p&gt;&lt;/li&gt;
@@ -86,7 +86,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 });
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;synchronized:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;@synchronized&lt;/h4&gt;
+&lt;h4 id=&#34;synchronized:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;@synchronized&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;//主线程中
 TestObj *obj = [[TestObj alloc] init];
@@ -108,7 +108,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 });
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;nslock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSLock&lt;/h4&gt;
+&lt;h4 id=&#34;nslock:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSLock&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;//主线程中
 TestObj *obj = [[TestObj alloc] init];
@@ -133,7 +133,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
 &lt;p&gt;NSLock是Cocoa提供给我们最基本的锁对象，这也是我们经常所使用的，除lock和unlock方法外，NSLock还提供了tryLock和lockBeforeDate:两个方法，前一个方法会尝试加锁，如果锁不可用(已经被锁住)，刚并不会阻塞线程，并返回NO。lockBeforeDate:方法会在所指定Date之前尝试加锁，如果在指定时间之前都不能加锁，则返回NO。&lt;/p&gt;
 
-&lt;h4 id=&#34;nsrecursivelock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSRecursiveLock&lt;/h4&gt;
+&lt;h4 id=&#34;nsrecursivelock:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSRecursiveLock&lt;/h4&gt;
 
 &lt;p&gt;NSRecursiveLock实际上定义的是一个递归锁，这个锁可以被同一线程多次请求，而不会引起死锁。这主要是用在循环或递归操作中。我们先来看一个示例：&lt;/p&gt;
 
@@ -188,7 +188,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
 &lt;p&gt;我们可以使用这个字符串来标识一个锁。Cocoa也会使用这个name作为错误描述信息的一部分。&lt;/p&gt;
 
-&lt;h4 id=&#34;nscondition:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSCondition&lt;/h4&gt;
+&lt;h4 id=&#34;nscondition:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSCondition&lt;/h4&gt;
 
 &lt;p&gt;使用NSCondition，实现多线程的同步，即，可实现生产者消费者问题。&lt;/p&gt;
 
@@ -230,7 +230,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;nsconditionlock:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSConditionLock&lt;/h4&gt;
+&lt;h4 id=&#34;nsconditionlock:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSConditionLock&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;//主线程中
 NSConditionLock *theLock = [[NSConditionLock alloc] init];
@@ -254,7 +254,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 });
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;nsdistributedlock-分布式锁:e5e34ac17f1991e31b78fbf65ec79a34&#34;&gt;NSDistributedLock 分布式锁&lt;/h4&gt;
+&lt;h4 id=&#34;nsdistributedlock-分布式锁:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;NSDistributedLock 分布式锁&lt;/h4&gt;
 </description>
     </item>
     
