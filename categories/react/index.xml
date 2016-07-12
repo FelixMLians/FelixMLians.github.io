@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>React on Felix&#39;s  Space</title>
+    <link>http://felixmlians.github.io/categories/react/</link>
+    <description>Recent content in React on Felix&#39;s  Space</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 09 Sep 2015 22:09:30 +0900</lastBuildDate>
+    <atom:link href="http://felixmlians.github.io/categories/react/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>React入门-001</title>
+      <link>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
+      <pubDate>Wed, 09 Sep 2015 22:09:30 +0900</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
+      <description>
+
+&lt;p&gt;鉴于iOS行情的不好，而且越来越多的公司要求web app和hybrid app的开发。最近发觉React非常的热门，看上去充满希望，当然应该好好学一下。从技术角度，可以满足好奇心，提高技术水平；从职业角度，有利于求职和晋升，有利于参与潜力大的项目。&lt;/p&gt;
+
+&lt;p&gt;于是在github上下载了入门的React Demo,开始入门学习！&lt;/p&gt;
+
+&lt;p&gt;其中React地址 &lt;a href=&#34;https://github.com/facebook/react&#34;&gt;https://github.com/facebook/react&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;React Demo 地址：&lt;a href=&#34;https://github.com/ruanyf/react-demos&#34;&gt;https://github.com/ruanyf/react-demos&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-html模板:c427717cf2c20ae79dea8b34898d617a&#34;&gt;1，HTML模板&lt;/h2&gt;
+
+&lt;p&gt;React的网页源码，结构大致如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+&amp;lt;script src=&amp;quot;../build/react.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;../build/react-dom.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;../build/browser.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+&amp;lt;div id=&amp;quot;example&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;script type=&amp;quot;text/babel&amp;quot;&amp;gt;
+  // ** Our code goes here! **
+&amp;lt;/script&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;最后一个&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签的 &lt;code&gt;type&lt;/code&gt; 属性为 &lt;code&gt;text/babel&lt;/code&gt; 。这是因为 &lt;code&gt;React&lt;/code&gt; 独有的 &lt;code&gt;JSX&lt;/code&gt; 语法，跟 &lt;code&gt;JavaScript&lt;/code&gt; 不兼容。凡是使用 &lt;code&gt;JSX&lt;/code&gt; 的地方，都要加上 &lt;code&gt;type=&amp;quot;text/babel&amp;quot;&lt;/code&gt; 。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;上面代码一共用了三个库：&lt;code&gt;react.js&lt;/code&gt; 、&lt;code&gt;react-dom.js&lt;/code&gt; 和 &lt;code&gt;Browser.js&lt;/code&gt; ，它们必须首先加载。其中，&lt;code&gt;react.js&lt;/code&gt; 是&lt;code&gt;React&lt;/code&gt; 的核心库，&lt;code&gt;react-dom.js&lt;/code&gt; 是提供与 &lt;code&gt;DOM&lt;/code&gt; 相关的功能，&lt;code&gt;Browser.js&lt;/code&gt; 的作用是将 &lt;code&gt;JSX&lt;/code&gt; 语法转为 &lt;code&gt;JavaScript&lt;/code&gt; 语法，这一步很消耗时间，实际上线的时候，应该将它放到服务器完成。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ babel src --out-dir build&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;上面命令可以将 src 子目录的 js 文件进行语法转换，转码后的文件全部放在 build 子目录。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-reactdom-render:c427717cf2c20ae79dea8b34898d617a&#34;&gt;2，ReactDOM.render()&lt;/h2&gt;
+
+&lt;p&gt;ReactDOM.render 是 React 的最基本方法，用于将模板转为 HTML 语言，并插入指定的 DOM 节点。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ReactDOM.render(
+  &amp;lt;h1&amp;gt;Hello, world!&amp;lt;/h1&amp;gt;,
+  document.getElementById(&#39;example&#39;)
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码将一个 h1 标题，插入 example 节点;&lt;/p&gt;
+
+&lt;h2 id=&#34;3-jsx-语法:c427717cf2c20ae79dea8b34898d617a&#34;&gt;3，JSX 语法&lt;/h2&gt;
+
+&lt;p&gt;HTML 语言直接写在 JavaScript 语言之中，不加任何引号，这就是 JSX 的语法，它允许 HTML 与 JavaScript 的混写:&lt;/p&gt;
+
+&lt;p&gt;var names = [&amp;lsquo;Alice&amp;rsquo;, &amp;lsquo;Emily&amp;rsquo;, &amp;lsquo;Kate&amp;rsquo;];&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ReactDOM.render(
+  &amp;lt;div&amp;gt;
+  {
+names.map(function (name) {
+  return &amp;lt;div&amp;gt;Hello, {name}!&amp;lt;/div&amp;gt;
+})
+  }
+  &amp;lt;/div&amp;gt;,
+  document.getElementById(&#39;example&#39;)
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;JSX 的基本语法规则：遇到 &lt;code&gt;HTML&lt;/code&gt; 标签（以&lt;code&gt;&amp;lt;&lt;/code&gt; 开头），就用 &lt;code&gt;HTML&lt;/code&gt; 规则解析；遇到代码块（以&lt;code&gt;{&lt;/code&gt; 开头），就用 &lt;code&gt;JavaScript&lt;/code&gt; 规则解析。&lt;/p&gt;
+
+&lt;p&gt;JSX 允许直接在模板插入 JavaScript 变量。如果这个变量是一个数组，则会展开这个数组的所有成员:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var arr = [
+  &amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt;,
+  &amp;lt;h2&amp;gt;React is awesome&amp;lt;/h2&amp;gt;,
+];
+ReactDOM.render(
+  &amp;lt;div&amp;gt;{arr}&amp;lt;/div&amp;gt;,
+  document.getElementById(&#39;example&#39;)
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;4-组件:c427717cf2c20ae79dea8b34898d617a&#34;&gt;4, 组件&lt;/h2&gt;
+
+&lt;p&gt;React 允许将代码封装成组件（component），然后像插入普通 HTML 标签一样，在网页中插入这个组件。React.createClass 方法就用于生成一个组件类：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var HelloMessage = React.createClass({
+  render: function() {
+return &amp;lt;h1&amp;gt;Hello {this.props.name}&amp;lt;/h1&amp;gt;;
+  }
+});
+
+ReactDOM.render(
+  &amp;lt;HelloMessage name=&amp;quot;John&amp;quot; /&amp;gt;,
+  document.getElementById(&#39;example&#39;)
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;变量 &lt;code&gt;HelloMessage&lt;/code&gt; 就是一个组件类。模板插入 &lt;code&gt;&amp;lt;HelloMessage /&amp;gt;&lt;/code&gt; 时，会自动生成 &lt;code&gt;HelloMessage&lt;/code&gt; 的一个实例（下文的&amp;rdquo;组件&amp;rdquo;都指组件类的实例）。所有组件类都必须有自己的 &lt;code&gt;render&lt;/code&gt; 方法，用于输出组件。
+注意，组件类的第一个字母必须&lt;strong&gt;大写&lt;/strong&gt;，否则会报错，比如&lt;code&gt;HelloMessage&lt;/code&gt;不能写成&lt;code&gt;helloMessage&lt;/code&gt;。另外，组件类只能包含一个*顶层标签*，否则也会报错。&lt;/p&gt;
+
+&lt;p&gt;组件的用法与原生的 HTML 标签完全一致，可以任意加入属性，比如 &lt;code&gt;&amp;lt;HelloMessage name=&amp;quot;John&amp;quot;&amp;gt;&lt;/code&gt; ，就是 &lt;code&gt;HelloMessage&lt;/code&gt; 组件加入一个 &lt;code&gt;name&lt;/code&gt; 属性，值为 &lt;code&gt;John&lt;/code&gt;。组件的属性可以在组件类的 &lt;code&gt;this.props&lt;/code&gt; 对象上获取。&lt;/p&gt;
+
+&lt;p&gt;添加组件属性，有一个地方需要注意，就是 class 属性需要写成 &lt;code&gt;className&lt;/code&gt; ，for 属性需要写成 &lt;code&gt;htmlFor&lt;/code&gt; ，这是因为 class 和 for 是 JavaScript 的保留字。&lt;/p&gt;
+
+&lt;h2 id=&#34;5-this-props-children:c427717cf2c20ae79dea8b34898d617a&#34;&gt;5，this.props.children&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;this.props&lt;/code&gt; 对象的属性与组件的属性一一对应，但是有一个例外，就是 &lt;code&gt;this.props.children&lt;/code&gt; 属性。它表示组件的所有子节点&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var NotesList = React.createClass({
+  render: function() {
+return (
+  &amp;lt;ol&amp;gt;
+  {
+React.Children.map(this.props.children, function (child) {
+  return &amp;lt;li&amp;gt;{child}&amp;lt;/li&amp;gt;;
+})
+  }
+  &amp;lt;/ol&amp;gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &amp;lt;NotesList&amp;gt;
+&amp;lt;span&amp;gt;hello&amp;lt;/span&amp;gt;
+&amp;lt;span&amp;gt;world&amp;lt;/span&amp;gt;
+  &amp;lt;/NotesList&amp;gt;,
+  document.body
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码的 &lt;code&gt;NoteList&lt;/code&gt; 组件有两个 &lt;code&gt;span&lt;/code&gt; 子节点，它们都可以通过 &lt;code&gt;this.props.children&lt;/code&gt; 读取；&lt;/p&gt;
+
+&lt;p&gt;这里需要注意， &lt;code&gt;this.props.children&lt;/code&gt; 的值有三种可能：如果当前组件没有子节点，它就是 &lt;code&gt;undefined&lt;/code&gt; ;如果有一个子节点，数据类型是 &lt;code&gt;object&lt;/code&gt; ；如果有多个子节点，数据类型就是 &lt;code&gt;array&lt;/code&gt; 。所以，处理 &lt;code&gt;this.props.children&lt;/code&gt; 的时候要小心。
+React 提供一个工具方法 &lt;code&gt;React.Children&lt;/code&gt; 来处理 &lt;code&gt;this.props.children&lt;/code&gt; 。我们可以用 &lt;code&gt;React.Children.map&lt;/code&gt; 来遍历子节点，而不用担心 &lt;code&gt;this.props.children&lt;/code&gt; 的数据类型是 &lt;code&gt;undefined&lt;/code&gt; 还是 &lt;code&gt;object&lt;/code&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

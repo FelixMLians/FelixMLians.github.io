@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>React入门-001</title>
+  <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://felixmlians.github.io//images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://felixmlians.github.io/"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://felixmlians.github.io//tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">Felix&#39;s  Space</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Never send to know for whom the bells tolls; it tolls for thee.</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/FelixMLians"><img src="http://felixmlians.github.io//images/github2-dreamstale35.png"></a>
+        
+        
+          <a href="https://www.facebook.com/felixmorgan109"><img src="http://felixmlians.github.io//images/facebook-dreamstale25.png"></a>
+        
+        
+          <a href="https://twitter.com/FelixMLians"><img src="http://felixmlians.github.io//images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://felixmlians.github.io//index.xml"><img src="http://felixmlians.github.io//images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://felixmlians.github.io//images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>React入门-001</h4>
+          <p>
+          
+            
+              <a href="http://felixmlians.github.io//categories/react/">React</a>
+            
+           
+          </p>
+          <p>
+
+<p>鉴于iOS行情的不好，而且越来越多的公司要求web app和hybrid app的开发。最近发觉React非常的热门，看上去充满希望，当然应该好好学一下。从技术角度，可以满足好奇心，提高技术水平；从职业角度，有利于求职和晋升，有利于参与潜力大的项目。</p>
+
+<p>于是在github上下载了入门的React Demo,开始入门学习！</p>
+
+<p>其中React地址 <a href="https://github.com/facebook/react">https://github.com/facebook/react</a>.</p>
+
+<p>React Demo 地址：<a href="https://github.com/ruanyf/react-demos">https://github.com/ruanyf/react-demos</a>。</p>
+
+<h2 id="1-html模板:c427717cf2c20ae79dea8b34898d617a">1，HTML模板</h2>
+
+<p>React的网页源码，结构大致如下：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+&lt;script src=&quot;../build/react.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../build/react-dom.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../build/browser.min.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+&lt;div id=&quot;example&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/babel&quot;&gt;
+  // ** Our code goes here! **
+&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<ol>
+<li><p>最后一个<code>&lt;script&gt;</code> 标签的 <code>type</code> 属性为 <code>text/babel</code> 。这是因为 <code>React</code> 独有的 <code>JSX</code> 语法，跟 <code>JavaScript</code> 不兼容。凡是使用 <code>JSX</code> 的地方，都要加上 <code>type=&quot;text/babel&quot;</code> 。</p></li>
+
+<li><p>上面代码一共用了三个库：<code>react.js</code> 、<code>react-dom.js</code> 和 <code>Browser.js</code> ，它们必须首先加载。其中，<code>react.js</code> 是<code>React</code> 的核心库，<code>react-dom.js</code> 是提供与 <code>DOM</code> 相关的功能，<code>Browser.js</code> 的作用是将 <code>JSX</code> 语法转为 <code>JavaScript</code> 语法，这一步很消耗时间，实际上线的时候，应该将它放到服务器完成。</p>
+
+<p><code>$ babel src --out-dir build</code></p></li>
+</ol>
+
+<p>上面命令可以将 src 子目录的 js 文件进行语法转换，转码后的文件全部放在 build 子目录。</p>
+
+<h2 id="2-reactdom-render:c427717cf2c20ae79dea8b34898d617a">2，ReactDOM.render()</h2>
+
+<p>ReactDOM.render 是 React 的最基本方法，用于将模板转为 HTML 语言，并插入指定的 DOM 节点。</p>
+
+<pre><code>ReactDOM.render(
+  &lt;h1&gt;Hello, world!&lt;/h1&gt;,
+  document.getElementById('example')
+);
+</code></pre>
+
+<p>上面代码将一个 h1 标题，插入 example 节点;</p>
+
+<h2 id="3-jsx-语法:c427717cf2c20ae79dea8b34898d617a">3，JSX 语法</h2>
+
+<p>HTML 语言直接写在 JavaScript 语言之中，不加任何引号，这就是 JSX 的语法，它允许 HTML 与 JavaScript 的混写:</p>
+
+<p>var names = [&lsquo;Alice&rsquo;, &lsquo;Emily&rsquo;, &lsquo;Kate&rsquo;];</p>
+
+<pre><code>ReactDOM.render(
+  &lt;div&gt;
+  {
+names.map(function (name) {
+  return &lt;div&gt;Hello, {name}!&lt;/div&gt;
+})
+  }
+  &lt;/div&gt;,
+  document.getElementById('example')
+);
+</code></pre>
+
+<p>JSX 的基本语法规则：遇到 <code>HTML</code> 标签（以<code>&lt;</code> 开头），就用 <code>HTML</code> 规则解析；遇到代码块（以<code>{</code> 开头），就用 <code>JavaScript</code> 规则解析。</p>
+
+<p>JSX 允许直接在模板插入 JavaScript 变量。如果这个变量是一个数组，则会展开这个数组的所有成员:</p>
+
+<pre><code>var arr = [
+  &lt;h1&gt;Hello world!&lt;/h1&gt;,
+  &lt;h2&gt;React is awesome&lt;/h2&gt;,
+];
+ReactDOM.render(
+  &lt;div&gt;{arr}&lt;/div&gt;,
+  document.getElementById('example')
+);
+</code></pre>
+
+<h2 id="4-组件:c427717cf2c20ae79dea8b34898d617a">4, 组件</h2>
+
+<p>React 允许将代码封装成组件（component），然后像插入普通 HTML 标签一样，在网页中插入这个组件。React.createClass 方法就用于生成一个组件类：</p>
+
+<pre><code>var HelloMessage = React.createClass({
+  render: function() {
+return &lt;h1&gt;Hello {this.props.name}&lt;/h1&gt;;
+  }
+});
+
+ReactDOM.render(
+  &lt;HelloMessage name=&quot;John&quot; /&gt;,
+  document.getElementById('example')
+);
+</code></pre>
+
+<p>变量 <code>HelloMessage</code> 就是一个组件类。模板插入 <code>&lt;HelloMessage /&gt;</code> 时，会自动生成 <code>HelloMessage</code> 的一个实例（下文的&rdquo;组件&rdquo;都指组件类的实例）。所有组件类都必须有自己的 <code>render</code> 方法，用于输出组件。
+注意，组件类的第一个字母必须<strong>大写</strong>，否则会报错，比如<code>HelloMessage</code>不能写成<code>helloMessage</code>。另外，组件类只能包含一个*顶层标签*，否则也会报错。</p>
+
+<p>组件的用法与原生的 HTML 标签完全一致，可以任意加入属性，比如 <code>&lt;HelloMessage name=&quot;John&quot;&gt;</code> ，就是 <code>HelloMessage</code> 组件加入一个 <code>name</code> 属性，值为 <code>John</code>。组件的属性可以在组件类的 <code>this.props</code> 对象上获取。</p>
+
+<p>添加组件属性，有一个地方需要注意，就是 class 属性需要写成 <code>className</code> ，for 属性需要写成 <code>htmlFor</code> ，这是因为 class 和 for 是 JavaScript 的保留字。</p>
+
+<h2 id="5-this-props-children:c427717cf2c20ae79dea8b34898d617a">5，this.props.children</h2>
+
+<p><code>this.props</code> 对象的属性与组件的属性一一对应，但是有一个例外，就是 <code>this.props.children</code> 属性。它表示组件的所有子节点</p>
+
+<pre><code>var NotesList = React.createClass({
+  render: function() {
+return (
+  &lt;ol&gt;
+  {
+React.Children.map(this.props.children, function (child) {
+  return &lt;li&gt;{child}&lt;/li&gt;;
+})
+  }
+  &lt;/ol&gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &lt;NotesList&gt;
+&lt;span&gt;hello&lt;/span&gt;
+&lt;span&gt;world&lt;/span&gt;
+  &lt;/NotesList&gt;,
+  document.body
+);
+</code></pre>
+
+<p>上面代码的 <code>NoteList</code> 组件有两个 <code>span</code> 子节点，它们都可以通过 <code>this.props.children</code> 读取；</p>
+
+<p>这里需要注意， <code>this.props.children</code> 的值有三种可能：如果当前组件没有子节点，它就是 <code>undefined</code> ;如果有一个子节点，数据类型是 <code>object</code> ；如果有多个子节点，数据类型就是 <code>array</code> 。所以，处理 <code>this.props.children</code> 的时候要小心。
+React 提供一个工具方法 <code>React.Children</code> 来处理 <code>this.props.children</code> 。我们可以用 <code>React.Children.map</code> 来遍历子节点，而不用担心 <code>this.props.children</code> 的数据类型是 <code>undefined</code> 还是 <code>object</code>。</p>
+</p>
+          <p>9 Sep 2015
+            
+              
+                <a href="http://felixmlians.github.io//tags/react/">#React</a>
+              
+                <a href="http://felixmlians.github.io//tags/%E5%85%A5%E9%97%A8/">#入门</a>
+              
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'felixmlians';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://felixmlians.github.io//js/materialize.min.js"></script>
+  <script src="http://felixmlians.github.io//js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-70690405-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

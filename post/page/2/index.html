@@ -61,6 +61,41 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/">多线程 NSOperation</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h4 id="nsoperation介绍:222d30bac2b83aad43e4b91c3497980d">NSOperation介绍</h4>
+
+<p>NSOperation是一个抽象的基类，表示一个独立的计算单元，可以为子类提供有用且线程安全的建立状态，优先级，依赖和取消等操作。系统已经给我们封装了NSBlockOperation和NSInvocationOperation这两个实体类。</p>
+
+<ol>
+<li>使用NSOperation处理多线程时，就是将“操作”添加到队列中。</li>
+<li>NSOperation是一个抽象类，不能直接使用(方法没有实现)，约束子类都具有共同的属性和方法。</li>
+<li>NSOperation的子类：NSInvocationOperation、NSBlockOperation、自定义NSOperation。</li>
+<li>通过NSOperationQueue可以创建并发队列，获取主队列，获取当前队列。</li>
+</ol>
+</p>
+      <p>
+      17 Nov 2014
+      
+        
+          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
+        
+          <a href="http://felixmlians.github.io//tags/nsoperation/">#NSOperation</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/">SQLite（简介）</a></h4>
       <p>
       
@@ -130,6 +165,9 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/">关于宏</a></h4>
@@ -160,9 +198,6 @@ Hello Boris!
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -227,6 +262,9 @@ Hello Boris!
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/">有关block</a></h4>
@@ -259,9 +297,6 @@ Hello Boris!
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -315,38 +350,6 @@ Hello Boris!
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
           <a href="http://felixmlians.github.io//tags/runtime/">#runtime</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/06/22/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5unrecognized-selector%E7%9A%84%E5%BC%82%E5%B8%B8/">什么时候会报unrecognized selector的异常？</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
-        
-       
-      </p>
-      <p><p>简单来说：</p>
-
-<blockquote>
-<p>当调用该对象上某个方法,而该对象上没有实现这个方法的时候， 可以通过“消息转发”进行解决。</p>
-
-<p><code>objc</code>是动态语言，每个方法在运行时会被动态转为消息发送，即：<code>objc_msgSend(receiver, selector)</code>。</p>
-</blockquote>
-</p>
-      <p>
-      22 Jun 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
-        
-          <a href="http://felixmlians.github.io//tags/error/">#error</a>
         
        
       </p>
