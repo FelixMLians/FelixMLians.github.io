@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nsoperation on Felix&#39;s  Space</title>
-    <link>http/felixmlians.github.io/tags/nsoperation/</link>
+    <link>http://felixmlians.github.io/tags/nsoperation/</link>
     <description>Recent content in Nsoperation on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Mon, 17 Nov 2014 14:01:09 +0800</lastBuildDate>
-    <atom:link href="http/felixmlians.github.io/tags/nsoperation/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://felixmlians.github.io/tags/nsoperation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>多线程 NSOperation</title>
-      <link>/http/felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</link>
+      <link>http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</link>
       <pubDate>Mon, 17 Nov 2014 14:01:09 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</guid>
+      <guid>http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</guid>
       <description>
 
 &lt;h4 id=&#34;nsoperation介绍:222d30bac2b83aad43e4b91c3497980d&#34;&gt;NSOperation介绍&lt;/h4&gt;

@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Runtime on Felix&#39;s  Space</title>
-    <link>http/felixmlians.github.io/tags/runtime/</link>
+    <link>http://felixmlians.github.io/tags/runtime/</link>
     <description>Recent content in Runtime on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Mon, 23 Jun 2014 18:34:54 +0800</lastBuildDate>
-    <atom:link href="http/felixmlians.github.io/tags/runtime/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://felixmlians.github.io/tags/runtime/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>类中增加实例变量</title>
-      <link>/http/felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</link>
+      <link>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</link>
       <pubDate>Mon, 23 Jun 2014 18:34:54 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</guid>
+      <guid>http://felixmlians.github.io/2014/06/23/%E7%B1%BB%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F/</guid>
       <description>
 
 &lt;h4 id=&#34;能否向编译后得到的类中增加实例变量-能否向运行时创建的类中增加实例变量:e95b6352016c71c7e0e43fef78963e01&#34;&gt;能否向编译后得到的类中增加实例变量？能否向运行时创建的类中增加实例变量？&lt;/h4&gt;

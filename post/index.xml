@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Felix&#39;s  Space</title>
-    <link>http/felixmlians.github.io/post/</link>
+    <link>http://felixmlians.github.io/post/</link>
     <description>Recent content in Posts on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Thu, 24 Sep 2015 22:20:19 +0120</lastBuildDate>
-    <atom:link href="http/felixmlians.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://felixmlians.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>React入门-002</title>
-      <link>/http/felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</link>
+      <link>http://felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</link>
       <pubDate>Thu, 24 Sep 2015 22:20:19 +0120</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</guid>
+      <guid>http://felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</guid>
       <description>
 
 &lt;h3 id=&#34;1-proptypes:59590282874bf473b9caec61cb37403d&#34;&gt;1，PropTypes&lt;/h3&gt;
@@ -215,10 +215,10 @@ ReactDOM.render(
     
     <item>
       <title>React入门-001</title>
-      <link>/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
+      <link>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
       <pubDate>Wed, 09 Sep 2015 22:09:30 +0900</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
+      <guid>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
       <description>
 
 &lt;p&gt;鉴于iOS行情的不好，而且越来越多的公司要求web app和hybrid app的开发。最近发觉React非常的热门，看上去充满希望，当然应该好好学一下。从技术角度，可以满足好奇心，提高技术水平；从职业角度，有利于求职和晋升，有利于参与潜力大的项目。&lt;/p&gt;
@@ -362,10 +362,10 @@ React 提供一个工具方法 &lt;code&gt;React.Children&lt;/code&gt; 来处理
     
     <item>
       <title>iOS 多线程锁</title>
-      <link>/http/felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <link>http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
       <pubDate>Thu, 27 Aug 2015 17:35:29 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <guid>http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
       <description>
 
 &lt;h4 id=&#34;dispatch-semaphore:21f28a9b1cab32cb5f6a7caf9e0a2884&#34;&gt;dispatch_semaphore&lt;/h4&gt;
@@ -610,10 +610,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>编程小助手 - 学习编程的有效工具</title>
-      <link>/http/felixmlians.github.io/2015/07/23/%E7%BC%96%E7%A8%8B%E5%B0%8F%E5%8A%A9%E6%89%8B---%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%89%E6%95%88%E5%B7%A5%E5%85%B7/</link>
+      <link>http://felixmlians.github.io/2015/07/23/%E7%BC%96%E7%A8%8B%E5%B0%8F%E5%8A%A9%E6%89%8B---%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%89%E6%95%88%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Thu, 23 Jul 2015 10:47:39 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/07/23/%E7%BC%96%E7%A8%8B%E5%B0%8F%E5%8A%A9%E6%89%8B---%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%89%E6%95%88%E5%B7%A5%E5%85%B7/</guid>
+      <guid>http://felixmlians.github.io/2015/07/23/%E7%BC%96%E7%A8%8B%E5%B0%8F%E5%8A%A9%E6%89%8B---%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%89%E6%95%88%E5%B7%A5%E5%85%B7/</guid>
       <description>&lt;p&gt;&lt;strong&gt;编程小助手 - 学习编程的有效工具&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://itunes.apple.com/cn/app/bian-cheng-xiao-zhu-shou-xue/id1007208297?mt=8&#34;&gt;https://itunes.apple.com/cn/app/bian-cheng-xiao-zhu-shou-xue/id1007208297?mt=8&lt;/a&gt;&lt;/p&gt;
@@ -634,10 +634,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>IDFA 3选项释义</title>
-      <link>/http/felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</link>
+      <link>http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</link>
       <pubDate>Thu, 11 Jun 2015 19:39:50 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</guid>
+      <guid>http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/</guid>
       <description>&lt;p&gt;Everything has come to its usual state now. Simply upload your binary as you&amp;rsquo;ve been doing this while, and broadly classify IDFA in two categories:&lt;/p&gt;
 
 &lt;ol&gt;
@@ -652,10 +652,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>iOS 砸壳，获取头文件，反编译工具 </title>
-      <link>/http/felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/</link>
+      <link>http://felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Thu, 21 May 2015 15:25:47 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/</guid>
+      <guid>http://felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/</guid>
       <description>&lt;ol&gt;
 &lt;li&gt;&lt;p&gt;AppCrackr,dumpdecrypted
 下载地址：&lt;a href=&#34;https://github.com/stefanesser/dumpdecrypted/archive/master.zip&#34;&gt;https://github.com/stefanesser/dumpdecrypted/archive/master.zip&lt;/a&gt;进行砸壳。&lt;/p&gt;&lt;/li&gt;
@@ -669,10 +669,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>iOS NSDateFormatter </title>
-      <link>/http/felixmlians.github.io/2015/04/06/ios-nsdateformatter/</link>
+      <link>http://felixmlians.github.io/2015/04/06/ios-nsdateformatter/</link>
       <pubDate>Mon, 06 Apr 2015 23:11:23 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/04/06/ios-nsdateformatter/</guid>
+      <guid>http://felixmlians.github.io/2015/04/06/ios-nsdateformatter/</guid>
       <description>&lt;p&gt;格式化参数如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;    G: 公元时代，例如AD公元
@@ -709,10 +709,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>iOS 证书以及迁移到新电脑</title>
-      <link>/http/felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</link>
+      <link>http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</link>
       <pubDate>Sun, 01 Mar 2015 12:15:44 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</guid>
+      <guid>http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/</guid>
       <description>
 
 &lt;blockquote&gt;
@@ -781,10 +781,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>When you are old</title>
-      <link>/http/felixmlians.github.io/2015/01/01/when-you-are-old/</link>
+      <link>http://felixmlians.github.io/2015/01/01/when-you-are-old/</link>
       <pubDate>Thu, 01 Jan 2015 00:00:36 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/01/01/when-you-are-old/</guid>
+      <guid>http://felixmlians.github.io/2015/01/01/when-you-are-old/</guid>
       <description>&lt;p&gt;Another year,so many things changed,so many people left,I don&amp;rsquo;t know what to do,but carry on and on.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Viva la vida!&lt;/strong&gt;&lt;/p&gt;
@@ -811,10 +811,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <item>
       <title>iOS 截屏拼图</title>
-      <link>/http/felixmlians.github.io/2014/12/22/ios-%E6%88%AA%E5%B1%8F%E6%8B%BC%E5%9B%BE/</link>
+      <link>http://felixmlians.github.io/2014/12/22/ios-%E6%88%AA%E5%B1%8F%E6%8B%BC%E5%9B%BE/</link>
       <pubDate>Mon, 22 Dec 2014 11:22:30 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/12/22/ios-%E6%88%AA%E5%B1%8F%E6%8B%BC%E5%9B%BE/</guid>
+      <guid>http://felixmlians.github.io/2014/12/22/ios-%E6%88%AA%E5%B1%8F%E6%8B%BC%E5%9B%BE/</guid>
       <description>
 
 &lt;h4 id=&#34;1-普通界面:793ee16878053e99cf22e48f2d18d892&#34;&gt;1. 普通界面&lt;/h4&gt;
@@ -936,10 +936,10 @@ UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.tableView.frame.size.widt
     
     <item>
       <title>多线程 NSOperation</title>
-      <link>/http/felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</link>
+      <link>http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</link>
       <pubDate>Mon, 17 Nov 2014 14:01:09 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</guid>
+      <guid>http://felixmlians.github.io/2014/11/17/%E5%A4%9A%E7%BA%BF%E7%A8%8B-nsoperation/</guid>
       <description>
 
 &lt;h4 id=&#34;nsoperation介绍:222d30bac2b83aad43e4b91c3497980d&#34;&gt;NSOperation介绍&lt;/h4&gt;
@@ -1033,10 +1033,10 @@ NSOperation里提供的方便的操作：①最大并发数；②队列的暂停
     
     <item>
       <title>SQLite（简介）</title>
-      <link>/http/felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</link>
+      <link>http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</link>
       <pubDate>Wed, 22 Oct 2014 17:27:18 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</guid>
+      <guid>http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</guid>
       <description>
 
 &lt;p&gt;SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
@@ -1213,10 +1213,10 @@ CPU Time: user 0.000000 sys 0.000000
     
     <item>
       <title>iOS HTTP Multipart Forms POST(头像图片上传)</title>
-      <link>/http/felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</link>
+      <link>http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</link>
       <pubDate>Sat, 13 Sep 2014 12:49:42 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</guid>
+      <guid>http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</guid>
       <description>&lt;p&gt;由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。&lt;/p&gt;
 
 &lt;p&gt;上传图片的http post请求的格式是这样的：&lt;/p&gt;
@@ -1311,10 +1311,10 @@ NSMutableData *body = [NSMutableData data];
     
     <item>
       <title>关于宏</title>
-      <link>/http/felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/</link>
+      <link>http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/</link>
       <pubDate>Sat, 09 Aug 2014 11:38:21 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/</guid>
+      <guid>http://felixmlians.github.io/2014/08/09/%E5%85%B3%E4%BA%8E%E5%AE%8F/</guid>
       <description>
 
 &lt;p&gt;C中的宏分为两类，对象宏(object-like macro)和函数宏(function-like macro)。对于对象宏来说确实相对简单，但却也不是那么简单的查找替换。对象宏一般用来定义一些常数，举个例子：&lt;/p&gt;
@@ -1421,10 +1421,10 @@ DISPATCH_ONCE_BLOCK(^{
     
     <item>
       <title>关于FMDB/SQLite</title>
-      <link>/http/felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</link>
+      <link>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</link>
       <pubDate>Fri, 18 Jul 2014 21:35:38 +0800</pubDate>
       
-      <guid>/http/felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</guid>
+      <guid>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</guid>
       <description>
 
 &lt;p&gt;到&lt;a href=&#34;https://github.com/ccgus/fmdb&#34;&gt;https://github.com/ccgus/fmdb&lt;/a&gt; 下载源文件，然后直接将fmdb文件夹拖入到你的工程就OK。

@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>React on Felix&#39;s  Space</title>
-    <link>http/felixmlians.github.io/categories/react/</link>
+    <link>http://felixmlians.github.io/categories/react/</link>
     <description>Recent content in React on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Thu, 24 Sep 2015 22:20:19 +0120</lastBuildDate>
-    <atom:link href="http/felixmlians.github.io/categories/react/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://felixmlians.github.io/categories/react/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>React入门-002</title>
-      <link>/http/felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</link>
+      <link>http://felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</link>
       <pubDate>Thu, 24 Sep 2015 22:20:19 +0120</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</guid>
+      <guid>http://felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</guid>
       <description>
 
 &lt;h3 id=&#34;1-proptypes:59590282874bf473b9caec61cb37403d&#34;&gt;1，PropTypes&lt;/h3&gt;
@@ -215,10 +215,10 @@ ReactDOM.render(
     
     <item>
       <title>React入门-001</title>
-      <link>/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
+      <link>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
       <pubDate>Wed, 09 Sep 2015 22:09:30 +0900</pubDate>
       
-      <guid>/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
+      <guid>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
       <description>
 
 &lt;p&gt;鉴于iOS行情的不好，而且越来越多的公司要求web app和hybrid app的开发。最近发觉React非常的热门，看上去充满希望，当然应该好好学一下。从技术角度，可以满足好奇心，提高技术水平；从职业角度，有利于求职和晋升，有利于参与潜力大的项目。&lt;/p&gt;
