@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on Felix&#39;s  Space</title>
-    <link>http://felixmlians.github.io/tags/hugo/</link>
+    <link>http/felixmlians.github.io/tags/hugo/</link>
     <description>Recent content in Hugo on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Sat, 21 Jun 2014 00:12:23 +0800</lastBuildDate>
-    <atom:link href="http://felixmlians.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http/felixmlians.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Hugo 静态网站快速生成</title>
-      <link>http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</link>
+      <link>/http/felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</link>
       <pubDate>Sat, 21 Jun 2014 00:12:23 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</guid>
+      <guid>/http/felixmlians.github.io/2014/06/21/hugo-%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90/</guid>
       <description>
 
 &lt;h4 id=&#34;安装:e5615f5477fd56f0fd7aa99a370a246f&#34;&gt;安装&lt;/h4&gt;

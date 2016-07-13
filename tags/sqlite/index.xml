@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sqlite on Felix&#39;s  Space</title>
-    <link>http://felixmlians.github.io/tags/sqlite/</link>
+    <link>http/felixmlians.github.io/tags/sqlite/</link>
     <description>Recent content in Sqlite on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Wed, 22 Oct 2014 17:27:18 +0800</lastBuildDate>
-    <atom:link href="http://felixmlians.github.io/tags/sqlite/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http/felixmlians.github.io/tags/sqlite/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>SQLite（简介）</title>
-      <link>http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</link>
+      <link>/http/felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</link>
       <pubDate>Wed, 22 Oct 2014 17:27:18 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</guid>
+      <guid>/http/felixmlians.github.io/2014/10/22/sqlite%E7%AE%80%E4%BB%8B/</guid>
       <description>
 
 &lt;p&gt;SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。

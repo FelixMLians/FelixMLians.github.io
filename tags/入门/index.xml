@@ -2,20 +2,223 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>入门 on Felix&#39;s  Space</title>
-    <link>http://felixmlians.github.io/tags/%E5%85%A5%E9%97%A8/</link>
+    <link>http/felixmlians.github.io/tags/%E5%85%A5%E9%97%A8/</link>
     <description>Recent content in 入门 on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 09 Sep 2015 22:09:30 +0900</lastBuildDate>
-    <atom:link href="http://felixmlians.github.io/tags/%E5%85%A5%E9%97%A8/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Sep 2015 22:20:19 +0120</lastBuildDate>
+    <atom:link href="http/felixmlians.github.io/tags/%E5%85%A5%E9%97%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>React入门-002</title>
+      <link>/http/felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</link>
+      <pubDate>Thu, 24 Sep 2015 22:20:19 +0120</pubDate>
+      
+      <guid>/http/felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/</guid>
+      <description>
+
+&lt;h3 id=&#34;1-proptypes:59590282874bf473b9caec61cb37403d&#34;&gt;1，PropTypes&lt;/h3&gt;
+
+&lt;p&gt;组件的属性可以接受任意值，字符串、对象、函数等等都可以。
+组件类的PropTypes属性是用来验证组件实例的属性是否符合要求：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var MyTitle = React.createClass({
+  propTypes: {
+title: React.PropTypes.string.isRequired,
+  },
+
+  render: function() {
+ return &amp;lt;h1&amp;gt; {this.props.title} &amp;lt;/h1&amp;gt;;
+   }
+});
+
+var title = &amp;quot;hello&amp;quot;;
+
+ReactDOM.render(
+  &amp;lt;MyTitle title={title} /&amp;gt;,
+  document.body
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;getDefaultProps&lt;/code&gt; 方法可以用来设置组件属性的默认值:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var MyTitle = React.createClass({
+  getDefaultProps : function () {
+return {
+  title : &#39;Hello World&#39;
+};
+  },
+
+  render: function() {
+ return &amp;lt;h1&amp;gt; {this.props.title} &amp;lt;/h1&amp;gt;;
+   }
+});
+
+ReactDOM.render(
+  &amp;lt;MyTitle /&amp;gt;,
+  document.body
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-获取真实的dom节点:59590282874bf473b9caec61cb37403d&#34;&gt;2，获取真实的DOM节点&lt;/h3&gt;
+
+&lt;p&gt;组件并不是真实的 &lt;code&gt;DOM&lt;/code&gt; 节点，而是存在于内存之中的一种数据结构，叫做&lt;code&gt;虚拟 DOM （virtual DOM）&lt;/code&gt;。只有当它插入文档以后，才会变成真实的 &lt;code&gt;DOM&lt;/code&gt; 。根据 React 的设计，所有的 DOM 变动，都先在虚拟 DOM 上发生，然后再将实际发生变动的部分，反映在真实 DOM上，这种算法叫做 &lt;code&gt;DOM diff&lt;/code&gt; ，它可以极大提高网页的性能表现。
+但是，有时需要从组件获取真实 DOM 的节点，这时就要用到 &lt;code&gt;ref&lt;/code&gt; 属性:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var MyComponent = React.createClass({
+  handleClick: function() {
+this.refs.myTextInput.focus();
+  },
+  render: function() {
+return (
+  &amp;lt;div&amp;gt;
+&amp;lt;input type=&amp;quot;text&amp;quot; ref=&amp;quot;myTextInput&amp;quot; /&amp;gt;
+&amp;lt;input type=&amp;quot;button&amp;quot; value=&amp;quot;Focus the text input&amp;quot; onClick={this.handleClick} /&amp;gt;
+  &amp;lt;/div&amp;gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &amp;lt;MyComponent /&amp;gt;,
+  document.getElementById(&#39;example&#39;)
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;组件 &lt;code&gt;MyComponent&lt;/code&gt; 的子节点有一个文本输入框，用于获取用户的输入。这时就必须获取真实的 &lt;code&gt;DOM&lt;/code&gt; 节点，虚拟 DOM 是拿不到用户输入的。为了做到这一点，文本输入框必须有一个 &lt;code&gt;ref&lt;/code&gt; 属性，然后 &lt;code&gt;this.refs.[refName]&lt;/code&gt; 就会返回这个真实的 &lt;code&gt;DOM&lt;/code&gt; 节点。
+需要注意的是，由于 &lt;code&gt;this.refs.[refName]&lt;/code&gt; 属性获取的是真实 &lt;code&gt;DOM&lt;/code&gt; ，所以必须等到虚拟 &lt;code&gt;DOM&lt;/code&gt; 插入文档以后，才能使用这个属性，否则会报错。上面代码中，通过为组件指定 &lt;code&gt;Clic&lt;/code&gt;k 事件的回调函数，确保了只有等到真实 &lt;code&gt;DOM&lt;/code&gt; 发生 &lt;code&gt;Click&lt;/code&gt; 事件之后，才会读取 &lt;code&gt;this.refs.[refName]&lt;/code&gt; 属性。
+React 组件支持很多事件，除了 &lt;code&gt;Click&lt;/code&gt; 事件以外，还有 &lt;code&gt;KeyDown&lt;/code&gt; 、&lt;code&gt;Copy&lt;/code&gt;、&lt;code&gt;Scroll&lt;/code&gt; 等;&lt;/p&gt;
+
+&lt;h3 id=&#34;3-this-state:59590282874bf473b9caec61cb37403d&#34;&gt;3，this.state&lt;/h3&gt;
+
+&lt;p&gt;React 的一大创新，就是将组件看成是一个状态机，一开始有一个初始状态，然后用户互动，导致状态变化，从而触发重新渲染 UI:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var LikeButton = React.createClass({
+  getInitialState: function() {
+return {liked: false};
+  },
+  handleClick: function(event) {
+this.setState({liked: !this.state.liked});
+  },
+  render: function() {
+var text = this.state.liked ? &#39;like&#39; : &#39;haven\&#39;t liked&#39;;
+return (
+  &amp;lt;p onClick={this.handleClick}&amp;gt;
+You {text} this. Click to toggle.
+  &amp;lt;/p&amp;gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &amp;lt;LikeButton /&amp;gt;,
+  document.getElementById(&#39;example&#39;)
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一个 LikeButton 组件，它的 &lt;code&gt;getInitialState&lt;/code&gt; 方法用于定义初始状态，也就是一个对象，这个对象可以通过 &lt;code&gt;this.state&lt;/code&gt; 属性读取。当用户点击组件，导致状态变化，&lt;code&gt;this.setState&lt;/code&gt; 方法就修改状态值，每次修改以后，自动调用 &lt;code&gt;this.render&lt;/code&gt; 方法，再次渲染组件。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;this.props&lt;/code&gt; 表示那些一旦定义，就不再改变的特性，而 &lt;code&gt;this.state&lt;/code&gt; 是会随着用户互动而产生变化的特性;&lt;/p&gt;
+
+&lt;h3 id=&#34;4-表单:59590282874bf473b9caec61cb37403d&#34;&gt;4, 表单&lt;/h3&gt;
+
+&lt;p&gt;用户在表单填入的内容，属于用户跟组件的互动，所以不能用 this.props 读取:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var Input = React.createClass({
+  getInitialState: function() {
+return {value: &#39;Hello!&#39;};
+  },
+  handleChange: function(event) {
+this.setState({value: event.target.value});
+  },
+  render: function () {
+var value = this.state.value;
+return (
+  &amp;lt;div&amp;gt;
+&amp;lt;input type=&amp;quot;text&amp;quot; value={value} onChange={this.handleChange} /&amp;gt;
+&amp;lt;p&amp;gt;{value}&amp;lt;/p&amp;gt;
+  &amp;lt;/div&amp;gt;
+);
+  }
+});
+
+ReactDOM.render(&amp;lt;Input/&amp;gt;, document.body);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;文本输入框的值，不能用 this.props.value 读取，而要定义一个 &lt;code&gt;onChange&lt;/code&gt; 事件的回调函数，通过 &lt;code&gt;event.target.value&lt;/code&gt; 读取用户输入的值。&lt;code&gt;textarea&lt;/code&gt; 元素、&lt;code&gt;select&lt;/code&gt;元素、&lt;code&gt;radio&lt;/code&gt;元素都属于这种情况;&lt;/p&gt;
+
+&lt;h3 id=&#34;5-组件的生命周期:59590282874bf473b9caec61cb37403d&#34;&gt;5，组件的生命周期&lt;/h3&gt;
+
+&lt;p&gt;组件的生命周期分成三个状态：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* Mounting：已插入真实 DOM
+* Updating：正在被重新渲染
+* Unmounting：已移出真实 DOM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;React 为每个状态都提供了两种处理函数，will 函数在进入状态之前调用，did 函数在进入状态之后调用，三种状态共计五种处理函数:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- componentWillMount()
+- componentDidMount()
+- componentWillUpdate(object nextProps, object nextState)
+- componentDidUpdate(object prevProps, object prevState)
+- componentWillUnmount()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;此外，React 还提供两种特殊状态的处理函数:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- componentWillReceiveProps(object nextProps)：已加载组件收到新的参数时调用
+- shouldComponentUpdate(object nextProps, object nextState)：组件判断是否重新渲染时调用
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var Hello = React.createClass({
+  getInitialState: function () {
+return {
+  opacity: 1.0
+};
+  },
+
+  componentDidMount: function () {
+this.timer = setInterval(function () {
+  var opacity = this.state.opacity;
+  opacity -= .05;
+  if (opacity &amp;lt; 0.1) {
+opacity = 1.0;
+  }
+  this.setState({
+opacity: opacity
+  });
+}.bind(this), 100);
+  },
+
+  render: function () {
+return (
+  &amp;lt;div style={{opacity: this.state.opacity}}&amp;gt;
+Hello {this.props.name}
+  &amp;lt;/div&amp;gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &amp;lt;Hello name=&amp;quot;world&amp;quot;/&amp;gt;,
+  document.body
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;组件的style属性的设置方式，这是因为 React 组件样式是一个对象，所以第一重大括号表示这是 JavaScript 语法，第二重大括号表示样式对象。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>React入门-001</title>
-      <link>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
+      <link>/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</link>
       <pubDate>Wed, 09 Sep 2015 22:09:30 +0900</pubDate>
       
-      <guid>http://felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
+      <guid>/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/</guid>
       <description>
 
 &lt;p&gt;鉴于iOS行情的不好，而且越来越多的公司要求web app和hybrid app的开发。最近发觉React非常的热门，看上去充满希望，当然应该好好学一下。从技术角度，可以满足好奇心，提高技术水平；从职业角度，有利于求职和晋升，有利于参与潜力大的项目。&lt;/p&gt;

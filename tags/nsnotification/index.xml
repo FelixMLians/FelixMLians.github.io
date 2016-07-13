@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nsnotification on Felix&#39;s  Space</title>
-    <link>http://felixmlians.github.io/tags/nsnotification/</link>
+    <link>http/felixmlians.github.io/tags/nsnotification/</link>
     <description>Recent content in Nsnotification on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Thu, 03 Jul 2014 18:56:41 +0800</lastBuildDate>
-    <atom:link href="http://felixmlians.github.io/tags/nsnotification/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http/felixmlians.github.io/tags/nsnotification/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>NSNotification 通知</title>
-      <link>http://felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/</link>
+      <link>/http/felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/</link>
       <pubDate>Thu, 03 Jul 2014 18:56:41 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/</guid>
+      <guid>/http/felixmlians.github.io/2014/07/03/nsnotification-%E9%80%9A%E7%9F%A5/</guid>
       <description>
 
 &lt;p&gt;NSNotification 一个对象通知另外一个对象，可以用来传递参数、通信等作用，与delegate的一对一不同，通知是一对多的。在一个对象中注册了通知，那么其他任意对象都可以来对这个对象发出通知。&lt;/p&gt;

@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Block on Felix&#39;s  Space</title>
-    <link>http://felixmlians.github.io/tags/block/</link>
+    <link>http/felixmlians.github.io/tags/block/</link>
     <description>Recent content in Block on Felix&#39;s  Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
     <lastBuildDate>Sun, 29 Jun 2014 20:36:29 +0800</lastBuildDate>
-    <atom:link href="http://felixmlians.github.io/tags/block/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http/felixmlians.github.io/tags/block/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>有关block</title>
-      <link>http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</link>
+      <link>/http/felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</link>
       <pubDate>Sun, 29 Jun 2014 20:36:29 +0800</pubDate>
       
-      <guid>http://felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</guid>
+      <guid>/http/felixmlians.github.io/2014/06/29/%E6%9C%89%E5%85%B3block/</guid>
       <description>
 
 &lt;h4 id=&#34;block发生引用循环:cc738f5dd4a4ad7b4748fcc0c94d63e1&#34;&gt;block发生引用循环&lt;/h4&gt;

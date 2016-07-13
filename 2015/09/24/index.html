@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title></title>
+  <link href="http/felixmlians.github.io/http/felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http/felixmlians.github.io/http/felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(/http/felixmlians.github.io//images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http/felixmlians.github.io/http/felixmlians.github.io/"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http/felixmlians.github.io/http/felixmlians.github.io//categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http/felixmlians.github.io/http/felixmlians.github.io//tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">Felix&#39;s  Space</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Never send to know for whom the bells tolls; it tolls for thee.</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/FelixMLians"><img src="http/felixmlians.github.io/http/felixmlians.github.io//images/github2-dreamstale35.png"></a>
+        
+        
+          <a href="https://www.facebook.com/felixmorgan109"><img src="http/felixmlians.github.io/http/felixmlians.github.io//images/facebook-dreamstale25.png"></a>
+        
+        
+          <a href="https://twitter.com/FelixMLians"><img src="http/felixmlians.github.io/http/felixmlians.github.io//images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http/felixmlians.github.io/http/felixmlians.github.io//index.xml"><img src="http/felixmlians.github.io/http/felixmlians.github.io//images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http/felixmlians.github.io/http/felixmlians.github.io//images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4></h4>
+          <p>
+          
+            
+              <a href="http/felixmlians.github.io/http/felixmlians.github.io//categories/react/">React</a>
+            
+           
+          </p>
+          <p>
+
+<h2 id="1-proptypes:59590282874bf473b9caec61cb37403d">1，PropTypes</h2>
+
+<p>组件的属性可以接受任意值，字符串、对象、函数等等都可以。
+组件类的PropTypes属性是用来验证组件实例的属性是否符合要求：</p>
+
+<pre><code>var MyTitle = React.createClass({
+  propTypes: {
+title: React.PropTypes.string.isRequired,
+  },
+
+  render: function() {
+ return &lt;h1&gt; {this.props.title} &lt;/h1&gt;;
+   }
+});
+
+var title = &quot;hello&quot;;
+
+ReactDOM.render(
+  &lt;MyTitle title={title} /&gt;,
+  document.body
+);
+</code></pre>
+
+<p><code>getDefaultProps</code> 方法可以用来设置组件属性的默认值:</p>
+
+<pre><code>var MyTitle = React.createClass({
+  getDefaultProps : function () {
+return {
+  title : 'Hello World'
+};
+  },
+
+  render: function() {
+ return &lt;h1&gt; {this.props.title} &lt;/h1&gt;;
+   }
+});
+
+ReactDOM.render(
+  &lt;MyTitle /&gt;,
+  document.body
+);
+</code></pre>
+
+<h2 id="2-获取真实的dom节点:59590282874bf473b9caec61cb37403d">2，获取真实的DOM节点</h2>
+
+<p>组件并不是真实的 <code>DOM</code> 节点，而是存在于内存之中的一种数据结构，叫做<code>虚拟 DOM （virtual DOM）</code>。只有当它插入文档以后，才会变成真实的 <code>DOM</code> 。根据 React 的设计，所有的 DOM 变动，都先在虚拟 DOM 上发生，然后再将实际发生变动的部分，反映在真实 DOM上，这种算法叫做 <code>DOM diff</code> ，它可以极大提高网页的性能表现。
+但是，有时需要从组件获取真实 DOM 的节点，这时就要用到 <code>ref</code> 属性:</p>
+
+<pre><code>var MyComponent = React.createClass({
+  handleClick: function() {
+this.refs.myTextInput.focus();
+  },
+  render: function() {
+return (
+  &lt;div&gt;
+&lt;input type=&quot;text&quot; ref=&quot;myTextInput&quot; /&gt;
+&lt;input type=&quot;button&quot; value=&quot;Focus the text input&quot; onClick={this.handleClick} /&gt;
+  &lt;/div&gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &lt;MyComponent /&gt;,
+  document.getElementById('example')
+);
+</code></pre>
+
+<p>组件 <code>MyComponent</code> 的子节点有一个文本输入框，用于获取用户的输入。这时就必须获取真实的 <code>DOM</code> 节点，虚拟 DOM 是拿不到用户输入的。为了做到这一点，文本输入框必须有一个 <code>ref</code> 属性，然后 <code>this.refs.[refName]</code> 就会返回这个真实的 <code>DOM</code> 节点。
+需要注意的是，由于 <code>this.refs.[refName]</code> 属性获取的是真实 <code>DOM</code> ，所以必须等到虚拟 <code>DOM</code> 插入文档以后，才能使用这个属性，否则会报错。上面代码中，通过为组件指定 <code>Clic</code>k 事件的回调函数，确保了只有等到真实 <code>DOM</code> 发生 <code>Click</code> 事件之后，才会读取 <code>this.refs.[refName]</code> 属性。
+React 组件支持很多事件，除了 <code>Click</code> 事件以外，还有 <code>KeyDown</code> 、<code>Copy</code>、<code>Scroll</code> 等;</p>
+
+<h2 id="3-this-state:59590282874bf473b9caec61cb37403d">3，this.state</h2>
+
+<p>React 的一大创新，就是将组件看成是一个状态机，一开始有一个初始状态，然后用户互动，导致状态变化，从而触发重新渲染 UI:</p>
+
+<pre><code>var LikeButton = React.createClass({
+  getInitialState: function() {
+return {liked: false};
+  },
+  handleClick: function(event) {
+this.setState({liked: !this.state.liked});
+  },
+  render: function() {
+var text = this.state.liked ? 'like' : 'haven\'t liked';
+return (
+  &lt;p onClick={this.handleClick}&gt;
+You {text} this. Click to toggle.
+  &lt;/p&gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &lt;LikeButton /&gt;,
+  document.getElementById('example')
+);
+</code></pre>
+
+<p>一个 LikeButton 组件，它的 <code>getInitialState</code> 方法用于定义初始状态，也就是一个对象，这个对象可以通过 <code>this.state</code> 属性读取。当用户点击组件，导致状态变化，<code>this.setState</code> 方法就修改状态值，每次修改以后，自动调用 <code>this.render</code> 方法，再次渲染组件。</p>
+
+<p><code>this.props</code> 表示那些一旦定义，就不再改变的特性，而 <code>this.state</code> 是会随着用户互动而产生变化的特性;</p>
+
+<h2 id="4-表单:59590282874bf473b9caec61cb37403d">4, 表单</h2>
+
+<p>用户在表单填入的内容，属于用户跟组件的互动，所以不能用 this.props 读取:</p>
+
+<pre><code>var Input = React.createClass({
+  getInitialState: function() {
+return {value: 'Hello!'};
+  },
+  handleChange: function(event) {
+this.setState({value: event.target.value});
+  },
+  render: function () {
+var value = this.state.value;
+return (
+  &lt;div&gt;
+&lt;input type=&quot;text&quot; value={value} onChange={this.handleChange} /&gt;
+&lt;p&gt;{value}&lt;/p&gt;
+  &lt;/div&gt;
+);
+  }
+});
+
+ReactDOM.render(&lt;Input/&gt;, document.body);
+</code></pre>
+
+<p>文本输入框的值，不能用 this.props.value 读取，而要定义一个 <code>onChange</code> 事件的回调函数，通过 <code>event.target.value</code> 读取用户输入的值。<code>textarea</code> 元素、<code>select</code>元素、<code>radio</code>元素都属于这种情况;</p>
+
+<h2 id="5-组件的生命周期:59590282874bf473b9caec61cb37403d">5，组件的生命周期</h2>
+
+<p>组件的生命周期分成三个状态：</p>
+
+<pre><code>* Mounting：已插入真实 DOM
+* Updating：正在被重新渲染
+* Unmounting：已移出真实 DOM
+</code></pre>
+
+<p>React 为每个状态都提供了两种处理函数，will 函数在进入状态之前调用，did 函数在进入状态之后调用，三种状态共计五种处理函数:</p>
+
+<pre><code>- componentWillMount()
+- componentDidMount()
+- componentWillUpdate(object nextProps, object nextState)
+- componentDidUpdate(object prevProps, object prevState)
+- componentWillUnmount()
+</code></pre>
+
+<p>此外，React 还提供两种特殊状态的处理函数:</p>
+
+<pre><code>- componentWillReceiveProps(object nextProps)：已加载组件收到新的参数时调用
+- shouldComponentUpdate(object nextProps, object nextState)：组件判断是否重新渲染时调用
+</code></pre>
+
+<p>例子：</p>
+
+<pre><code>var Hello = React.createClass({
+  getInitialState: function () {
+return {
+  opacity: 1.0
+};
+  },
+
+  componentDidMount: function () {
+this.timer = setInterval(function () {
+  var opacity = this.state.opacity;
+  opacity -= .05;
+  if (opacity &lt; 0.1) {
+opacity = 1.0;
+  }
+  this.setState({
+opacity: opacity
+  });
+}.bind(this), 100);
+  },
+
+  render: function () {
+return (
+  &lt;div style={{opacity: this.state.opacity}}&gt;
+Hello {this.props.name}
+  &lt;/div&gt;
+);
+  }
+});
+
+ReactDOM.render(
+  &lt;Hello name=&quot;world&quot;/&gt;,
+  document.body
+);
+</code></pre>
+
+<p>组件的style属性的设置方式，这是因为 React 组件样式是一个对象，所以第一重大括号表示这是 JavaScript 语法，第二重大括号表示样式对象。</p>
+</p>
+          <p>24 Sep 2015
+            
+              
+                <a href="http/felixmlians.github.io/http/felixmlians.github.io//tags/react/">#React</a>
+              
+                <a href="http/felixmlians.github.io/http/felixmlians.github.io//tags/%E5%85%A5%E9%97%A8/">#入门</a>
+              
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'felixmlians';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http/felixmlians.github.io/http/felixmlians.github.io/2015/09/09/react%E5%85%A5%E9%97%A8-001/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http/felixmlians.github.io/http/felixmlians.github.io//js/materialize.min.js"></script>
+  <script src="http/felixmlians.github.io/http/felixmlians.github.io//js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-70690405-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+
