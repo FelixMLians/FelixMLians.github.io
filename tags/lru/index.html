@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Categories</title>
+  <title>Lru</title>
   <link href="http://felixmlians.github.io//css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="http://felixmlians.github.io//css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
@@ -53,28 +52,68 @@
   </div>
 
 
-
 <div class="container">
   <div class="section">
 
-    <div class="collection">
+
+<div class="row">
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2015/10/17/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-lru/">缓存算法-LRU</a></h4>
+      <p>
       
-        <a href="http://felixmlians.github.io//categories/database" class="collection-item"><i class="mdi-action-perm-media left"></i>database<div class="secondary-content">2</div></a>
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h2 id="1-fifo算法:4850f5edee4f0413e1f2784d2d302be6">1，FIFO算法</h2>
+
+<p>FIFO（First in First out），先进先出。
+在FIFO Cache设计中，核心原则就是：如果一个数据最先进入缓存中，则应该最早淘汰掉。也就是说，当缓存满的时候，应当把最先进入缓存的数据给淘汰掉。在FIFO Cache中应该支持以下操作;</p>
+
+<ol>
+<li>get(key)：如果Cache中存在该key，则返回对应的value值，否则，返回-1；</li>
+<li>set(key,value)：如果Cache中存在该key，则重置value值；如果不存在该key，则将该key插入到到Cache中，若Cache已满，则淘汰最早进入Cache的数据。</li>
+</ol>
+
+<p>可以利用一个双向链表保存数据，当来了新的数据之后便添加到链表末尾，如果Cache存满数据，则把链表头部数据删除，然后把新的数据添加到链表末尾。在访问数据的时候，如果在Cache中存在该数据的话，则返回对应的value值；否则返回-1。如果想提高访问效率，可以利用hashmap来保存每个key在链表中对应的位置。　　</p>
+</p>
+      <p>
+      17 Oct 2015
       
-        <a href="http://felixmlians.github.io//categories/ios" class="collection-item"><i class="mdi-action-perm-media left"></i>ios<div class="secondary-content">16</div></a>
-      
-        <a href="http://felixmlians.github.io//categories/other" class="collection-item"><i class="mdi-action-perm-media left"></i>other<div class="secondary-content">2</div></a>
-      
-        <a href="http://felixmlians.github.io//categories/poem" class="collection-item"><i class="mdi-action-perm-media left"></i>poem<div class="secondary-content">1</div></a>
-      
-        <a href="http://felixmlians.github.io//categories/react" class="collection-item"><i class="mdi-action-perm-media left"></i>react<div class="secondary-content">2</div></a>
-      
-        <a href="http://felixmlians.github.io//categories/tool" class="collection-item"><i class="mdi-action-perm-media left"></i>tool<div class="secondary-content">2</div></a>
-      
+        
+          <a href="http://felixmlians.github.io//tags/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95/">#缓存算法</a>
+        
+          <a href="http://felixmlians.github.io//tags/lru/">#LRU</a>
+        
+       
+      </p>
     </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col s3 m1">
+  
+    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-back"></i></a>
+  
+  </div>
+  <div class="col s6 m10 center">&nbsp</div>
+  <div class="col s3 m1">
+  
+    <a class="btn-floating btn-large disabled"><i class="mdi-navigation-arrow-forward"></i></a>
+  
+  </div>
+</div>
+
 
   </div>
 </div>
+
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">

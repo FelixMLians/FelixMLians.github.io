@@ -61,6 +61,42 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2015/10/17/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-lru/">缓存算法-LRU</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h2 id="1-fifo算法:4850f5edee4f0413e1f2784d2d302be6">1，FIFO算法</h2>
+
+<p>FIFO（First in First out），先进先出。
+在FIFO Cache设计中，核心原则就是：如果一个数据最先进入缓存中，则应该最早淘汰掉。也就是说，当缓存满的时候，应当把最先进入缓存的数据给淘汰掉。在FIFO Cache中应该支持以下操作;</p>
+
+<ol>
+<li>get(key)：如果Cache中存在该key，则返回对应的value值，否则，返回-1；</li>
+<li>set(key,value)：如果Cache中存在该key，则重置value值；如果不存在该key，则将该key插入到到Cache中，若Cache已满，则淘汰最早进入Cache的数据。</li>
+</ol>
+
+<p>可以利用一个双向链表保存数据，当来了新的数据之后便添加到链表末尾，如果Cache存满数据，则把链表头部数据删除，然后把新的数据添加到链表末尾。在访问数据的时候，如果在Cache中存在该数据的话，则返回对应的value值；否则返回-1。如果想提高访问效率，可以利用hashmap来保存每个key在链表中对应的位置。　　</p>
+</p>
+      <p>
+      17 Oct 2015
+      
+        
+          <a href="http://felixmlians.github.io//tags/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95/">#缓存算法</a>
+        
+          <a href="http://felixmlians.github.io//tags/lru/">#LRU</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/09/24/react%E5%85%A5%E9%97%A8-002/">React入门-002</a></h4>
       <p>
       
@@ -138,6 +174,9 @@ ReactDOM.render(
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
@@ -175,9 +214,6 @@ ReactDOM.render(
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -253,6 +289,9 @@ ReactDOM.render(
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/05/21/ios-%E7%A0%B8%E5%A3%B3%E8%8E%B7%E5%8F%96%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/">iOS 砸壳，获取头文件，反编译工具 </a></h4>
@@ -285,9 +324,6 @@ ReactDOM.render(
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -385,50 +421,6 @@ ReactDOM.render(
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
           <a href="http://felixmlians.github.io//tags/certification/">#certification</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2015/01/01/when-you-are-old/">When you are old</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/poem/">poem</a>
-        
-       
-      </p>
-      <p><p>Another year,so many things changed,so many people left,I don&rsquo;t know what to do,but carry on and on.</p>
-
-<p><strong>Viva la vida!</strong></p>
-
-<pre><code>        When you are old and grey and full of sleep
-　　　　 And nodding by the fire,take down this book
-　　　　 And slowly read,and dream of the soft look
-　　　　 Your eyes had once, and of their shadows deep;
-　　　　
-　　　　 How many loved your moments of glad grace,
-　　　　 And loved your beauty with love false or true,
-　　　　 But one man loved the pilgrim soul in you,
-　　　　 And loved the sorrows of your changing face;
-　　　　
-　　　　 And bending down beside the glowing bars,
-　　　　 Murmur,a little sadly,how love fled
-　　　　 And paced upon the mountains overhead
-　　　　 And hid his face amid a crowd of stars.
-　　
-　　(BY William Butler Yeats)
-</code></pre>
-</p>
-      <p>
-      1 Jan 2015
-      
-        
-          <a href="http://felixmlians.github.io//tags/poem/">#poem</a>
         
        
       </p>

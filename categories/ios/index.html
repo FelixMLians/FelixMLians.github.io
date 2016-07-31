@@ -61,6 +61,42 @@
   
   <div class="col m4 s12">
     <div class="card-panel">
+      <h4><a href="http://felixmlians.github.io/2015/10/17/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-lru/">缓存算法-LRU</a></h4>
+      <p>
+      
+        
+          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
+        
+       
+      </p>
+      <p><h2 id="1-fifo算法:4850f5edee4f0413e1f2784d2d302be6">1，FIFO算法</h2>
+
+<p>FIFO（First in First out），先进先出。
+在FIFO Cache设计中，核心原则就是：如果一个数据最先进入缓存中，则应该最早淘汰掉。也就是说，当缓存满的时候，应当把最先进入缓存的数据给淘汰掉。在FIFO Cache中应该支持以下操作;</p>
+
+<ol>
+<li>get(key)：如果Cache中存在该key，则返回对应的value值，否则，返回-1；</li>
+<li>set(key,value)：如果Cache中存在该key，则重置value值；如果不存在该key，则将该key插入到到Cache中，若Cache已满，则淘汰最早进入Cache的数据。</li>
+</ol>
+
+<p>可以利用一个双向链表保存数据，当来了新的数据之后便添加到链表末尾，如果Cache存满数据，则把链表头部数据删除，然后把新的数据添加到链表末尾。在访问数据的时候，如果在Cache中存在该数据的话，则返回对应的value值；否则返回-1。如果想提高访问效率，可以利用hashmap来保存每个key在链表中对应的位置。　　</p>
+</p>
+      <p>
+      17 Oct 2015
+      
+        
+          <a href="http://felixmlians.github.io//tags/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95/">#缓存算法</a>
+        
+          <a href="http://felixmlians.github.io//tags/lru/">#LRU</a>
+        
+       
+      </p>
+    </div>
+  </div>
+
+  
+  <div class="col m4 s12">
+    <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/08/27/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81/">iOS 多线程锁</a></h4>
       <p>
       
@@ -137,6 +173,9 @@
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/06/11/idfa-3%E9%80%89%E9%A1%B9%E9%87%8A%E4%B9%89/">IDFA 3选项释义</a></h4>
@@ -170,9 +209,6 @@
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -263,6 +299,9 @@
   </div>
 
   
+</div>
+<div class="row">
+  
   <div class="col m4 s12">
     <div class="card-panel">
       <h4><a href="http://felixmlians.github.io/2015/03/01/ios-%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%94%B5%E8%84%91/">iOS 证书以及迁移到新电脑</a></h4>
@@ -309,9 +348,6 @@
     </div>
   </div>
 
-  
-</div>
-<div class="row">
   
   <div class="col m4 s12">
     <div class="card-panel">
@@ -377,48 +413,6 @@
           <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
         
           <a href="http://felixmlians.github.io//tags/nsoperation/">#NSOperation</a>
-        
-       
-      </p>
-    </div>
-  </div>
-
-  
-  <div class="col m4 s12">
-    <div class="card-panel">
-      <h4><a href="http://felixmlians.github.io/2014/09/13/ios-http-multipart-forms-post%E5%A4%B4%E5%83%8F%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">iOS HTTP Multipart Forms POST(头像图片上传)</a></h4>
-      <p>
-      
-        
-          <a href="http://felixmlians.github.io//categories/ios/">iOS</a>
-        
-       
-      </p>
-      <p><p>由于iOS无法通过html表单来上传图片，因此想要上传图片，必须实现http请求，而不能像其他语言那样通过html表单的post就能上传。</p>
-
-<p>上传图片的http post请求的格式是这样的：</p>
-
-<pre><code>Content-type: multipart/form-data, boundary=---------------------------14737809831466499882746641449
-
----------------------------14737809831466499882746641449
-Content-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;boo.jpg&quot;
-Content-Type: image/jpeg
-
-... contents of boo,jpg ...
----------------------------14737809831466499882746641449
-Content-Disposition: form-data; name=&quot;info&quot;
-
-Hello Boris!
----------------------------14737809831466499882746641449
-</code></pre>
-</p>
-      <p>
-      13 Sep 2014
-      
-        
-          <a href="http://felixmlians.github.io//tags/ios/">#iOS</a>
-        
-          <a href="http://felixmlians.github.io//tags/http/">#http</a>
         
        
       </p>

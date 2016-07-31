@@ -7,8 +7,125 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright (c) 2012 - 2018, Felix M Lians; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 24 Sep 2015 22:20:19 +0120</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2015 11:11:33 +0120</lastBuildDate>
     <atom:link href="http://felixmlians.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>缓存算法-LRU</title>
+      <link>http://felixmlians.github.io/2015/10/17/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-lru/</link>
+      <pubDate>Sat, 17 Oct 2015 11:11:33 +0120</pubDate>
+      
+      <guid>http://felixmlians.github.io/2015/10/17/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-lru/</guid>
+      <description>
+
+&lt;h2 id=&#34;1-fifo算法:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;1，FIFO算法&lt;/h2&gt;
+
+&lt;p&gt;FIFO（First in First out），先进先出。
+在FIFO Cache设计中，核心原则就是：如果一个数据最先进入缓存中，则应该最早淘汰掉。也就是说，当缓存满的时候，应当把最先进入缓存的数据给淘汰掉。在FIFO Cache中应该支持以下操作;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;get(key)：如果Cache中存在该key，则返回对应的value值，否则，返回-1；&lt;/li&gt;
+&lt;li&gt;set(key,value)：如果Cache中存在该key，则重置value值；如果不存在该key，则将该key插入到到Cache中，若Cache已满，则淘汰最早进入Cache的数据。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;可以利用一个双向链表保存数据，当来了新的数据之后便添加到链表末尾，如果Cache存满数据，则把链表头部数据删除，然后把新的数据添加到链表末尾。在访问数据的时候，如果在Cache中存在该数据的话，则返回对应的value值；否则返回-1。如果想提高访问效率，可以利用hashmap来保存每个key在链表中对应的位置。　　&lt;/p&gt;
+
+&lt;h2 id=&#34;2-lfu算法:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;2，LFU算法&lt;/h2&gt;
+
+&lt;p&gt;LFU（Least Frequently Used）最近最少使用算法。它是基于“如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小”的思路。&lt;/p&gt;
+
+&lt;p&gt;注意LFU和LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;get(key)：如果Cache中存在该key，则返回对应的value值，否则，返回-1；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;set(key,value)：如果Cache中存在该key，则重置value值；如果不存在该key，则将该key插入到到Cache中，若Cache已满，则淘汰最少访问的数据。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;为了能够淘汰最少使用的数据，因此LFU算法最简单的一种设计思路就是：&lt;/p&gt;
+
+&lt;p&gt;利用一个数组存储 数据项，用hashmap存储每个数据项在数组中对应的位置，然后为每个数据项设计一个访问频次，当数据项被命中时，访问频次自增，在淘汰的时候淘汰访问频次最少的数据。&lt;/p&gt;
+
+&lt;p&gt;这样一来的话，在插入数据和访问数据的时候都能达到O(1)的时间复杂度，&lt;/p&gt;
+
+&lt;p&gt;在淘汰数据的时候，通过选择算法得到应该淘汰的数据项在数组中的索引，并将该索引位置的内容替换为新来的数据内容即可，这样的话，淘汰数据的操作时间复杂度为O(n)。
+　　&lt;/p&gt;
+
+&lt;h2 id=&#34;3-lru算法:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;3，LRU算法&lt;/h2&gt;
+
+&lt;p&gt;LRU（Least
+Recently Used）算法的设计原则是：如果一个数据在最近一段时间没有被访问到，那么在将来它被访问的可能性也很小。也就是说，当限定的空间已存满数据时，应当把最久没有被访问到的数据淘汰。&lt;/p&gt;
+
+&lt;p&gt;那就是利用链表和hashmap。&lt;/p&gt;
+
+&lt;p&gt;当需要插入新的数据项的时候，如果新数据项在链表中存在（一般称为命中），则把该节点移到链表头部，如果不存在，则新建一个节点，放到链表头部，若缓存满了，则把链表最后一个节点删除即可。&lt;/p&gt;
+
+&lt;p&gt;在访问数据的时候，如果数据项在链表中存在，则把该节点移到链表头部，否则返回-1。这样一来在链表尾部的节点就是最近最久未访问的数据项。&lt;/p&gt;
+
+&lt;p&gt;可以利用双向链表，并提供head指针和tail指针，这样一来，所有的操作都是O(1)时间复杂度。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-其他算法-引用-http-www-leexiang-com-cache-algorithm-http-www-leexiang-com-cache-algorithm:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;4, 其他算法 （引用：&lt;a href=&#34;http://www.leexiang.com/cache-algorithm&#34;&gt;http://www.leexiang.com/cache-algorithm&lt;/a&gt;）&lt;/h2&gt;
+
+&lt;h5 id=&#34;least-recently-used-2-lru2:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Least Recently Used 2（LRU2）：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 Least Recently Used 2，有人叫我最近最少使用 twice，我更喜欢这个叫法。我会把被两次访问过的对象放入缓存池，当缓存池满了之后，我会把有两次最少使用的缓存对象踢走。因为需要跟踪对象2次，访问负载就会随着缓存池的增加而增加。如果把我用在大容量的缓存池中，就会有问题。另外，我还需要跟踪那么不在缓存的对象，因为他们还没有被第二次读取。我比LRU好，而且是 adoptive to access 模式 。&lt;/p&gt;
+
+&lt;h5 id=&#34;two-queues-2q:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Two Queues（2Q）：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 Two Queues；我把被访问的数据放到 LRU 的缓存中，如果这个对象再一次被访问，我就把他转移到第二个、更大的 LRU 缓存。&lt;/p&gt;
+
+&lt;p&gt;　　我踢走缓存对象是为了保持第一个缓存池是第二个缓存池的1/3。当缓存的访问负载是固定的时候，把 LRU 换成 LRU2，就比增加缓存的容量更好。这种机制使得我比 LRU2 更好，我也是 LRU 家族中的一员，而且是 adoptive to access 模式 。&lt;/p&gt;
+
+&lt;h5 id=&#34;adaptive-replacement-cache-arc:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Adaptive Replacement Cache（ARC）：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 ARC，有人说我是介于 LRU 和 LFU 之间，为了提高效果，我是由2个 LRU 组成，第一个，也就是 L1，包含的条目是最近只被使用过一次的，而第二个 LRU，也就是 L2，包含的是最近被使用过两次的条目。因此， L1 放的是新的对象，而 L2 放的是常用的对象。所以，别人才会认为我是介于 LRU 和 LFU 之间的，不过没关系，我不介意。&lt;/p&gt;
+
+&lt;p&gt;　　我被认为是性能最好的缓存算法之一，能够自调，并且是低负载的。我也保存着历史对象，这样，我就可以记住那些被移除的对象，同时，也让我可以看到被移除的对象是否可以留下，取而代之的是踢走别的对象。我的记忆力很差，但是我很快，适用性也强。&lt;/p&gt;
+
+&lt;h5 id=&#34;most-recently-used-mru:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Most Recently Used（MRU）：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 MRU，和 LRU 是对应的。我会移除最近最多被使用的对象，你一定会问我为什么。好吧，让我告诉你，当一次访问过来的时候，有些事情是无法预测的，并且在缓存系统中找出最少最近使用的对象是一项时间复杂度非常高的运算，这就是为什么我是最好的选择。&lt;/p&gt;
+
+&lt;p&gt;　　我是数据库内存缓存中是多么的常见！每当一次缓存记录的使用，我会把它放到栈的顶端。当栈满了的时候，你猜怎么着？我会把栈顶的对象给换成新进来的对象！&lt;/p&gt;
+
+&lt;h5 id=&#34;second-chance:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Second Chance：&lt;/h5&gt;
+
+&lt;p&gt;　　大家好，我是 second chance，我是通过 FIFO 修改而来的，被大家叫做 second chance 缓存算法，我比 FIFO 好的地方是我改善了 FIFO 的成本。我是 FIFO 一样也是在观察队列的前端，但是很FIFO的立刻踢出不同，我会检查即将要被踢出的对象有没有之前被使用过的标志（1一个 bit 表示），没有没有被使用过，我就把他踢出；否则，我会把这个标志位清除，然后把这个缓存对象当做新增缓存对象加入队列。你可以想象就这就像一个环队列。当我再一次在队头碰到这个对象时，由于他已经没有这个标志位了，所以我立刻就把他踢开了。我在速度上比 FIFO 快。&lt;/p&gt;
+
+&lt;h5 id=&#34;clock:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;CLock：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 Clock，一个更好的 FIFO，也比 second chance 更好。因为我不会像 second chance 那样把有标志的缓存对象放到队列的尾部，但是也可以达到 second chance 的效果。&lt;/p&gt;
+
+&lt;p&gt;　　我持有一个装有缓存对象的环形列表，头指针指向列表中最老的缓存对象。当缓存 miss 发生并且没有新的缓存空间时，我会问问指针指向的缓存对象的标志位去决定我应该怎么做。如果标志是0，我会直接用新的缓存对象替代这个缓存对象；如果标志位是1，我会把头指针递增，然后重复这个过程，知道新的缓存对象能够被放入。我比 second chance 更快。&lt;/p&gt;
+
+&lt;h5 id=&#34;simple-time-based:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Simple time-based：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 simple time-based 缓存算法，我通过绝对的时间周期去失效那些缓存对象。对于新增的对象，我会保存特定的时间。我很快，但是我并不适用。&lt;/p&gt;
+
+&lt;h5 id=&#34;extended-time-based-expiration:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Extended time-based expiration：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 extended time-based expiration 缓存算法，我是通过相对时间去失效缓存对象的；对于新增的缓存对象，我会保存特定的时间，比如是每5分钟，每天的12点。&lt;/p&gt;
+
+&lt;h5 id=&#34;sliding-time-based-expiration:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Sliding time-based expiration：&lt;/h5&gt;
+
+&lt;p&gt;　　我是 sliding time-based expiration，与前面不同的是，被我管理的缓存对象的生命起点是在这个缓存的最后被访问时间算起的。我很快，但是我也不太适用。&lt;/p&gt;
+
+&lt;h5 id=&#34;random-cache:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;Random Cache&lt;/h5&gt;
+
+&lt;p&gt;　　我是随机缓存，我随意的替换缓存实体，没人敢抱怨。你可以说那个被替换的实体很倒霉。通过这些行为，我随意的去处缓存实体。我比 FIFO 机制好，在某些情况下，我甚至比 LRU 好，但是，通常LRU都会比我好。
+　　&lt;/p&gt;
+
+&lt;h5 id=&#34;其他的缓存算法还考虑到了下面几点:4850f5edee4f0413e1f2784d2d302be6&#34;&gt;其他的缓存算法还考虑到了下面几点：&lt;/h5&gt;
+
+&lt;p&gt;　　成本：如果缓存对象有不同的成本，应该把那些难以获得的对象保存下来。&lt;/p&gt;
+
+&lt;p&gt;　　容量：如果缓存对象有不同的大小，应该把那些大的缓存对象清除，这样就可以让更多的小缓存对象进来了。&lt;/p&gt;
+
+&lt;p&gt;　　时间：一些缓存还保存着缓存的过期时间。电脑会失效他们，因为他们已经过期了。&lt;/p&gt;
+
+&lt;p&gt;　　根据缓存对象的大小而不管其他的缓存算法可能是有必要的。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>React入门-002</title>
@@ -1415,206 +1532,6 @@ printf(&amp;quot;%d&amp;quot;,PLUS(3,2));
 DISPATCH_ONCE_BLOCK(^{
 //code
 })
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>关于FMDB/SQLite</title>
-      <link>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</link>
-      <pubDate>Fri, 18 Jul 2014 21:35:38 +0800</pubDate>
-      
-      <guid>http://felixmlians.github.io/2014/07/18/%E5%85%B3%E4%BA%8Efmdb/sqlite/</guid>
-      <description>
-
-&lt;p&gt;到&lt;a href=&#34;https://github.com/ccgus/fmdb&#34;&gt;https://github.com/ccgus/fmdb&lt;/a&gt; 下载源文件，然后直接将fmdb文件夹拖入到你的工程就OK。
-当然你需要添加依赖库：libsqlite3.dylib&lt;/p&gt;
-
-&lt;p&gt;拖入源文件，并且添加依赖库以后你就可以使用FMDB了，引用头文件
-&lt;code&gt;#import &amp;quot;FMDB.h&amp;quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;usage:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;USAGE&lt;/h2&gt;
-
-&lt;p&gt;在FMDB中主要有三个类：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;FMDatabase - 简单的说这个类就是代表了数据库&lt;/li&gt;
-&lt;li&gt;FMResultSet - 这个类表示查询操作的结果&lt;/li&gt;
-&lt;li&gt;FMDatabaseQueue - 多线程操作的时候你会用到这个类，并且这是线程安全的。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;创建数据库:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;创建数据库&lt;/h3&gt;
-
-&lt;p&gt;你需要使用一个path来创建一个本地FMDatabase数据库，这个path有三种类型：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;你可以使用一个本地的地址来创建这个数据库，这个地址不一定真实存在，如果不存在，那么FMDB会创建这个数据库并返回，存在则直接返回这个数据库。&lt;/li&gt;
-&lt;li&gt;一个空字符串@&amp;ldquo;&amp;rdquo;.FMDB会在本地创建一个临时的数据库，当数据库关闭的时候会删除这个数据库。&lt;/li&gt;
-&lt;li&gt;NULL.如果你将这个path填的是NULL，那么这个数据被创建在内存中，数据库关闭的时候被销毁。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;(更多信息关于临时数据库和在内存中的数据库，你可以阅读这篇文档 &lt;a href=&#34;http://www.sqlite.org/inmemorydb.html&#34;&gt;http://www.sqlite.org/inmemorydb.html&lt;/a&gt; )&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FMDatabase *db = [FMDatabase databaseWithPath:@&amp;quot;/tmp/tmp.db&amp;quot;];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;打开数据库:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;打开数据库&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;if (![db open]) {
-    return;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;executing-updates:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Executing Updates&lt;/h3&gt;
-
-&lt;p&gt;所有不是select操作的操作都算update. 包括 CREATE, UPDATE, INSERT, ALTER, COMMIT, BEGIN, DETACH, DELETE, DROP, END, EXPLAIN, VACUUM, and REPLACE ····换句话说也就是如果你的操作不是以SELECT开头的都是update操作.&lt;/p&gt;
-
-&lt;p&gt;update操作返回一个布尔值，YES表示操作成功，NO表示你可以遇到了一些错误.FMDatabase有两个方法 -lastErrorMessage 和 -lastErrorCode，你可以使用这两个方法来查看错误。&lt;/p&gt;
-
-&lt;h3 id=&#34;executing-queries:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Executing Queries&lt;/h3&gt;
-
-&lt;p&gt;SELECT 查询使用 -executeQuery&amp;hellip; 方法.&lt;/p&gt;
-
-&lt;p&gt;查询成功返回 FMResultSet,失败则是返回nil.
-同样你可以使用FMDatabase的两个方法 -lastErrorMessage and -lastErrorCode 来查找原因。&lt;/p&gt;
-
-&lt;p&gt;你需要用一个循环来获取到查询到的每一个值。like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FMResultSet *s = [db executeQuery:@&amp;quot;SELECT * FROM myTable&amp;quot;];
-while ([s next]) {
-    //retrieve values for each record
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;FMResultSet 有许多类型用来返回不同类型的查询结果的值&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;intForColumn:
-longForColumn:
-longLongIntForColumn:
-boolForColumn:
-doubleForColumn:
-stringForColumn:
-dateForColumn:
-dataForColumn:
-dataNoCopyForColumn:
-UTF8StringForColumnName:
-objectForColumnName:
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;以上的每个方法都有对应的 {type}ForColumnIndex: 上面那一溜方法是用例的名字来获取数据，而这个方法则是用数据在查询结果中对应的位置来获取数据.&lt;/p&gt;
-
-&lt;h3 id=&#34;closing:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;Closing&lt;/h3&gt;
-
-&lt;p&gt;用完了FMDB记得关闭&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[db close];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;批处理:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;批处理&lt;/h3&gt;
-
-&lt;p&gt;FMDatabase的方法 executeStatements:withResultBlock:可以使用字符串来同时处理多条指令。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSString *sql = @&amp;quot;create table test1 (id integer primary key autoincrement, x text);&amp;quot;
-                 &amp;quot;create table test2 (id integer primary key autoincrement, y text);&amp;quot;
-                 &amp;quot;create table test3 (id integer primary key autoincrement, z text);&amp;quot;
-                 &amp;quot;insert into test1 (x) values (&#39;XXX&#39;);&amp;quot;
-                 &amp;quot;insert into test2 (y) values (&#39;YYY&#39;);&amp;quot;
-                 &amp;quot;insert into test3 (z) values (&#39;ZZZ&#39;);&amp;quot;;
-
-success = [db executeStatements:sql];
-
-sql = @&amp;quot;select count(*) as count from test1;&amp;quot;
-       &amp;quot;select count(*) as count from test2;&amp;quot;
-       &amp;quot;select count(*) as count from test3;&amp;quot;;
-
-success = [self.db executeStatements:sql withResultBlock:^int(NSDictionary *dictionary) {
-    NSInteger count = [dictionary[@&amp;quot;count&amp;quot;] integerValue];
-    XCTAssertEqual(count, 1, @&amp;quot;expected one record for dictionary %@&amp;quot;, dictionary);
-    return 0;
-}];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;数据处理:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;数据处理&lt;/h3&gt;
-
-&lt;p&gt;你必须使用标准的SQLite的标准语法，像下面那样（而不是SQL中那样）：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;INSERT INTO myTable VALUES (?, ?, ?, ?)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;‘？’这个符号表示插入数据的替代符，操作方法会接收参数来替代这个符号 (或者是代表这些参数的，比如说：NSArray, NSDictionary, va_list).&lt;/p&gt;
-
-&lt;p&gt;OC中你可以像下面这样使用：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSInteger identifier = 42;
-NSString *name = @&amp;quot;Liam O&#39;Flaherty (\&amp;quot;the famous Irish author\&amp;quot;)&amp;quot;;
-NSDate *date = [NSDate date];
-NSString *comment = nil;
-
-BOOL success = [db executeUpdate:@&amp;quot;INSERT INTO authors (identifier, name, date, comment) VALUES (?, ?, ?, ?)&amp;quot;, @(identifier), name, date, comment ?: [NSNull null]];
-if (!success) {
-NSLog(@&amp;quot;error = %@&amp;quot;, [db lastErrorMessage]);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Note:这里需要注意的是，如果是基本数据类型比如说&lt;code&gt;NSInteger&lt;/code&gt;，你需要转化为&lt;code&gt;NSNumber&lt;/code&gt;。
-如果是插入nil，那么你不能直接插入nil，而是需要插入&lt;code&gt;[NSNull null]&lt;/code&gt;，像上面那个例子中写的是：&lt;code&gt;comment ?: [NSNull null]&lt;/code&gt;，那么如果commit是nil的话则会插入nil，反之则会插入commit.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;下面这种书写方法和上面表达的是同一个意思。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;像上面这种写法参数是以冒号开头的，SQLite支持其他字符，但是在字典中key都是以冒号为前缀的，所以你的字典key中不要包含冒号&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSDictionary *arguments = @{@&amp;quot;identifier&amp;quot;: @(identifier), @&amp;quot;name&amp;quot;: name, @&amp;quot;date&amp;quot;: date, @&amp;quot;comment&amp;quot;: comment ?: [NSNull null]};
-BOOL success = [db executeUpdate:@&amp;quot;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)&amp;quot; withParameterDictionary:arguments];
-if (!success) {
-NSLog(@&amp;quot;error = %@&amp;quot;, [db lastErrorMessage]);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;最关键的一点就是：千万不要用NSString的方法比如说 stringWithFormat来手动插入参数，必须要使用Values(?，?)这样的方法，把？当作替代符。&lt;/p&gt;
-
-&lt;h3 id=&#34;fmdatabasequeue-是线程安全的:1669b6fc6448a969ff9f21fb62406e06&#34;&gt;FMDatabaseQueue 是线程安全的&lt;/h3&gt;
-
-&lt;p&gt;不要在多个线程之间使用同一个 FMDatabase对象，最好是每一个线程都有一个独立的 FMDatabase对象，如果你在多线程之间使用同一个对象，那么会有不好的事情发生。
-如果你需要在多线程中使用 FMDatabase,那么请使用 FMDatabaseQueue，下面是他的使用方法:&lt;/p&gt;
-
-&lt;p&gt;首先创建你的线程&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:aPath];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后，像这样使用：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[queue inDatabase:^(FMDatabase *db) {
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @1];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @2];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @3];
-
-FMResultSet *rs = [db executeQuery:@&amp;quot;select * from foo&amp;quot;];
-while ([rs next]) {
-    …
-}
-}];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;An easy way to wrap things up in a transaction can be done like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @1];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @2];
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @3];
-
-if (whoopsSomethingWrongHappened) {
-    *rollback = YES;
-    return;
-}
-// etc…
-[db executeUpdate:@&amp;quot;INSERT INTO myTable VALUES (?)&amp;quot;, @4];
-}];
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
